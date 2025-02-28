@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API IA Multi-Origines - Documentation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container py-5">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% else %}
+        <header class="mb-5 text-center">
+            <h1 class="display-4 mb-3">API IA Multi-Origines</h1>
+            <p class="lead">Une API RESTful intégrant plusieurs origines d'intelligence artificielle</p>
+        </header>
+
+        <div class="row">
+            <!-- Sidebar de navigation -->
+            <div class="col-md-3 mb-4">
+                <div class="list-group sticky-top" style="top: 20px;">
+                    <a href="#introduction" class="list-group-item list-group-item-action">Introduction</a>
+                    <a href="#origins" class="list-group-item list-group-item-action">Origines IA</a>
+                    <a href="#config-api" class="list-group-item list-group-item-action">API - Configuration</a>
+                    <a href="#sentiment-api" class="list-group-item list-group-item-action">API - Analyse de sentiment</a>
+                    <a href="#summary-api" class="list-group-item list-group-item-action">API - Génération de résumé</a>
+                    <a href="#recommendations-api" class="list-group-item list-group-item-action">API - Recommandations</a>
+                    <a href="#test" class="list-group-item list-group-item-action">Tester l'API</a>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-md-9">
+                <section id="introduction" class="mb-5">
+                    <h2>Introduction</h2>
+                    <p>
+                        Cette API permet d'accéder à des fonctionnalités d'intelligence artificielle via différentes 
+                        origines (moteurs IA). L'API prend en charge les fonctionnalités suivantes :
+                    </p>
+                    <ul>
+                        <li>Analyse de sentiment de texte</li>
+                        <li>Génération de résumés</li>
+                        <li>Recommandations de produits</li>
+                    </ul>
+                    <p>
+                        Pour chaque fonctionnalité, vous pouvez spécifier l'origine IA à utiliser, 
+                        ou laisser le système choisir la meilleure option disponible.
+                    </p>
+                </section>
+
+                <section id="origins" class="mb-5">
+                    <h2>Origines IA disponibles</h2>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Origine</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>openai</code></td>
+                                    <td>Utilise l'API OpenAI (GPT-4o)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>local</code></td>
+                                    <td>Utilise l'implémentation locale sans appel d'API externe</td>
+                                </tr>
+                                <tr>
+                                    <td><code>auto</code></td>
+                                    <td>Sélectionne automatiquement la meilleure option disponible</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="config-api" class="mb-5">
+                    <h2>API de Configuration</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            GET /api/ai/config/origin
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Récupère l'origine IA actuellement configurée.</p>
+                            <h5>Exemple de réponse :</h5>
+                            <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "origin": "auto",
+    "name": "Auto",
+    "description": "Sélectionne automatiquement la meilleure option disponible"
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            POST /api/ai/config/origin
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Définit l'origine IA par défaut.</p>
+                            <h5>Corps de la requête :</h5>
+                            <pre><code class="language-json">{
+  "origin": "local"
+}</code></pre>
+                            <h5>Exemple de réponse :</h5>
+                            <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "origin": "local",
+    "name": "Local",
+    "description": "Utilise l'implémentation locale sans appel d'API externe"
+  },
+  "message": "Default AI origin set to Local"
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sentiment-api" class="mb-5">
+                    <h2>API d'Analyse de Sentiment</h2>
+                    
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            POST /api/ai/sentiment
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Analyse le sentiment d'un texte.</p>
+                            <h5>Corps de la requête :</h5>
+                            <pre><code class="language-json">{
+  "text": "Je suis très satisfait de ce produit, il fonctionne parfaitement bien.",
+  "origin": "auto" (optionnel)
+}</code></pre>
+                            <h5>Exemple de réponse :</h5>
+                            <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "rating": 4,
+    "confidence": 0.65,
+    "origin": "local"
+  },
+  "warning": "Mode secours: Utilisation de l'implémentation locale pour l'analyse de sentiment."
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="summary-api" class="mb-5">
+                    <h2>API de Génération de Résumé</h2>
+                    
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            POST /api/ai/summary
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Génère un résumé d'un texte plus long.</p>
+                            <h5>Corps de la requête :</h5>
+                            <pre><code class="language-json">{
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  "origin": "auto" (optionnel)
+}</code></pre>
+                            <h5>Exemple de réponse :</h5>
+                            <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "origin": "local"
+  },
+  "warning": "Mode secours: Utilisation de l'implémentation locale pour la génération de résumé."
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="recommendations-api" class="mb-5">
+                    <h2>API de Recommandations</h2>
+                    
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            POST /api/ai/recommendations
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Génère des recommandations de produits basées sur une description.</p>
+                            <h5>Corps de la requête :</h5>
+                            <pre><code class="language-json">{
+  "description": "Je recherche un smartphone avec une bonne qualité photo, une bonne autonomie et un design élégant. Mon budget est d'environ 800€.",
+  "origin": "auto" (optionnel)
+}</code></pre>
+                            <h5>Exemple de réponse :</h5>
+                            <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "recommendations": [
+      "iPhone 15 Pro",
+      "Samsung Galaxy S23",
+      "Google Pixel 7",
+      "Xiaomi Redmi Note 12"
+    ],
+    "origin": "local"
+  },
+  "warning": "Mode secours: Utilisation de l'implémentation locale pour les recommandations."
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="test" class="mb-5">
+                    <h2>Tester l'API</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="test-form" class="mb-4">
+                                <div class="mb-3">
+                                    <label for="endpoint" class="form-label">Endpoint</label>
+                                    <select class="form-select" id="endpoint">
+                                        <option value="/api/ai/config/origin" data-method="GET">GET /api/ai/config/origin</option>
+                                        <option value="/api/ai/config/origin" data-method="POST">POST /api/ai/config/origin</option>
+                                        <option value="/api/ai/sentiment" data-method="POST">POST /api/ai/sentiment</option>
+                                        <option value="/api/ai/summary" data-method="POST">POST /api/ai/summary</option>
+                                        <option value="/api/ai/recommendations" data-method="POST">POST /api/ai/recommendations</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="request-body" class="form-label">Corps de la requête</label>
+                                    <textarea class="form-control" id="request-body" rows="5"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                            </form>
+                            
+                            <div class="mb-3">
+                                <label for="response" class="form-label">Réponse</label>
+                                <pre><code class="language-json" id="response">// La réponse s'affichera ici</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">API IA Multi-Origines - Démonstration technique</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        // Initialiser highlight.js
+        document.addEventListener('DOMContentLoaded', () => {
+            hljs.highlightAll();
+            
+            // Générer le corps de la requête en fonction de l'endpoint
+            const endpointSelect = document.getElementById('endpoint');
+            const requestBody = document.getElementById('request-body');
+            
+            function updateRequestBody() {
+                const endpoint = endpointSelect.value;
+                const method = endpointSelect.options[endpointSelect.selectedIndex].dataset.method;
+                
+                if (endpoint === '/api/ai/config/origin' && method === 'POST') {
+                    requestBody.value = JSON.stringify({
+                        origin: "local"
+                    }, null, 2);
+                } else if (endpoint === '/api/ai/sentiment') {
+                    requestBody.value = JSON.stringify({
+                        text: "Je suis très satisfait de ce produit, il fonctionne parfaitement bien.",
+                        origin: "auto"
+                    }, null, 2);
+                } else if (endpoint === '/api/ai/summary') {
+                    requestBody.value = JSON.stringify({
+                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                        origin: "auto"
+                    }, null, 2);
+                } else if (endpoint === '/api/ai/recommendations') {
+                    requestBody.value = JSON.stringify({
+                        description: "Je recherche un smartphone avec une bonne qualité photo, une bonne autonomie et un design élégant. Mon budget est d'environ 800€.",
+                        origin: "auto"
+                    }, null, 2);
+                } else {
+                    requestBody.value = '';
+                }
+            }
+            
+            endpointSelect.addEventListener('change', updateRequestBody);
+            updateRequestBody();
+            
+            // Gérer la soumission du formulaire
+            const testForm = document.getElementById('test-form');
+            const responseElement = document.getElementById('response');
+            
+            testForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const endpoint = endpointSelect.value;
+                const method = endpointSelect.options[endpointSelect.selectedIndex].dataset.method;
+                const body = requestBody.value ? JSON.parse(requestBody.value) : undefined;
+                
+                responseElement.textContent = 'Chargement...';
+                
+                try {
+                    const response = await fetch(endpoint, {
+                        method,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: method !== 'GET' ? JSON.stringify(body) : undefined
+                    });
+                    
+                    const data = await response.json();
+                    responseElement.textContent = JSON.stringify(data, null, 2);
+                    hljs.highlightElement(responseElement);
+                } catch (error) {
+                    responseElement.textContent = `Erreur: ${error.message}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

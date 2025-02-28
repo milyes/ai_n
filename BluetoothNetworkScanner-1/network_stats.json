@@ -1,0 +1,1702 @@
+[
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:47:46.835159"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:47:57.054742"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:48:07.273292"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:48:17.463972"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:48:27.676402"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:48:37.838803"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:48:47.997297"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:48:58.195501"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:49:08.401344"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:49:18.566814"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:49:28.777363"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:49:38.938555"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:49:49.101682"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:49:59.594420"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:50:09.823454"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:50:20.011315"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:50:30.169956"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:50:40.326279"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:50:50.487800"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:51:00.652257"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:51:10.837324"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:51:21.010017"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:51:31.167035"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:51:41.323113"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:51:51.602267"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:52:01.818132"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:52:12.035909"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:52:22.211949"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:52:32.372476"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:52:42.601446"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:52:52.766517"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:53:02.919049"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:53:13.074807"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:53:23.241535"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:53:33.409203"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:53:43.567285"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:53:53.744298"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:54:03.902806"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:54:14.060788"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:54:24.226319"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:54:34.390455"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:54:44.550967"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:54:54.827123"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:55:04.996495"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:55:15.159661"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:55:25.339524"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:55:35.547602"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:55:45.828200"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:55:55.991934"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:56:06.172633"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:56:16.349433"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:56:26.570918"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:56:36.768543"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:56:46.951878"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:56:57.111725"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:57:07.263306"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:57:17.540702"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:57:27.710671"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:57:37.868306"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:57:48.040751"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:57:58.239390"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:58:08.464191"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:58:18.640523"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:58:28.820214"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:58:39.117397"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:58:49.439546"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:58:59.648301"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:59:09.818446"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:59:20.174027"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:59:30.341277"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:59:40.519996"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T14:59:50.735537"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:00:00.890348"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:00:11.044542"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:00:21.215215"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:00:31.400723"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:00:41.612320"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:00:51.804553"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:01:02.003146"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:01:12.161134"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:01:22.366598"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:01:32.519256"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:01:42.717156"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:01:52.905574"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:02:03.080619"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:02:13.238237"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:02:23.439924"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:02:33.618924"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:02:43.831209"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:02:54.062650"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:03:04.272412"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:03:14.448600"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:03:24.629530"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:03:34.806664"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:03:45.073837"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:03:55.425921"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:04:05.660562"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:04:15.942227"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:04:26.188433"
+  },
+  {
+    "total_networks": 6,
+    "network_types": {
+      "wifi": 6,
+      "bluetooth": 0,
+      "lte": 0,
+      "esim": 0
+    },
+    "average_signal": {
+      "wifi": -74.0
+    },
+    "security_stats": {
+      "encrypted": 4,
+      "open": 2
+    },
+    "timestamp": "2025-02-24T15:05:05.475804"
+  }
+]

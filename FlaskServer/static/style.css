@@ -1,0 +1,23 @@
+/* Styles additionnels spécifiques */
+body {
+    background: var(--bs-dark);
+    color: var(--bs-light);
+}
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.display-4 {
+    font-weight: 300;
+    color: var(--bs-info);
+}
+
+.lead {
+    font-size: 1.25rem;
+}
+
+.alert {
+    border-radius: 10px;
+}
