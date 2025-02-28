@@ -33,7 +33,9 @@ import {
 import {
   analyzeTextSentiment,
   generateSummary,
-  getProductRecommendations
+  getProductRecommendations,
+  setDefaultAIOrigin,
+  getDefaultAIOrigin
 } from "./controllers/ai-controller";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -65,6 +67,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   apiRouter.post('/ai/sentiment', analyzeTextSentiment);
   apiRouter.post('/ai/summary', generateSummary);
   apiRouter.post('/ai/recommendations', getProductRecommendations);
+  
+  // AI configuration routes
+  apiRouter.get('/ai/config/origin', getDefaultAIOrigin);
+  apiRouter.post('/ai/config/origin', setDefaultAIOrigin);
   
   // Mount the API router to /api path
   app.use('/api', apiRouter);
