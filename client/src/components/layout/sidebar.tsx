@@ -51,6 +51,12 @@ const navItems: NavItem[] = [
     href: '#error-handling'
   },
   {
+    id: 'ai',
+    label: 'Module IA',
+    icon: 'psychology',
+    href: '/ai'
+  },
+  {
     id: 'testing',
     label: 'Tests',
     icon: 'science',
@@ -149,16 +155,29 @@ export function Sidebar() {
                     )}
                   </>
                 ) : (
-                  <a
-                    href={item.href}
-                    className={`flex items-center px-6 py-3 text-gray-800 hover:bg-gray-100 ${
-                      activeSection === item.id ? 'sidebar-active' : ''
-                    }`}
-                    onClick={() => handleNavClick(item.id)}
-                  >
-                    <span className="material-icons mr-3 text-primary">{item.icon}</span>
-                    {item.label}
-                  </a>
+                  item.href.startsWith('/') ? (
+                    <Link
+                      href={item.href}
+                      className={`flex items-center px-6 py-3 text-gray-800 hover:bg-gray-100 ${
+                        activeSection === item.id ? 'sidebar-active' : ''
+                      }`}
+                      onClick={() => handleNavClick(item.id)}
+                    >
+                      <span className="material-icons mr-3 text-primary">{item.icon}</span>
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className={`flex items-center px-6 py-3 text-gray-800 hover:bg-gray-100 ${
+                        activeSection === item.id ? 'sidebar-active' : ''
+                      }`}
+                      onClick={() => handleNavClick(item.id)}
+                    >
+                      <span className="material-icons mr-3 text-primary">{item.icon}</span>
+                      {item.label}
+                    </a>
+                  )
                 )}
               </li>
             ))}

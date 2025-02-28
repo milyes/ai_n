@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import { ThemeProvider } from "./lib/context";
 import Home from "@/pages/home";
+import AI from "@/pages/ai";
 
 function Router() {
   const [location] = useLocation();
@@ -12,6 +13,7 @@ function Router() {
   return (
     <Switch location={location}>
       <Route path="/" component={Home} />
+      <Route path="/ai" component={AI} />
       <Route component={NotFound} />
     </Switch>
   );
