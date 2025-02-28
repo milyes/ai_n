@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, AlertCircle, Star, StarHalf } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { AssistantAnimation, AssistantState } from "@/components/ai/assistant-animation";
+import { AssistantDemo } from "@/components/ai/assistant-demo";
 
 export default function AI() {
   const { toast } = useToast();
