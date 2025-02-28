@@ -30,6 +30,11 @@ import {
   updateOrderStatus, 
   deleteOrder 
 } from "./controllers/order-controller";
+import {
+  analyzeTextSentiment,
+  generateSummary,
+  getProductRecommendations
+} from "./controllers/ai-controller";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create a router for API routes
@@ -55,6 +60,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   apiRouter.post('/orders', validate(orderValidationSchema), createOrder);
   apiRouter.put('/orders/:id/status', validate(z.object({ status: z.string() })), updateOrderStatus);
   apiRouter.delete('/orders/:id', deleteOrder);
+  
+  // AI routes
+  apiRouter.post('/ai/sentiment', analyzeTextSentiment);
+  apiRouter.post('/ai/summary', generateSummary);
+  apiRouter.post('/ai/recommendations', getProductRecommendations);
   
   // Mount the API router to /api path
   app.use('/api', apiRouter);
