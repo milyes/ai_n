@@ -3,259 +3,456 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API IA Multi-Origines | Démonstration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>NetSecure Pro - Sécurité réseau intelligente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <header class="py-3 border-bottom">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="fs-4 fw-bold m-0 d-flex align-items-center">
-                <i class="bi bi-robot me-2"></i>
-                API IA Multi-Origines
-            </h1>
-            <div class="d-flex align-items-center">
-                <span class="me-3">Version: Flask</span>
-                <div class="dropdown">
-                    <button class="btn btn-sm dropdown-toggle" type="button" id="aiSourceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span id="currentSource">Source IA: Auto</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="aiSourceDropdown">
-                        <li><a class="dropdown-item ai-source" href="#" data-source="auto">Auto (par défaut)</a></li>
-                        <li><a class="dropdown-item ai-source" href="#" data-source="openai">OpenAI (GPT-4o)</a></li>
-                        <li><a class="dropdown-item ai-source" href="#" data-source="local">Local</a></li>
-                    </ul>
+<body class="dark-theme">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-shield-alt me-2"></i>
+                <span class="gradient-text">NetSecure Pro</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Fonctionnalités</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">Comment ça marche</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ia-tools">Outils IA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary ms-lg-3" href="/register">Créer un compte</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="display-4 fw-bold gradient-text mb-4">Sécurisez votre réseau avec NetSecure Pro</h1>
+                    <p class="lead mb-4">Une solution complète pour analyser, visualiser et sécuriser tous les appareils connectés à votre réseau, alimentée par une intelligence artificielle multi-origines.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/register" class="btn btn-primary btn-lg">Créer un compte</a>
+                        <a href="/login" class="btn btn-outline-light btn-lg">Connexion</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 mt-5 mt-lg-0">
+                    <img src="https://cdn.pixabay.com/photo/2017/01/18/08/25/social-media-1989152_960_720.jpg" alt="Sécurité réseau" class="img-fluid rounded-4 shadow-lg">
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="container mt-4">
-        {% if error %}
-        <div class="alert alert-danger">
-            {{ error }}
-        </div>
-        {% endif %}
-
-        <div class="row">
-            <div class="col-md-3 mb-4">
-                <div class="list-group position-sticky" style="top: 10px;">
-                    <a href="#intro" class="list-group-item active">Introduction</a>
-                    <a href="#sentiment" class="list-group-item">Analyse de sentiment</a>
-                    <a href="#summary" class="list-group-item">Génération de résumé</a>
-                    <a href="#recommendations" class="list-group-item">Recommandations</a>
-                    <a href="#api" class="list-group-item">Documentation API</a>
-                </div>
-            </div>
-
-            <div class="col-md-9">
-                <section id="intro" class="mb-5">
-                    <h2>Bienvenue sur la démo Flask de l'API IA Multi-Origines</h2>
-                    <div class="card">
-                        <div class="card-body">
-                            <p>Cette démonstration présente un système d'IA multi-origines adaptatif qui peut utiliser différentes sources d'intelligence artificielle en fonction de la disponibilité et des besoins :</p>
-                            <ul>
-                                <li><strong>OpenAI</strong> - Utilise l'API OpenAI avec GPT-4o</li>
-                                <li><strong>Local</strong> - Utilise une implémentation locale sans appel d'API externe</li>
-                                <li><strong>Auto</strong> - Sélectionne automatiquement la meilleure option disponible</li>
-                            </ul>
-                            <p>Vous pouvez changer la source d'IA en utilisant le menu déroulant en haut à droite.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="sentiment" class="mb-5">
-                    <h2>Analyse de sentiment</h2>
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <i class="bi bi-emoji-smile me-2"></i>Analyse de sentiment
-                        </div>
-                        <div class="card-body">
-                            <form id="sentimentForm">
-                                <div class="mb-3">
-                                    <label for="sentimentText" class="form-label">Texte à analyser</label>
-                                    <textarea class="form-control" id="sentimentText" rows="4" placeholder="Entrez le texte à analyser..."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-search me-2"></i>Analyser
-                                </button>
-                            </form>
-                            <div id="sentimentResult" class="mt-3" style="display: none;">
-                                <h5>Résultat :</h5>
-                                <div class="alert alert-primary">
-                                    <div id="sentimentData"></div>
-                                    <div id="sentimentOrigin" class="mt-2 text-muted"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="summary" class="mb-5">
-                    <h2>Génération de résumé</h2>
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <i class="bi bi-newspaper me-2"></i>Résumé de texte
-                        </div>
-                        <div class="card-body">
-                            <form id="summaryForm">
-                                <div class="mb-3">
-                                    <label for="summaryText" class="form-label">Texte à résumer</label>
-                                    <textarea class="form-control" id="summaryText" rows="6" placeholder="Entrez le texte à résumer..."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-scissors me-2"></i>Résumer
-                                </button>
-                            </form>
-                            <div id="summaryResult" class="mt-3" style="display: none;">
-                                <h5>Résumé :</h5>
-                                <div class="alert alert-primary">
-                                    <div id="summaryData"></div>
-                                    <div id="summaryOrigin" class="mt-2 text-muted"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="recommendations" class="mb-5">
-                    <h2>Recommandations de produits</h2>
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <i class="bi bi-gift me-2"></i>Recommandations personnalisées
-                        </div>
-                        <div class="card-body">
-                            <form id="recommendationsForm">
-                                <div class="mb-3">
-                                    <label for="recommendationsText" class="form-label">Description des préférences</label>
-                                    <textarea class="form-control" id="recommendationsText" rows="4" placeholder="Décrivez ce que vous recherchez..."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-lightbulb me-2"></i>Obtenir des recommandations
-                                </button>
-                            </form>
-                            <div id="recommendationsResult" class="mt-3" style="display: none;">
-                                <h5>Recommandations :</h5>
-                                <div class="alert alert-primary">
-                                    <ul id="recommendationsData" class="mb-0"></ul>
-                                    <div id="recommendationsOrigin" class="mt-2 text-muted"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="api" class="mb-5">
-                    <h2>Documentation API</h2>
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <i class="bi bi-code-slash me-2"></i>Référence de l'API
-                        </div>
-                        <div class="card-body">
-                            <h5>Configuration de l'origine IA</h5>
-                            <p>Endpoint pour obtenir ou définir l'origine IA par défaut.</p>
-
-                            <h6>GET /api/ai/config/origin</h6>
-                            <pre><code>// Réponse
-{
-  "success": true,
-  "data": {
-    "origin": "auto",
-    "name": "Auto",
-    "description": "Sélectionne automatiquement la meilleure option disponible"
-  }
-}</code></pre>
-
-                            <h6>POST /api/ai/config/origin</h6>
-                            <pre><code>// Requête
-{
-  "origin": "openai"
-}
-
-// Réponse
-{
-  "success": true,
-  "data": {
-    "origin": "openai",
-    "name": "OpenAI",
-    "description": "Utilise l'API OpenAI (GPT-4o)"
-  },
-  "message": "Default AI origin set to OpenAI"
-}</code></pre>
-
-                            <h5 class="mt-4">Analyse de sentiment</h5>
-                            <h6>POST /api/ai/sentiment</h6>
-                            <pre><code>// Requête
-{
-  "text": "Je suis très content de ce produit !",
-  "origin": "auto"  // Optionnel, par défaut utilise l'origine définie globalement
-}
-
-// Réponse
-{
-  "success": true,
-  "data": {
-    "rating": 5,  // Note de 1 à 5
-    "confidence": 0.85,  // Confiance entre 0 et 1
-    "origin": "openai"  // L'origine utilisée pour l'analyse
-  }
-}</code></pre>
-
-                            <h5 class="mt-4">Génération de résumé</h5>
-                            <h6>POST /api/ai/summary</h6>
-                            <pre><code>// Requête
-{
-  "text": "Long texte à résumer...",
-  "origin": "auto"  // Optionnel
-}
-
-// Réponse
-{
-  "success": true,
-  "data": {
-    "summary": "Résumé du texte...",
-    "origin": "openai"
-  }
-}</code></pre>
-
-                            <h5 class="mt-4">Recommandations de produits</h5>
-                            <h6>POST /api/ai/recommendations</h6>
-                            <pre><code>// Requête
-{
-  "description": "Je cherche un nouveau smartphone avec un bon appareil photo",
-  "origin": "auto"  // Optionnel
-}
-
-// Réponse
-{
-  "success": true,
-  "data": {
-    "recommendations": [
-      "iPhone 15 Pro",
-      "Samsung Galaxy S23",
-      "Google Pixel 7",
-      "Xiaomi Redmi Note 12"
-    ],
-    "origin": "openai"
-  }
-}</code></pre>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
     </div>
+    {% endif %}
 
-    <footer class="py-3 mt-5">
+    <section id="features" class="py-5">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <p class="mb-0">API IA Multi-Origines © 2025</p>
+            <h2 class="text-center fw-bold gradient-text mb-5">Fonctionnalités principales</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow feature-card">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-search fa-2x"></i>
+                            </div>
+                            <h3>Détection des appareils</h3>
+                            <p>Identifiez automatiquement tous les appareils connectés à votre réseau et obtenez des informations détaillées sur chacun d'eux.</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p class="mb-0">Version Flask • <a href="https://github.com" target="_blank">GitHub</a></p>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow feature-card">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-shield-alt fa-2x"></i>
+                            </div>
+                            <h3>Analyse de sécurité</h3>
+                            <p>Évaluez le niveau de sécurité de votre réseau et identifiez les vulnérabilités potentielles pour chaque appareil connecté.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow feature-card">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-project-diagram fa-2x"></i>
+                            </div>
+                            <h3>Topologie interactive</h3>
+                            <p>Visualisez la structure de votre réseau grâce à une carte interactive qui montre les connexions entre tous vos appareils.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow feature-card">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-bell fa-2x"></i>
+                            </div>
+                            <h3>Alertes en temps réel</h3>
+                            <p>Recevez des notifications immédiates lorsqu'un nouvel appareil se connecte à votre réseau ou qu'une menace potentielle est détectée.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow feature-card">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-chart-bar fa-2x"></i>
+                            </div>
+                            <h3>Rapports détaillés</h3>
+                            <p>Générez des rapports complets sur l'état de santé de votre réseau et obtenez des recommandations personnalisées.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow feature-card">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-robot fa-2x"></i>
+                            </div>
+                            <h3>Assistant de sécurité IA</h3>
+                            <p>Posez des questions à notre assistant virtuel intelligent pour obtenir des conseils adaptés à votre configuration réseau.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-5 bg-dark-alt">
+        <div class="container">
+            <h2 class="text-center fw-bold gradient-text mb-5">Comment ça marche</h2>
+            
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6">
+                    <div class="step-number">1</div>
+                    <h3 class="mb-4">Analysez votre réseau</h3>
+                    <p>NetSecure Pro détecte automatiquement tous les appareils connectés à votre réseau WiFi et filaire, identifie leur type, fabricant et système d'exploitation.</p>
+                    <p>Notre technologie avancée cartographie les connexions entre les appareils pour vous offrir une vision claire de votre infrastructure réseau.</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://cdn.pixabay.com/photo/2016/10/09/19/19/networks-1726233_960_720.jpg" alt="Analyse réseau" class="img-fluid rounded-4 shadow-lg">
+                </div>
+            </div>
+            
+            <div class="row align-items-center mb-5 flex-column-reverse flex-lg-row">
+                <div class="col-lg-6">
+                    <img src="https://cdn.pixabay.com/photo/2018/05/14/15/12/cyber-security-3400555_960_720.jpg" alt="Évaluation des risques" class="img-fluid rounded-4 shadow-lg">
+                </div>
+                <div class="col-lg-6">
+                    <div class="step-number">2</div>
+                    <h3 class="mb-4">Évaluez les risques de sécurité</h3>
+                    <p>Pour chaque appareil détecté, NetSecure Pro effectue une évaluation complète des risques de sécurité en identifiant les vulnérabilités potentielles.</p>
+                    <p>Obtenez un score de sécurité global pour votre réseau et des scores individuels pour chaque appareil, avec des recommandations adaptées.</p>
+                </div>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="step-number">3</div>
+                    <h3 class="mb-4">Améliorez votre sécurité</h3>
+                    <p>Suivez les recommandations personnalisées pour renforcer la sécurité de votre réseau et de vos appareils connectés.</p>
+                    <p>Surveillez en temps réel les nouvelles connexions et recevez des alertes en cas d'activité suspecte pour maintenir un niveau de sécurité optimal.</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://cdn.pixabay.com/photo/2017/01/18/08/25/social-media-1989152_960_720.jpg" alt="Amélioration de la sécurité" class="img-fluid rounded-4 shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="ia-tools" class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold gradient-text mb-5">Outils d'IA avancés</h2>
+            
+            <div class="row mb-4">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="card bg-dark-card border-0 shadow">
+                        <div class="card-body">
+                            <h3 class="card-title gradient-text">Configuration de l'IA</h3>
+                            <p class="card-text">Notre système d'IA multi-origines vous permet de choisir le fournisseur d'IA qui répond le mieux à vos besoins.</p>
+                            <div class="mb-3">
+                                <label for="origin" class="form-label">Origine par défaut :</label>
+                                <select id="origin" class="form-select form-select-lg mb-3">
+                                    <option value="auto">Auto (sélection automatique)</option>
+                                    <option value="openai">OpenAI (GPT-4o)</option>
+                                    <option value="local">Local (implémentation basique)</option>
+                                </select>
+                            </div>
+                            <button id="saveOrigin" class="btn btn-primary">Appliquer</button>
+                            <p id="originStatus" class="mt-3"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card bg-dark-card border-0 shadow">
+                        <div class="card-body">
+                            <h3 class="gradient-text mb-4">Analyse réseau intelligente</h3>
+                            
+                            <ul class="nav nav-tabs" id="aiTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="sentiment-tab" data-bs-toggle="tab" data-bs-target="#sentiment" type="button" role="tab">Analyse de trafic</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button" role="tab">Résumé de vulnérabilités</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="recommendations-tab" data-bs-toggle="tab" data-bs-target="#recommendations" type="button" role="tab">Recommandations</button>
+                                </li>
+                            </ul>
+                            
+                            <div class="tab-content mt-4" id="aiTabsContent">
+                                <!-- Analyse de trafic -->
+                                <div class="tab-pane fade show active" id="sentiment" role="tabpanel">
+                                    <h4>Analyse de trafic réseau</h4>
+                                    <div class="mb-3">
+                                        <label for="sentimentText" class="form-label">Description du trafic à analyser :</label>
+                                        <textarea id="sentimentText" class="form-control" rows="5" placeholder="Décrivez le comportement réseau que vous souhaitez analyser..."></textarea>
+                                    </div>
+                                    <button id="analyzeSentiment" class="btn btn-primary">Analyser</button>
+                                    
+                                    <div id="sentimentResult" class="mt-4 d-none">
+                                        <div class="card bg-dark">
+                                            <div class="card-body">
+                                                <h5>Résultat de l'analyse</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="stars-container me-3"></div>
+                                                    <div class="confidence-score"></div>
+                                                </div>
+                                                <div class="mt-2 origin-info text-muted"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Résumé de vulnérabilités -->
+                                <div class="tab-pane fade" id="summary" role="tabpanel">
+                                    <h4>Résumé des vulnérabilités</h4>
+                                    <div class="mb-3">
+                                        <label for="summaryText" class="form-label">Logs de sécurité à résumer :</label>
+                                        <textarea id="summaryText" class="form-control" rows="6" placeholder="Collez vos logs de sécurité ou rapport technique à résumer..."></textarea>
+                                    </div>
+                                    <button id="generateSummary" class="btn btn-primary">Générer résumé</button>
+                                    
+                                    <div id="summaryResult" class="mt-4 d-none">
+                                        <div class="card bg-dark">
+                                            <div class="card-body">
+                                                <h5>Résumé des vulnérabilités</h5>
+                                                <p class="summary-content"></p>
+                                                <div class="mt-2 origin-info text-muted"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recommandations de sécurité -->
+                                <div class="tab-pane fade" id="recommendations" role="tabpanel">
+                                    <h4>Recommandations de sécurité</h4>
+                                    <div class="mb-3">
+                                        <label for="preferencesText" class="form-label">Votre infrastructure :</label>
+                                        <textarea id="preferencesText" class="form-control" rows="4" placeholder="Décrivez votre infrastructure réseau et vos préoccupations de sécurité..."></textarea>
+                                    </div>
+                                    <button id="getRecommendations" class="btn btn-primary">Obtenir des recommandations</button>
+                                    
+                                    <div id="recommendationsResult" class="mt-4 d-none">
+                                        <div class="card bg-dark">
+                                            <div class="card-body">
+                                                <h5>Recommandations de sécurité</h5>
+                                                <ul class="recommendations-list"></ul>
+                                                <div class="mt-2 origin-info text-muted"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="py-5 bg-dark-alt">
+        <div class="container">
+            <h2 class="text-center fw-bold gradient-text mb-5">Ce que disent nos utilisateurs</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow testimonial-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Utilisateur" class="rounded-circle testimonial-img me-3">
+                                <div>
+                                    <h5 class="mb-1">Sophie Martin</h5>
+                                    <p class="mb-0 text-muted">Responsable IT</p>
+                                </div>
+                            </div>
+                            <p class="testimonial-text">"NetSecure Pro nous a permis d'identifier des appareils non autorisés sur notre réseau d'entreprise et de renforcer considérablement notre sécurité. Un outil indispensable pour toute équipe IT."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow testimonial-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Utilisateur" class="rounded-circle testimonial-img me-3">
+                                <div>
+                                    <h5 class="mb-1">Thomas Dubois</h5>
+                                    <p class="mb-0 text-muted">Particulier</p>
+                                </div>
+                            </div>
+                            <p class="testimonial-text">"Grâce à la visualisation interactive, j'ai pu comprendre comment mes appareils étaient connectés et identifier une caméra IoT qui représentait un risque. Interface intuitive et recommandations claires !"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark-card h-100 border-0 shadow testimonial-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Utilisateur" class="rounded-circle testimonial-img me-3">
+                                <div>
+                                    <h5 class="mb-1">Marie Leroy</h5>
+                                    <p class="mb-0 text-muted">Chef de projet</p>
+                                </div>
+                            </div>
+                            <p class="testimonial-text">"L'assistant de sécurité est particulièrement utile pour répondre à mes questions techniques. J'apprécie les rapports détaillés qui me permettent de suivre l'évolution de la sécurité de mon réseau."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="py-5">
+        <div class="container text-center">
+            <h2 class="fw-bold gradient-text mb-4">Prêt à sécuriser votre réseau ?</h2>
+            <p class="lead mb-4">Rejoignez des milliers d'utilisateurs qui font confiance à NetSecure Pro pour protéger leur infrastructure réseau.</p>
+            <a href="/register" class="btn btn-primary btn-lg">Créer un compte gratuitement</a>
+        </div>
+    </section>
+
+    <section id="api-doc" class="py-5 bg-dark-alt">
+        <div class="container">
+            <h2 class="text-center fw-bold gradient-text mb-5">Documentation de l'API</h2>
+            
+            <div class="card bg-dark-card border-0 shadow">
+                <div class="card-body">
+                    <div class="api-doc">
+                        <h4>Configuration</h4>
+                        <pre><code>GET /api/ai/config/origin
+POST /api/ai/config/origin
+Body: { "origin": "openai" | "local" | "auto" }</code></pre>
+                        
+                        <h4>Services IA</h4>
+                        <pre><code>POST /api/ai/sentiment
+Body: { "text": "texte à analyser", "origin": "openai" | "local" | "auto" (optionnel) }
+
+POST /api/ai/summary
+Body: { "text": "texte à résumer", "origin": "openai" | "local" | "auto" (optionnel) }
+
+POST /api/ai/recommendations
+Body: { "description": "préférences", "origin": "openai" | "local" | "auto" (optionnel) }</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4 bg-dark">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="navbar-brand fw-bold mb-3 d-inline-block" href="#">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <span class="gradient-text">NetSecure Pro</span>
+                    </a>
+                    <p>Une solution complète pour analyser, visualiser et sécuriser tous les appareils connectés à votre réseau.</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="mb-3">Solutions</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">Particuliers</a></li>
+                        <li><a href="#">Entreprises</a></li>
+                        <li><a href="#">Infrastructures</a></li>
+                        <li><a href="#">IoT</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="mb-3">Société</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Équipe</a></li>
+                        <li><a href="#">Carrières</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="mb-3">Support</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Tutoriels</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="mb-3">Légal</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">Conditions</a></li>
+                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Licences</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="mt-4 mb-3">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-md-0">&copy; 2025 NetSecure Pro. Tous droits réservés.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -263,166 +460,250 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Gestion de la navigation par ancres
-            document.querySelectorAll('.list-group-item').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.querySelectorAll('.list-group-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 20,
-                        behavior: 'smooth'
-                    });
-                });
-            });
-
-            // Sélection de la source IA
-            const currentSourceEl = document.getElementById('currentSource');
-            document.querySelectorAll('.ai-source').forEach(item => {
-                item.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    const source = this.getAttribute('data-source');
-                    try {
-                        const response = await fetch('/api/ai/config/origin', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ origin: source })
-                        });
-                        const data = await response.json();
-                        if (data.success) {
-                            currentSourceEl.textContent = `Source IA: ${data.data.name}`;
-                        }
-                    } catch (error) {
-                        console.error("Erreur lors du changement de source IA:", error);
-                    }
-                });
-            });
-
-            // Analyse de sentiment
-            const sentimentForm = document.getElementById('sentimentForm');
-            sentimentForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const text = document.getElementById('sentimentText').value;
-                if (!text) return;
-
-                try {
-                    const response = await fetch('/api/ai/sentiment', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ text })
-                    });
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        const resultDiv = document.getElementById('sentimentResult');
-                        const dataDiv = document.getElementById('sentimentData');
-                        const originDiv = document.getElementById('sentimentOrigin');
-                        
-                        // Afficher l'évaluation avec des étoiles
-                        const starsHtml = Array(5).fill('').map((_, i) => 
-                            `<i class="bi ${i < data.data.rating ? 'bi-star-fill' : 'bi-star'} text-warning"></i>`
-                        ).join('');
-                        
-                        dataDiv.innerHTML = `
-                            <div class="mb-2">${starsHtml} <strong>${data.data.rating}/5</strong></div>
-                            <div>Confiance: <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: ${data.data.confidence * 100}%;" 
-                                    aria-valuenow="${data.data.confidence * 100}" aria-valuemin="0" aria-valuemax="100">
-                                    ${Math.round(data.data.confidence * 100)}%
-                                </div>
-                            </div></div>
-                        `;
-                        
-                        originDiv.textContent = `Source: ${data.data.origin}${data.warning ? ' (mode secours)' : ''}`;
-                        resultDiv.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error("Erreur lors de l'analyse de sentiment:", error);
-                }
-            });
-
-            // Génération de résumé
-            const summaryForm = document.getElementById('summaryForm');
-            summaryForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const text = document.getElementById('summaryText').value;
-                if (!text) return;
-
-                try {
-                    const response = await fetch('/api/ai/summary', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ text })
-                    });
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        const resultDiv = document.getElementById('summaryResult');
-                        const dataDiv = document.getElementById('summaryData');
-                        const originDiv = document.getElementById('summaryOrigin');
-                        
-                        dataDiv.textContent = data.data.summary;
-                        originDiv.textContent = `Source: ${data.data.origin}${data.warning ? ' (mode secours)' : ''}`;
-                        resultDiv.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error("Erreur lors de la génération de résumé:", error);
-                }
-            });
-
-            // Recommandations de produits
-            const recommendationsForm = document.getElementById('recommendationsForm');
-            recommendationsForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const description = document.getElementById('recommendationsText').value;
-                if (!description) return;
-
-                try {
-                    const response = await fetch('/api/ai/recommendations', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ description })
-                    });
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        const resultDiv = document.getElementById('recommendationsResult');
-                        const dataDiv = document.getElementById('recommendationsData');
-                        const originDiv = document.getElementById('recommendationsOrigin');
-                        
-                        dataDiv.innerHTML = data.data.recommendations.map(rec => `<li>${rec}</li>`).join('');
-                        originDiv.textContent = `Source: ${data.data.origin}${data.warning ? ' (mode secours)' : ''}`;
-                        resultDiv.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error("Erreur lors de la génération de recommandations:", error);
-                }
-            });
-
-            // Récupérer l'origine IA actuelle au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialisation - charger l'origine actuelle
             fetch('/api/ai/config/origin')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        currentSourceEl.textContent = `Source IA: ${data.data.name}`;
+                        document.getElementById('origin').value = data.data.origin;
+                        document.getElementById('originStatus').textContent = 
+                            `Origine actuelle : ${data.data.name} - ${data.data.description}`;
+                    }
+                })
+                .catch(error => console.error('Erreur :', error));
+            
+            // Enregistrer l'origine par défaut
+            document.getElementById('saveOrigin').addEventListener('click', function() {
+                const origin = document.getElementById('origin').value;
+                
+                fetch('/api/ai/config/origin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ origin }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('originStatus').textContent = 
+                            `Origine définie : ${data.data.name} - ${data.data.description}`;
+                    } else {
+                        document.getElementById('originStatus').textContent = 
+                            `Erreur : ${data.message}`;
                     }
                 })
                 .catch(error => {
-                    console.error("Erreur lors de la récupération de la source IA:", error);
+                    console.error('Erreur :', error);
+                    document.getElementById('originStatus').textContent = 
+                        `Erreur de connexion au serveur`;
                 });
+            });
+            
+            // Analyse de sentiment (trafic réseau)
+            document.getElementById('analyzeSentiment').addEventListener('click', function() {
+                const text = document.getElementById('sentimentText').value.trim();
+                if (!text) return;
+                
+                document.getElementById('analyzeSentiment').disabled = true;
+                document.getElementById('analyzeSentiment').textContent = 'Analyse en cours...';
+                
+                fetch('/api/ai/sentiment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('analyzeSentiment').disabled = false;
+                    document.getElementById('analyzeSentiment').textContent = 'Analyser';
+                    
+                    const resultDiv = document.getElementById('sentimentResult');
+                    if (data.success) {
+                        resultDiv.classList.remove('d-none');
+                        
+                        // Afficher les étoiles
+                        const starsContainer = resultDiv.querySelector('.stars-container');
+                        starsContainer.innerHTML = '';
+                        const rating = data.data.rating;
+                        for (let i = 1; i <= 5; i++) {
+                            const star = document.createElement('span');
+                            star.classList.add('star');
+                            star.innerHTML = i <= rating ? '★' : '☆';
+                            starsContainer.appendChild(star);
+                        }
+                        
+                        // Afficher le score de confiance
+                        const confidenceScore = resultDiv.querySelector('.confidence-score');
+                        const confidence = Math.round(data.data.confidence * 100);
+                        confidenceScore.textContent = `Confiance: ${confidence}%`;
+                        
+                        // Afficher l'origine
+                        const originInfo = resultDiv.querySelector('.origin-info');
+                        originInfo.textContent = `Service: ${data.data.origin}`;
+                        
+                        if (data.warning) {
+                            const warning = document.createElement('div');
+                            warning.classList.add('alert', 'alert-warning', 'mt-3');
+                            warning.textContent = data.warning;
+                            resultDiv.querySelector('.card-body').appendChild(warning);
+                        }
+                    } else {
+                        resultDiv.classList.remove('d-none');
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-danger">
+                                Erreur: ${data.message || 'Une erreur est survenue'}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('analyzeSentiment').disabled = false;
+                    document.getElementById('analyzeSentiment').textContent = 'Analyser';
+                    
+                    const resultDiv = document.getElementById('sentimentResult');
+                    resultDiv.classList.remove('d-none');
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            Erreur de connexion au serveur
+                        </div>
+                    `;
+                });
+            });
+            
+            // Génération de résumé (vulnérabilités)
+            document.getElementById('generateSummary').addEventListener('click', function() {
+                const text = document.getElementById('summaryText').value.trim();
+                if (!text) return;
+                
+                document.getElementById('generateSummary').disabled = true;
+                document.getElementById('generateSummary').textContent = 'Génération en cours...';
+                
+                fetch('/api/ai/summary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('generateSummary').disabled = false;
+                    document.getElementById('generateSummary').textContent = 'Générer résumé';
+                    
+                    const resultDiv = document.getElementById('summaryResult');
+                    if (data.success) {
+                        resultDiv.classList.remove('d-none');
+                        
+                        // Afficher le résumé
+                        const summaryContent = resultDiv.querySelector('.summary-content');
+                        summaryContent.textContent = data.data.summary;
+                        
+                        // Afficher l'origine
+                        const originInfo = resultDiv.querySelector('.origin-info');
+                        originInfo.textContent = `Service: ${data.data.origin}`;
+                        
+                        if (data.warning) {
+                            const warning = document.createElement('div');
+                            warning.classList.add('alert', 'alert-warning', 'mt-3');
+                            warning.textContent = data.warning;
+                            resultDiv.querySelector('.card-body').appendChild(warning);
+                        }
+                    } else {
+                        resultDiv.classList.remove('d-none');
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-danger">
+                                Erreur: ${data.message || 'Une erreur est survenue'}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('generateSummary').disabled = false;
+                    document.getElementById('generateSummary').textContent = 'Générer résumé';
+                    
+                    const resultDiv = document.getElementById('summaryResult');
+                    resultDiv.classList.remove('d-none');
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            Erreur de connexion au serveur
+                        </div>
+                    `;
+                });
+            });
+            
+            // Recommandations de sécurité
+            document.getElementById('getRecommendations').addEventListener('click', function() {
+                const description = document.getElementById('preferencesText').value.trim();
+                if (!description) return;
+                
+                document.getElementById('getRecommendations').disabled = true;
+                document.getElementById('getRecommendations').textContent = 'Recherche en cours...';
+                
+                fetch('/api/ai/recommendations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ description }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('getRecommendations').disabled = false;
+                    document.getElementById('getRecommendations').textContent = 'Obtenir des recommandations';
+                    
+                    const resultDiv = document.getElementById('recommendationsResult');
+                    if (data.success) {
+                        resultDiv.classList.remove('d-none');
+                        
+                        // Afficher les recommandations
+                        const recommendationsList = resultDiv.querySelector('.recommendations-list');
+                        recommendationsList.innerHTML = '';
+                        
+                        data.data.recommendations.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = item;
+                            recommendationsList.appendChild(li);
+                        });
+                        
+                        // Afficher l'origine
+                        const originInfo = resultDiv.querySelector('.origin-info');
+                        originInfo.textContent = `Service: ${data.data.origin}`;
+                        
+                        if (data.warning) {
+                            const warning = document.createElement('div');
+                            warning.classList.add('alert', 'alert-warning', 'mt-3');
+                            warning.textContent = data.warning;
+                            resultDiv.querySelector('.card-body').appendChild(warning);
+                        }
+                    } else {
+                        resultDiv.classList.remove('d-none');
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-danger">
+                                Erreur: ${data.message || 'Une erreur est survenue'}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('getRecommendations').disabled = false;
+                    document.getElementById('getRecommendations').textContent = 'Obtenir des recommandations';
+                    
+                    const resultDiv = document.getElementById('recommendationsResult');
+                    resultDiv.classList.remove('d-none');
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            Erreur de connexion au serveur
+                        </div>
+                    `;
+                });
+            });
         });
     </script>
 </body>
