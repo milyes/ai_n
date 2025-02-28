@@ -1,97 +1,165 @@
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API IA Multi-Origines - Documentation</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <title>API IA Multi-Origines | Démonstration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container py-5">
+    <header class="py-3 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="fs-4 fw-bold m-0 d-flex align-items-center">
+                <i class="bi bi-robot me-2"></i>
+                API IA Multi-Origines
+            </h1>
+            <div class="d-flex align-items-center">
+                <span class="me-3">Version: Flask</span>
+                <div class="dropdown">
+                    <button class="btn btn-sm dropdown-toggle" type="button" id="aiSourceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="currentSource">Source IA: Auto</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="aiSourceDropdown">
+                        <li><a class="dropdown-item ai-source" href="#" data-source="auto">Auto (par défaut)</a></li>
+                        <li><a class="dropdown-item ai-source" href="#" data-source="openai">OpenAI (GPT-4o)</a></li>
+                        <li><a class="dropdown-item ai-source" href="#" data-source="local">Local</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-4">
         {% if error %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger">
             {{ error }}
         </div>
-        {% else %}
-        <header class="mb-5 text-center">
-            <h1 class="display-4 mb-3">API IA Multi-Origines</h1>
-            <p class="lead">Une API RESTful intégrant plusieurs origines d'intelligence artificielle</p>
-        </header>
+        {% endif %}
 
         <div class="row">
-            <!-- Sidebar de navigation -->
             <div class="col-md-3 mb-4">
-                <div class="list-group sticky-top" style="top: 20px;">
-                    <a href="#introduction" class="list-group-item list-group-item-action">Introduction</a>
-                    <a href="#origins" class="list-group-item list-group-item-action">Origines IA</a>
-                    <a href="#config-api" class="list-group-item list-group-item-action">API - Configuration</a>
-                    <a href="#sentiment-api" class="list-group-item list-group-item-action">API - Analyse de sentiment</a>
-                    <a href="#summary-api" class="list-group-item list-group-item-action">API - Génération de résumé</a>
-                    <a href="#recommendations-api" class="list-group-item list-group-item-action">API - Recommandations</a>
-                    <a href="#test" class="list-group-item list-group-item-action">Tester l'API</a>
+                <div class="list-group position-sticky" style="top: 10px;">
+                    <a href="#intro" class="list-group-item active">Introduction</a>
+                    <a href="#sentiment" class="list-group-item">Analyse de sentiment</a>
+                    <a href="#summary" class="list-group-item">Génération de résumé</a>
+                    <a href="#recommendations" class="list-group-item">Recommandations</a>
+                    <a href="#api" class="list-group-item">Documentation API</a>
                 </div>
             </div>
 
-            <!-- Contenu principal -->
             <div class="col-md-9">
-                <section id="introduction" class="mb-5">
-                    <h2>Introduction</h2>
-                    <p>
-                        Cette API permet d'accéder à des fonctionnalités d'intelligence artificielle via différentes 
-                        origines (moteurs IA). L'API prend en charge les fonctionnalités suivantes :
-                    </p>
-                    <ul>
-                        <li>Analyse de sentiment de texte</li>
-                        <li>Génération de résumés</li>
-                        <li>Recommandations de produits</li>
-                    </ul>
-                    <p>
-                        Pour chaque fonctionnalité, vous pouvez spécifier l'origine IA à utiliser, 
-                        ou laisser le système choisir la meilleure option disponible.
-                    </p>
-                </section>
-
-                <section id="origins" class="mb-5">
-                    <h2>Origines IA disponibles</h2>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Origine</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><code>openai</code></td>
-                                    <td>Utilise l'API OpenAI (GPT-4o)</td>
-                                </tr>
-                                <tr>
-                                    <td><code>local</code></td>
-                                    <td>Utilise l'implémentation locale sans appel d'API externe</td>
-                                </tr>
-                                <tr>
-                                    <td><code>auto</code></td>
-                                    <td>Sélectionne automatiquement la meilleure option disponible</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <section id="intro" class="mb-5">
+                    <h2>Bienvenue sur la démo Flask de l'API IA Multi-Origines</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>Cette démonstration présente un système d'IA multi-origines adaptatif qui peut utiliser différentes sources d'intelligence artificielle en fonction de la disponibilité et des besoins :</p>
+                            <ul>
+                                <li><strong>OpenAI</strong> - Utilise l'API OpenAI avec GPT-4o</li>
+                                <li><strong>Local</strong> - Utilise une implémentation locale sans appel d'API externe</li>
+                                <li><strong>Auto</strong> - Sélectionne automatiquement la meilleure option disponible</li>
+                            </ul>
+                            <p>Vous pouvez changer la source d'IA en utilisant le menu déroulant en haut à droite.</p>
+                        </div>
                     </div>
                 </section>
 
-                <section id="config-api" class="mb-5">
-                    <h2>API de Configuration</h2>
-                    
-                    <div class="card mb-4">
+                <section id="sentiment" class="mb-5">
+                    <h2>Analyse de sentiment</h2>
+                    <div class="card">
                         <div class="card-header bg-primary text-white">
-                            GET /api/ai/config/origin
+                            <i class="bi bi-emoji-smile me-2"></i>Analyse de sentiment
                         </div>
                         <div class="card-body">
-                            <p class="card-text">Récupère l'origine IA actuellement configurée.</p>
-                            <h5>Exemple de réponse :</h5>
-                            <pre><code class="language-json">{
+                            <form id="sentimentForm">
+                                <div class="mb-3">
+                                    <label for="sentimentText" class="form-label">Texte à analyser</label>
+                                    <textarea class="form-control" id="sentimentText" rows="4" placeholder="Entrez le texte à analyser..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-search me-2"></i>Analyser
+                                </button>
+                            </form>
+                            <div id="sentimentResult" class="mt-3" style="display: none;">
+                                <h5>Résultat :</h5>
+                                <div class="alert alert-primary">
+                                    <div id="sentimentData"></div>
+                                    <div id="sentimentOrigin" class="mt-2 text-muted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="summary" class="mb-5">
+                    <h2>Génération de résumé</h2>
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <i class="bi bi-newspaper me-2"></i>Résumé de texte
+                        </div>
+                        <div class="card-body">
+                            <form id="summaryForm">
+                                <div class="mb-3">
+                                    <label for="summaryText" class="form-label">Texte à résumer</label>
+                                    <textarea class="form-control" id="summaryText" rows="6" placeholder="Entrez le texte à résumer..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-scissors me-2"></i>Résumer
+                                </button>
+                            </form>
+                            <div id="summaryResult" class="mt-3" style="display: none;">
+                                <h5>Résumé :</h5>
+                                <div class="alert alert-primary">
+                                    <div id="summaryData"></div>
+                                    <div id="summaryOrigin" class="mt-2 text-muted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="recommendations" class="mb-5">
+                    <h2>Recommandations de produits</h2>
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <i class="bi bi-gift me-2"></i>Recommandations personnalisées
+                        </div>
+                        <div class="card-body">
+                            <form id="recommendationsForm">
+                                <div class="mb-3">
+                                    <label for="recommendationsText" class="form-label">Description des préférences</label>
+                                    <textarea class="form-control" id="recommendationsText" rows="4" placeholder="Décrivez ce que vous recherchez..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-lightbulb me-2"></i>Obtenir des recommandations
+                                </button>
+                            </form>
+                            <div id="recommendationsResult" class="mt-3" style="display: none;">
+                                <h5>Recommandations :</h5>
+                                <div class="alert alert-primary">
+                                    <ul id="recommendationsData" class="mb-0"></ul>
+                                    <div id="recommendationsOrigin" class="mt-2 text-muted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="api" class="mb-5">
+                    <h2>Documentation API</h2>
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <i class="bi bi-code-slash me-2"></i>Référence de l'API
+                        </div>
+                        <div class="card-body">
+                            <h5>Configuration de l'origine IA</h5>
+                            <p>Endpoint pour obtenir ou définir l'origine IA par défaut.</p>
+
+                            <h6>GET /api/ai/config/origin</h6>
+                            <pre><code>// Réponse
+{
   "success": true,
   "data": {
     "origin": "auto",
@@ -99,104 +167,69 @@
     "description": "Sélectionne automatiquement la meilleure option disponible"
   }
 }</code></pre>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            POST /api/ai/config/origin
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Définit l'origine IA par défaut.</p>
-                            <h5>Corps de la requête :</h5>
-                            <pre><code class="language-json">{
-  "origin": "local"
-}</code></pre>
-                            <h5>Exemple de réponse :</h5>
-                            <pre><code class="language-json">{
+
+                            <h6>POST /api/ai/config/origin</h6>
+                            <pre><code>// Requête
+{
+  "origin": "openai"
+}
+
+// Réponse
+{
   "success": true,
   "data": {
-    "origin": "local",
-    "name": "Local",
-    "description": "Utilise l'implémentation locale sans appel d'API externe"
+    "origin": "openai",
+    "name": "OpenAI",
+    "description": "Utilise l'API OpenAI (GPT-4o)"
   },
-  "message": "Default AI origin set to Local"
+  "message": "Default AI origin set to OpenAI"
 }</code></pre>
-                        </div>
-                    </div>
-                </section>
 
-                <section id="sentiment-api" class="mb-5">
-                    <h2>API d'Analyse de Sentiment</h2>
-                    
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            POST /api/ai/sentiment
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Analyse le sentiment d'un texte.</p>
-                            <h5>Corps de la requête :</h5>
-                            <pre><code class="language-json">{
-  "text": "Je suis très satisfait de ce produit, il fonctionne parfaitement bien.",
-  "origin": "auto" (optionnel)
-}</code></pre>
-                            <h5>Exemple de réponse :</h5>
-                            <pre><code class="language-json">{
+                            <h5 class="mt-4">Analyse de sentiment</h5>
+                            <h6>POST /api/ai/sentiment</h6>
+                            <pre><code>// Requête
+{
+  "text": "Je suis très content de ce produit !",
+  "origin": "auto"  // Optionnel, par défaut utilise l'origine définie globalement
+}
+
+// Réponse
+{
   "success": true,
   "data": {
-    "rating": 4,
-    "confidence": 0.65,
-    "origin": "local"
-  },
-  "warning": "Mode secours: Utilisation de l'implémentation locale pour l'analyse de sentiment."
+    "rating": 5,  // Note de 1 à 5
+    "confidence": 0.85,  // Confiance entre 0 et 1
+    "origin": "openai"  // L'origine utilisée pour l'analyse
+  }
 }</code></pre>
-                        </div>
-                    </div>
-                </section>
 
-                <section id="summary-api" class="mb-5">
-                    <h2>API de Génération de Résumé</h2>
-                    
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            POST /api/ai/summary
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Génère un résumé d'un texte plus long.</p>
-                            <h5>Corps de la requête :</h5>
-                            <pre><code class="language-json">{
-  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  "origin": "auto" (optionnel)
-}</code></pre>
-                            <h5>Exemple de réponse :</h5>
-                            <pre><code class="language-json">{
+                            <h5 class="mt-4">Génération de résumé</h5>
+                            <h6>POST /api/ai/summary</h6>
+                            <pre><code>// Requête
+{
+  "text": "Long texte à résumer...",
+  "origin": "auto"  // Optionnel
+}
+
+// Réponse
+{
   "success": true,
   "data": {
-    "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    "origin": "local"
-  },
-  "warning": "Mode secours: Utilisation de l'implémentation locale pour la génération de résumé."
+    "summary": "Résumé du texte...",
+    "origin": "openai"
+  }
 }</code></pre>
-                        </div>
-                    </div>
-                </section>
 
-                <section id="recommendations-api" class="mb-5">
-                    <h2>API de Recommandations</h2>
-                    
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            POST /api/ai/recommendations
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Génère des recommandations de produits basées sur une description.</p>
-                            <h5>Corps de la requête :</h5>
-                            <pre><code class="language-json">{
-  "description": "Je recherche un smartphone avec une bonne qualité photo, une bonne autonomie et un design élégant. Mon budget est d'environ 800€.",
-  "origin": "auto" (optionnel)
-}</code></pre>
-                            <h5>Exemple de réponse :</h5>
-                            <pre><code class="language-json">{
+                            <h5 class="mt-4">Recommandations de produits</h5>
+                            <h6>POST /api/ai/recommendations</h6>
+                            <pre><code>// Requête
+{
+  "description": "Je cherche un nouveau smartphone avec un bon appareil photo",
+  "origin": "auto"  // Optionnel
+}
+
+// Réponse
+{
   "success": true,
   "data": {
     "recommendations": [
@@ -205,125 +238,191 @@
       "Google Pixel 7",
       "Xiaomi Redmi Note 12"
     ],
-    "origin": "local"
-  },
-  "warning": "Mode secours: Utilisation de l'implémentation locale pour les recommandations."
+    "origin": "openai"
+  }
 }</code></pre>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="test" class="mb-5">
-                    <h2>Tester l'API</h2>
-                    <div class="card">
-                        <div class="card-body">
-                            <form id="test-form" class="mb-4">
-                                <div class="mb-3">
-                                    <label for="endpoint" class="form-label">Endpoint</label>
-                                    <select class="form-select" id="endpoint">
-                                        <option value="/api/ai/config/origin" data-method="GET">GET /api/ai/config/origin</option>
-                                        <option value="/api/ai/config/origin" data-method="POST">POST /api/ai/config/origin</option>
-                                        <option value="/api/ai/sentiment" data-method="POST">POST /api/ai/sentiment</option>
-                                        <option value="/api/ai/summary" data-method="POST">POST /api/ai/summary</option>
-                                        <option value="/api/ai/recommendations" data-method="POST">POST /api/ai/recommendations</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="request-body" class="form-label">Corps de la requête</label>
-                                    <textarea class="form-control" id="request-body" rows="5"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Envoyer</button>
-                            </form>
-                            
-                            <div class="mb-3">
-                                <label for="response" class="form-label">Réponse</label>
-                                <pre><code class="language-json" id="response">// La réponse s'affichera ici</code></pre>
-                            </div>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
-        {% endif %}
     </div>
 
-    <footer class="bg-dark text-white text-center py-3 mt-5">
+    <footer class="py-3 mt-5">
         <div class="container">
-            <p class="mb-0">API IA Multi-Origines - Démonstration technique</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-0">API IA Multi-Origines © 2025</p>
+                </div>
+                <div>
+                    <p class="mb-0">Version Flask • <a href="https://github.com" target="_blank">GitHub</a></p>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Initialiser highlight.js
         document.addEventListener('DOMContentLoaded', () => {
-            hljs.highlightAll();
-            
-            // Générer le corps de la requête en fonction de l'endpoint
-            const endpointSelect = document.getElementById('endpoint');
-            const requestBody = document.getElementById('request-body');
-            
-            function updateRequestBody() {
-                const endpoint = endpointSelect.value;
-                const method = endpointSelect.options[endpointSelect.selectedIndex].dataset.method;
-                
-                if (endpoint === '/api/ai/config/origin' && method === 'POST') {
-                    requestBody.value = JSON.stringify({
-                        origin: "local"
-                    }, null, 2);
-                } else if (endpoint === '/api/ai/sentiment') {
-                    requestBody.value = JSON.stringify({
-                        text: "Je suis très satisfait de ce produit, il fonctionne parfaitement bien.",
-                        origin: "auto"
-                    }, null, 2);
-                } else if (endpoint === '/api/ai/summary') {
-                    requestBody.value = JSON.stringify({
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                        origin: "auto"
-                    }, null, 2);
-                } else if (endpoint === '/api/ai/recommendations') {
-                    requestBody.value = JSON.stringify({
-                        description: "Je recherche un smartphone avec une bonne qualité photo, une bonne autonomie et un design élégant. Mon budget est d'environ 800€.",
-                        origin: "auto"
-                    }, null, 2);
-                } else {
-                    requestBody.value = '';
-                }
-            }
-            
-            endpointSelect.addEventListener('change', updateRequestBody);
-            updateRequestBody();
-            
-            // Gérer la soumission du formulaire
-            const testForm = document.getElementById('test-form');
-            const responseElement = document.getElementById('response');
-            
-            testForm.addEventListener('submit', async (e) => {
+            // Gestion de la navigation par ancres
+            document.querySelectorAll('.list-group-item').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.list-group-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Sélection de la source IA
+            const currentSourceEl = document.getElementById('currentSource');
+            document.querySelectorAll('.ai-source').forEach(item => {
+                item.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const source = this.getAttribute('data-source');
+                    try {
+                        const response = await fetch('/api/ai/config/origin', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ origin: source })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            currentSourceEl.textContent = `Source IA: ${data.data.name}`;
+                        }
+                    } catch (error) {
+                        console.error("Erreur lors du changement de source IA:", error);
+                    }
+                });
+            });
+
+            // Analyse de sentiment
+            const sentimentForm = document.getElementById('sentimentForm');
+            sentimentForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
-                const endpoint = endpointSelect.value;
-                const method = endpointSelect.options[endpointSelect.selectedIndex].dataset.method;
-                const body = requestBody.value ? JSON.parse(requestBody.value) : undefined;
-                
-                responseElement.textContent = 'Chargement...';
-                
+                const text = document.getElementById('sentimentText').value;
+                if (!text) return;
+
                 try {
-                    const response = await fetch(endpoint, {
-                        method,
+                    const response = await fetch('/api/ai/sentiment', {
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: method !== 'GET' ? JSON.stringify(body) : undefined
+                        body: JSON.stringify({ text })
                     });
-                    
                     const data = await response.json();
-                    responseElement.textContent = JSON.stringify(data, null, 2);
-                    hljs.highlightElement(responseElement);
+                    
+                    if (data.success) {
+                        const resultDiv = document.getElementById('sentimentResult');
+                        const dataDiv = document.getElementById('sentimentData');
+                        const originDiv = document.getElementById('sentimentOrigin');
+                        
+                        // Afficher l'évaluation avec des étoiles
+                        const starsHtml = Array(5).fill('').map((_, i) => 
+                            `<i class="bi ${i < data.data.rating ? 'bi-star-fill' : 'bi-star'} text-warning"></i>`
+                        ).join('');
+                        
+                        dataDiv.innerHTML = `
+                            <div class="mb-2">${starsHtml} <strong>${data.data.rating}/5</strong></div>
+                            <div>Confiance: <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: ${data.data.confidence * 100}%;" 
+                                    aria-valuenow="${data.data.confidence * 100}" aria-valuemin="0" aria-valuemax="100">
+                                    ${Math.round(data.data.confidence * 100)}%
+                                </div>
+                            </div></div>
+                        `;
+                        
+                        originDiv.textContent = `Source: ${data.data.origin}${data.warning ? ' (mode secours)' : ''}`;
+                        resultDiv.style.display = 'block';
+                    }
                 } catch (error) {
-                    responseElement.textContent = `Erreur: ${error.message}`;
+                    console.error("Erreur lors de l'analyse de sentiment:", error);
                 }
             });
+
+            // Génération de résumé
+            const summaryForm = document.getElementById('summaryForm');
+            summaryForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const text = document.getElementById('summaryText').value;
+                if (!text) return;
+
+                try {
+                    const response = await fetch('/api/ai/summary', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ text })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        const resultDiv = document.getElementById('summaryResult');
+                        const dataDiv = document.getElementById('summaryData');
+                        const originDiv = document.getElementById('summaryOrigin');
+                        
+                        dataDiv.textContent = data.data.summary;
+                        originDiv.textContent = `Source: ${data.data.origin}${data.warning ? ' (mode secours)' : ''}`;
+                        resultDiv.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de la génération de résumé:", error);
+                }
+            });
+
+            // Recommandations de produits
+            const recommendationsForm = document.getElementById('recommendationsForm');
+            recommendationsForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const description = document.getElementById('recommendationsText').value;
+                if (!description) return;
+
+                try {
+                    const response = await fetch('/api/ai/recommendations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ description })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        const resultDiv = document.getElementById('recommendationsResult');
+                        const dataDiv = document.getElementById('recommendationsData');
+                        const originDiv = document.getElementById('recommendationsOrigin');
+                        
+                        dataDiv.innerHTML = data.data.recommendations.map(rec => `<li>${rec}</li>`).join('');
+                        originDiv.textContent = `Source: ${data.data.origin}${data.warning ? ' (mode secours)' : ''}`;
+                        resultDiv.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de la génération de recommandations:", error);
+                }
+            });
+
+            // Récupérer l'origine IA actuelle au chargement
+            fetch('/api/ai/config/origin')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        currentSourceEl.textContent = `Source IA: ${data.data.name}`;
+                    }
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la récupération de la source IA:", error);
+                });
         });
     </script>
 </body>
