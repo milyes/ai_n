@@ -18,7 +18,10 @@ export default function AI() {
   // Mutation pour l'analyse de sentiment
   const sentimentMutation = useMutation({
     mutationFn: async (text: string) => {
-      return apiRequest("/api/ai/sentiment", {
+      return apiRequest<{
+        success: boolean;
+        data: { rating: number; confidence: number }
+      }>("/api/ai/sentiment", {
         method: "POST",
         body: JSON.stringify({ text }),
         headers: { "Content-Type": "application/json" }
@@ -36,7 +39,10 @@ export default function AI() {
   // Mutation pour la génération de résumé
   const summaryMutation = useMutation({
     mutationFn: async (text: string) => {
-      return apiRequest("/api/ai/summary", {
+      return apiRequest<{
+        success: boolean;
+        data: { summary: string }
+      }>("/api/ai/summary", {
         method: "POST",
         body: JSON.stringify({ text }),
         headers: { "Content-Type": "application/json" }
@@ -54,7 +60,10 @@ export default function AI() {
   // Mutation pour les recommandations de produits
   const recommendationsMutation = useMutation({
     mutationFn: async (description: string) => {
-      return apiRequest("/api/ai/recommendations", {
+      return apiRequest<{
+        success: boolean;
+        data: { recommendations: string[] }
+      }>("/api/ai/recommendations", {
         method: "POST",
         body: JSON.stringify({ description }),
         headers: { "Content-Type": "application/json" }

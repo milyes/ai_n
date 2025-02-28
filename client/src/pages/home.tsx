@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'wouter';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
 import Intro from '@/pages/intro';
@@ -81,6 +82,24 @@ export default function Home() {
           <Endpoints />
           <Validation />
           <ErrorHandling />
+          
+          {/* AI Module Section */}
+          <section id="ai-module" className="mb-12">
+            <h2 className="text-2xl font-medium text-gray-900 mb-4">Module IA</h2>
+            <div className="bg-white rounded-lg shadow p-6">
+              <p className="mb-4">L'API est équipée de fonctionnalités d'intelligence artificielle pour améliorer l'expérience utilisateur et automatiser certaines tâches.</p>
+              
+              <h3 className="text-xl font-medium text-gray-800 mt-6 mb-3">Fonctionnalités d'IA disponibles</h3>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Analyse de sentiment de texte</li>
+                <li>Génération de résumés automatiques</li>
+                <li>Recommandations de produits personnalisées</li>
+              </ul>
+              
+              <h3 className="text-xl font-medium text-gray-800 mt-6 mb-3">Exemples d'utilisation</h3>
+              <p>Pour accéder à toutes les fonctionnalités d'IA et voir des exemples interactifs, visitez la <Link href="/ai" className="text-primary hover:underline">page du module IA</Link>.</p>
+            </div>
+          </section>
           
           {/* Testing Section */}
           <section id="testing" className="mb-12">
