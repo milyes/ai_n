@@ -29,6 +29,60 @@ const originConfigSchema = z.object({
 });
 
 /**
+ * Définir l'origine IA par défaut pour toutes les requêtes
+ */
+export const setDefaultAIOrigin = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { origin } = originConfigSchema.parse(req.body);
+    
+    // Définir la nouvelle origine par défaut
+    setAIOrigin(origin as AIOrigin);
+    
+    // Retourner la configuration actuelle
+    res.json({
+      success: true,
+      data: {
+        origin,
+        name: AI_ORIGINS[origin as AIOrigin].name,
+        description: AI_ORIGINS[origin as AIOrigin].description
+      },
+      message: `L'origine IA par défaut a été définie sur "${AI_ORIGINS[origin as AIOrigin].name}"`
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({
+        success: false,
+        message: "Origine IA invalide",
+        errors: error.errors
+      });
+    } else {
+      next(error);
+    }
+  }
+};
+
+/**
+ * Obtenir l'origine IA par défaut actuelle
+ */
+export const getDefaultAIOrigin = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Obtenir l'origine actuelle
+    const origin = getAIOrigin();
+    
+    res.json({
+      success: true,
+      data: {
+        origin,
+        name: AI_ORIGINS[origin].name,
+        description: AI_ORIGINS[origin].description
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Analyse le sentiment d'un texte
  */
 export const analyzeTextSentiment = async (req: Request, res: Response, next: NextFunction) => {
@@ -43,7 +97,8 @@ export const analyzeTextSentiment = async (req: Request, res: Response, next: Ne
       warning = `Mode secours: Utilisation de l'implémentation locale pour l'analyse de sentiment.`;
     } else if (result.origin) {
       const originInfo = AI_ORIGINS[result.origin as AIOrigin];
-      if (originInfo && !originInfo.isOffline) {
+      // Vérifier si c'est une origine externe (pas locale)
+      if (originInfo && result.origin !== "local") {
         warning = `Analyse effectuée via ${originInfo.name}.`;
       }
     }
@@ -85,7 +140,8 @@ export const generateSummary = async (req: Request, res: Response, next: NextFun
       warning = `Mode secours: Utilisation de l'implémentation locale pour la génération de résumé.`;
     } else if (result.origin) {
       const originInfo = AI_ORIGINS[result.origin as AIOrigin];
-      if (originInfo && !originInfo.isOffline) {
+      // Vérifier si c'est une origine externe (pas locale)
+      if (originInfo && result.origin !== "local") {
         warning = `Résumé généré via ${originInfo.name}.`;
       }
     }
@@ -116,18 +172,28 @@ export const generateSummary = async (req: Request, res: Response, next: NextFun
  */
 export const getProductRecommendations = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { description } = recommendationSchema.parse(req.body);
+    const { description, origin } = recommendationSchema.parse(req.body);
     
-    const result = await generateProductRecommendations(description);
+    const result = await generateProductRecommendations(description, origin as AIOrigin);
     
-    // Si nous avons utilisé la réponse de secours, indiquer un avertissement
-    const warning = result.fromFallback 
-      ? "L'API OpenAI n'est pas disponible actuellement. Les recommandations sont générées par un système de secours et peuvent être moins précises."
-      : undefined;
+    // Message d'avertissement en fonction de l'origine utilisée
+    let warning: string | undefined;
+    if (result.fromFallback) {
+      warning = `Mode secours: Utilisation de l'implémentation locale pour les recommandations.`;
+    } else if (result.origin) {
+      const originInfo = AI_ORIGINS[result.origin as AIOrigin];
+      // Vérifier si c'est une origine externe (pas locale)
+      if (originInfo && result.origin !== "local") {
+        warning = `Recommandations générées via ${originInfo.name}.`;
+      }
+    }
     
     res.json({
       success: true,
-      data: { recommendations: result.recommendations },
+      data: { 
+        recommendations: result.recommendations,
+        origin: result.origin
+      },
       warning
     });
   } catch (error) {
