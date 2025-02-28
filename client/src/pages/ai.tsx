@@ -16,6 +16,8 @@ export default function AI() {
   const [activeTab, setActiveTab] = useState("sentiment");
   const [inputText, setInputText] = useState("");
   const [description, setDescription] = useState("");
+  const [assistantState, setAssistantState] = useState<AssistantState>("idle");
+  const [assistantMessage, setAssistantMessage] = useState<string>("Je suis votre assistant IA. Comment puis-je vous aider ?");
 
   // Mutation pour l'analyse de sentiment
   const sentimentMutation = useMutation({
@@ -80,6 +82,32 @@ export default function AI() {
     }
   });
 
+  // Effet pour mettre à jour l'état de l'assistant en fonction des mutations
+  useEffect(() => {
+    if (sentimentMutation.isPending || summaryMutation.isPending || recommendationsMutation.isPending) {
+      setAssistantState("thinking");
+      setAssistantMessage("Je réfléchis à votre demande...");
+    } else if (sentimentMutation.isSuccess || summaryMutation.isSuccess || recommendationsMutation.isSuccess) {
+      setAssistantState("success");
+      if (sentimentMutation.isSuccess) {
+        const rating = sentimentMutation.data.data.rating;
+        const sentiment = rating >= 4 ? "positif" : rating >= 3 ? "neutre" : "négatif";
+        setAssistantMessage(`Analyse terminée ! Le sentiment est ${sentiment} (${rating}/5).`);
+      } else if (summaryMutation.isSuccess) {
+        setAssistantMessage("J'ai généré un résumé basé sur votre texte.");
+      } else if (recommendationsMutation.isSuccess) {
+        setAssistantMessage("Voici quelques recommandations qui pourraient vous intéresser.");
+      }
+    } else if (sentimentMutation.isError || summaryMutation.isError || recommendationsMutation.isError) {
+      setAssistantState("error");
+      setAssistantMessage("Une erreur est survenue. Veuillez réessayer.");
+    }
+  }, [
+    sentimentMutation.isPending, sentimentMutation.isSuccess, sentimentMutation.isError,
+    summaryMutation.isPending, summaryMutation.isSuccess, summaryMutation.isError,
+    recommendationsMutation.isPending, recommendationsMutation.isSuccess, recommendationsMutation.isError
+  ]);
+
   // Fonction pour analyser le sentiment
   const handleSentimentAnalysis = () => {
     if (!inputText.trim()) {
@@ -90,6 +118,8 @@ export default function AI() {
       });
       return;
     }
+    setAssistantState("listening");
+    setAssistantMessage("J'analyse le sentiment de votre texte...");
     sentimentMutation.mutate(inputText);
   };
 
@@ -103,6 +133,8 @@ export default function AI() {
       });
       return;
     }
+    setAssistantState("listening");
+    setAssistantMessage("Je vais résumer votre texte...");
     summaryMutation.mutate(inputText);
   };
 
@@ -116,6 +148,8 @@ export default function AI() {
       });
       return;
     }
+    setAssistantState("listening");
+    setAssistantMessage("Je cherche des recommandations pour vous...");
     recommendationsMutation.mutate(description);
   };
 
@@ -141,20 +175,56 @@ export default function AI() {
     return stars;
   };
 
+  // Fonction qui gère le changement d'onglet
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    // Réinitialiser l'état de l'assistant
+    setAssistantState("idle");
+    
+    // Adapter le message en fonction de l'onglet sélectionné
+    switch (tab) {
+      case "sentiment":
+        setAssistantMessage("Je peux analyser le sentiment d'un texte pour vous. Entrez votre texte et cliquez sur le bouton.");
+        break;
+      case "summary":
+        setAssistantMessage("Je peux résumer votre texte. Assurez-vous qu'il contient au moins 50 caractères.");
+        break;
+      case "recommendations":
+        setAssistantMessage("Décrivez vos préférences et je vous proposerai des recommandations personnalisées.");
+        break;
+      case "demo":
+        setAssistantMessage("Découvrez toutes les animations de l'assistant IA !");
+        break;
+      default:
+        setAssistantMessage("Je suis votre assistant IA. Comment puis-je vous aider ?");
+    }
+  };
+
   return (
     <div className="container py-10">
       <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-600 to-violet-600 text-transparent bg-clip-text">
         Module d'Intelligence Artificielle
       </h1>
+      
+      {/* Assistant IA animé */}
+      <div className="flex justify-center mb-6">
+        <AssistantAnimation 
+          state={assistantState} 
+          size="lg" 
+          message={assistantMessage}
+        />
+      </div>
+      
       <p className="text-lg mb-8 text-gray-700 dark:text-gray-300">
         Explorez nos fonctionnalités alimentées par l'IA pour améliorer votre expérience utilisateur et obtenir des informations précieuses.
       </p>
       
-      <Tabs defaultValue="sentiment" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+      <Tabs defaultValue="sentiment" value={activeTab} onValueChange={handleTabChange} className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="sentiment">Analyse de Sentiment</TabsTrigger>
           <TabsTrigger value="summary">Génération de Résumé</TabsTrigger>
           <TabsTrigger value="recommendations">Recommandations</TabsTrigger>
+          <TabsTrigger value="demo">Démo Assistant</TabsTrigger>
         </TabsList>
         
         {/* Onglet Analyse de Sentiment */}
@@ -323,6 +393,12 @@ export default function AI() {
               </Button>
             </CardFooter>
           </Card>
+        </TabsContent>
+        {/* Onglet Démo Assistant */}
+        <TabsContent value="demo">
+          <div className="mt-4">
+            <AssistantDemo />
+          </div>
         </TabsContent>
       </Tabs>
     </div>
