@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appareils - NetSecure Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-shield-alt me-2"></i>
+                <span class="gradient-text">NetSecure Pro</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Tableau de bord</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/devices">Appareils</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reports">Rapports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings">Paramètres</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i> Utilisateur
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-dark-card">
+                            <li><a class="dropdown-item text-light" href="/profile"><i class="fas fa-user me-2"></i>Profil</a></li>
+                            <li><a class="dropdown-item text-light" href="/settings"><i class="fas fa-cog me-2"></i>Paramètres</a></li>
+                            <li><hr class="dropdown-divider border-secondary"></li>
+                            <li><a class="dropdown-item text-light" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h1 class="fw-bold">Appareils connectés</h1>
+                <p class="text-muted">Gestionnaire des appareils réseau</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <button class="btn btn-primary" id="scanNetwork">
+                    <i class="fas fa-sync-alt me-2"></i>Analyser le réseau
+                </button>
+                <div class="dropdown d-inline-block ms-2">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="deviceFilter" data-bs-toggle="dropdown">
+                        <i class="fas fa-filter me-2"></i>Filtrer
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end bg-dark-card">
+                        <li><a class="dropdown-item text-light" href="#" data-filter="all">Tous les appareils</a></li>
+                        <li><a class="dropdown-item text-light" href="#" data-filter="secure">Sécurisés</a></li>
+                        <li><a class="dropdown-item text-light" href="#" data-filter="vulnerable">Vulnérables</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-light" href="#" data-filter="computer">Ordinateurs</a></li>
+                        <li><a class="dropdown-item text-light" href="#" data-filter="mobile">Appareils mobiles</a></li>
+                        <li><a class="dropdown-item text-light" href="#" data-filter="iot">Appareils IoT</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-dark-card border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="device-stat p-3 rounded bg-dark text-center h-100">
+                                    <div class="stat-icon mb-2">
+                                        <i class="fas fa-laptop fa-2x"></i>
+                                    </div>
+                                    <h5 class="mb-1">12</h5>
+                                    <p class="mb-0 small text-muted">Appareils totaux</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="device-stat p-3 rounded bg-dark text-center h-100">
+                                    <div class="stat-icon mb-2 text-success">
+                                        <i class="fas fa-shield-alt fa-2x"></i>
+                                    </div>
+                                    <h5 class="mb-1 text-success">10</h5>
+                                    <p class="mb-0 small text-muted">Appareils sécurisés</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="device-stat p-3 rounded bg-dark text-center h-100">
+                                    <div class="stat-icon mb-2 text-danger">
+                                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                                    </div>
+                                    <h5 class="mb-1 text-danger">2</h5>
+                                    <p class="mb-0 small text-muted">Appareils vulnérables</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="device-stat p-3 rounded bg-dark text-center h-100">
+                                    <div class="stat-icon mb-2 text-info">
+                                        <i class="fas fa-wifi fa-2x"></i>
+                                    </div>
+                                    <h5 class="mb-1 text-info">1</h5>
+                                    <p class="mb-0 small text-muted">Connexion active</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-dark-card border-0 shadow">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-devices mb-0">
+                                <thead class="bg-dark">
+                                    <tr>
+                                        <th>Appareil</th>
+                                        <th>Adresse IP</th>
+                                        <th>Adresse MAC</th>
+                                        <th>Type</th>
+                                        <th>Sécurité</th>
+                                        <th>Dernière activité</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="device-row" data-type="computer" data-status="secure">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="device-icon me-3">
+                                                    <i class="fas fa-laptop"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="device-name">MacBook Pro</div>
+                                                    <small class="text-muted">Hôte principal</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>192.168.1.5</td>
+                                        <td>A1:B2:C3:D4:E5:F6</td>
+                                        <td><span class="badge bg-primary">Ordinateur</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="security-score secure me-2">95</span>
+                                                <span class="badge bg-success">Sécurisé</span>
+                                            </div>
+                                        </td>
+                                        <td>Maintenant</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#deviceModal">Détails</button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="device-row" data-type="mobile" data-status="secure">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="device-icon me-3">
+                                                    <i class="fas fa-mobile-alt"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="device-name">iPhone 14</div>
+                                                    <small class="text-muted">iOS 16.5</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>192.168.1.10</td>
+                                        <td>B2:C3:D4:E5:F6:A1</td>
+                                        <td><span class="badge bg-info">Mobile</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="security-score secure me-2">88</span>
+                                                <span class="badge bg-success">Sécurisé</span>
+                                            </div>
+                                        </td>
+                                        <td>Il y a 5 min</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#deviceModal">Détails</button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="device-row" data-type="iot" data-status="vulnerable">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="device-icon me-3">
+                                                    <i class="fas fa-lightbulb"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="device-name">Smart Bulb</div>
+                                                    <small class="text-muted">Philips Hue</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>192.168.1.15</td>
+                                        <td>C3:D4:E5:F6:A1:B2</td>
+                                        <td><span class="badge bg-warning">IoT</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="security-score vulnerable me-2">45</span>
+                                                <span class="badge bg-danger">Vulnérable</span>
+                                            </div>
+                                        </td>
+                                        <td>Il y a 15 min</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#deviceModal">Détails</button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="device-row" data-type="mobile" data-status="secure">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="device-icon me-3">
+                                                    <i class="fas fa-tablet-alt"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="device-name">iPad</div>
+                                                    <small class="text-muted">iPadOS 16</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>192.168.1.20</td>
+                                        <td>D4:E5:F6:A1:B2:C3</td>
+                                        <td><span class="badge bg-info">Mobile</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="security-score secure me-2">90</span>
+                                                <span class="badge bg-success">Sécurisé</span>
+                                            </div>
+                                        </td>
+                                        <td>Il y a 30 min</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#deviceModal">Détails</button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="device-row" data-type="iot" data-status="vulnerable">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="device-icon me-3">
+                                                    <i class="fas fa-video"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="device-name">Caméra IP</div>
+                                                    <small class="text-muted">Foscam R2</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>192.168.1.25</td>
+                                        <td>E5:F6:A1:B2:C3:D4</td>
+                                        <td><span class="badge bg-warning">IoT</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="security-score vulnerable me-2">38</span>
+                                                <span class="badge bg-danger">Vulnérable</span>
+                                            </div>
+                                        </td>
+                                        <td>Il y a 45 min</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#deviceModal">Détails</button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="device-row" data-type="computer" data-status="secure">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="device-icon me-3">
+                                                    <i class="fas fa-desktop"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="device-name">PC Bureau</div>
+                                                    <small class="text-muted">Windows 11</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>192.168.1.30</td>
+                                        <td>F6:A1:B2:C3:D4:E5</td>
+                                        <td><span class="badge bg-primary">Ordinateur</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="security-score secure me-2">85</span>
+                                                <span class="badge bg-success">Sécurisé</span>
+                                            </div>
+                                        </td>
+                                        <td>Il y a 1h</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#deviceModal">Détails</button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal détails de l'appareil -->
+    <div class="modal fade" id="deviceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark-card">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Détails de l'appareil : Smart Bulb
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="device-details">
+                                <p><strong>Nom :</strong> Smart Bulb (Philips Hue)</p>
+                                <p><strong>Adresse IP :</strong> 192.168.1.15</p>
+                                <p><strong>Adresse MAC :</strong> C3:D4:E5:F6:A1:B2</p>
+                                <p><strong>Fabricant :</strong> Philips Lighting</p>
+                                <p><strong>Version firmware :</strong> 1.46.13 <span class="badge bg-warning">Obsolète</span></p>
+                                <p><strong>Dernière connexion :</strong> Aujourd'hui, 15:42</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="security-details">
+                                <div class="device-security-score mb-3">
+                                    <h6>Score de sécurité</h6>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 45%">45/100</div>
+                                    </div>
+                                </div>
+                                <div class="vulnerabilities">
+                                    <h6>Vulnérabilités détectées</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-exclamation-circle text-danger me-2"></i> Firmware obsolète (dernière version: 1.50.2)</li>
+                                        <li class="mb-2"><i class="fas fa-exclamation-circle text-danger me-2"></i> Communication non chiffrée</li>
+                                        <li class="mb-2"><i class="fas fa-exclamation-circle text-warning me-2"></i> Authentification faible</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="recommendations">
+                                <h6>Recommandations de sécurité</h6>
+                                <div class="list-group list-group-flush bg-transparent">
+                                    <div class="list-group-item bg-dark border-secondary">
+                                        <div class="d-flex w-100 justify-content-between mb-1">
+                                            <h6 class="mb-1">Mettre à jour le firmware</h6>
+                                            <span class="badge bg-danger">Critique</span>
+                                        </div>
+                                        <p class="mb-1 small">Mettez à jour le firmware vers la version 1.50.2 pour corriger les vulnérabilités connues.</p>
+                                    </div>
+                                    <div class="list-group-item bg-dark border-secondary">
+                                        <div class="d-flex w-100 justify-content-between mb-1">
+                                            <h6 class="mb-1">Isoler sur un réseau séparé</h6>
+                                            <span class="badge bg-warning">Important</span>
+                                        </div>
+                                        <p class="mb-1 small">Placez les appareils IoT sur un réseau WiFi invité ou un VLAN distinct pour limiter l'accès à votre réseau principal.</p>
+                                    </div>
+                                    <div class="list-group-item bg-dark border-secondary">
+                                        <div class="d-flex w-100 justify-content-between mb-1">
+                                            <h6 class="mb-1">Modifier les identifiants par défaut</h6>
+                                            <span class="badge bg-warning">Important</span>
+                                        </div>
+                                        <p class="mb-1 small">Changez les identifiants par défaut de l'appareil pour empêcher les accès non autorisés.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Appliquer les recommandations</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 bg-dark">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-md-0">&copy; 2025 NetSecure Pro. Tous droits réservés.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation du scan réseau
+            const scanButton = document.getElementById('scanNetwork');
+            if (scanButton) {
+                scanButton.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    icon.classList.add('fa-spin');
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-sync-alt fa-spin me-2"></i>Analyse en cours...';
+                    
+                    // Simuler la fin de l'analyse après 3 secondes
+                    setTimeout(() => {
+                        icon.classList.remove('fa-spin');
+                        this.disabled = false;
+                        this.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Analyser le réseau';
+                        
+                        // Afficher une notification
+                        alert('Analyse du réseau terminée. 12 appareils détectés.');
+                    }, 3000);
+                });
+            }
+            
+            // Filtrage des appareils
+            const filterLinks = document.querySelectorAll('[data-filter]');
+            const deviceRows = document.querySelectorAll('.device-row');
+            
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const filter = this.getAttribute('data-filter');
+                    document.getElementById('deviceFilter').textContent = this.textContent;
+                    
+                    deviceRows.forEach(row => {
+                        if (filter === 'all') {
+                            row.style.display = '';
+                        } else if (filter === 'secure' || filter === 'vulnerable') {
+                            row.style.display = row.getAttribute('data-status') === filter ? '' : 'none';
+                        } else {
+                            row.style.display = row.getAttribute('data-type') === filter ? '' : 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <style>
+        /* Styles supplémentaires pour la page des appareils */
+        .table-devices {
+            color: var(--text-color);
+        }
+        
+        .table-devices th {
+            border-top: none;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 1rem;
+        }
+        
+        .table-devices td {
+            vertical-align: middle;
+            padding: 1rem;
+            border-color: var(--border-color);
+        }
+        
+        .device-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .security-score {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .security-score.secure {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .security-score.vulnerable {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .dropdown-menu {
+            padding: 0.5rem;
+        }
+        
+        .dropdown-item {
+            border-radius: 5px;
+            padding: 0.5rem 0.75rem;
+        }
+    </style>
+</body>
+</html>

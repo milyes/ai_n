@@ -323,6 +323,16 @@ def register():
     """Page d'inscription"""
     return render_template('register.html')
 
+@app.route('/dashboard')
+def dashboard():
+    """Tableau de bord"""
+    return render_template('dashboard.html')
+
+@app.route('/devices')
+def devices():
+    """Liste des appareils"""
+    return render_template('devices.html')
+
 # Routes API pour l'IA
 
 @app.route('/api/ai/config/origin', methods=['GET'])
