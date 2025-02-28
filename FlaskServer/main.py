@@ -3,6 +3,7 @@ import logging
 import requests
 import os
 import json
+import time
 from flask_cors import CORS
 
 # Configuration du logging
@@ -33,6 +34,146 @@ AI_ORIGINS = {
 
 # Origine par défaut
 current_origin = "auto"
+
+# Configuration et gestion OpenAI
+def get_openai_client():
+    if not OPENAI_API_KEY:
+        logger.warning("La clé API OpenAI n'est pas disponible")
+        return None
+    return {"api_key": OPENAI_API_KEY}
+
+def openai_sentiment_analysis(text):
+    """Analyse de sentiment avec OpenAI"""
+    if not OPENAI_API_KEY:
+        return None
+    
+    try:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}"
+        }
+        
+        payload = {
+            "model": "gpt-4o",  # le modèle le plus récent (après votre date de connaissance)
+            "messages": [
+                {
+                    "role": "system", 
+                    "content": "Tu es un expert en analyse de sentiment. Analyse le sentiment du texte fourni et fournit une évaluation de 1 à 5 étoiles et un niveau de confiance entre 0 et 1. Réponds uniquement avec un objet JSON ayant les clés 'rating' (nombre entier) et 'confidence' (nombre décimal)."
+                },
+                {
+                    "role": "user",
+                    "content": text
+                }
+            ],
+            "response_format": {"type": "json_object"}
+        }
+        
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers=headers,
+            json=payload
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            content = json.loads(result['choices'][0]['message']['content'])
+            return {
+                "rating": content.get("rating", 3),
+                "confidence": content.get("confidence", 0.5)
+            }
+        else:
+            logger.error(f"Erreur OpenAI: {response.status_code} - {response.text}")
+            return None
+            
+    except Exception as e:
+        logger.error(f"Exception lors de l'appel OpenAI: {e}")
+        return None
+
+def openai_summarize(text):
+    """Génération de résumé avec OpenAI"""
+    if not OPENAI_API_KEY:
+        return None
+    
+    try:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}"
+        }
+        
+        payload = {
+            "model": "gpt-4o",
+            "messages": [
+                {
+                    "role": "system", 
+                    "content": "Tu es un expert en rédaction de résumés concis. Résume le texte fourni en préservant les informations essentielles."
+                },
+                {
+                    "role": "user",
+                    "content": f"Résume ce texte en français de façon concise:\n\n{text}"
+                }
+            ]
+        }
+        
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers=headers,
+            json=payload
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            return result['choices'][0]['message']['content']
+        else:
+            logger.error(f"Erreur OpenAI: {response.status_code} - {response.text}")
+            return None
+            
+    except Exception as e:
+        logger.error(f"Exception lors de l'appel OpenAI: {e}")
+        return None
+
+def openai_recommendations(description):
+    """Recommandations de produits avec OpenAI"""
+    if not OPENAI_API_KEY:
+        return None
+    
+    try:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}"
+        }
+        
+        payload = {
+            "model": "gpt-4o",
+            "messages": [
+                {
+                    "role": "system", 
+                    "content": "Tu es un expert en recommandations de produits. Fournis une liste de 4 recommandations de produits spécifiques avec leurs noms exacts (pas de descriptions génériques) basées sur la description des préférences de l'utilisateur. Réponds uniquement avec un objet JSON contenant une clé 'recommendations' qui contient un tableau de chaînes de caractères représentant les noms des produits."
+                },
+                {
+                    "role": "user",
+                    "content": description
+                }
+            ],
+            "response_format": {"type": "json_object"}
+        }
+        
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers=headers,
+            json=payload
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            content = json.loads(result['choices'][0]['message']['content'])
+            return content.get("recommendations", [])
+        else:
+            logger.error(f"Erreur OpenAI: {response.status_code} - {response.text}")
+            return None
+            
+    except Exception as e:
+        logger.error(f"Exception lors de l'appel OpenAI: {e}")
+        return None
 
 # Implémentations locales
 def local_sentiment_analysis(text):
@@ -159,19 +300,47 @@ def analyze_sentiment():
             "message": f"Invalid origin: {origin}"
         }), 400
     
-    # Pour cette démonstration, nous utilisons toujours l'implémentation locale
     logger.info(f"Analyzing sentiment with origin: {origin}")
-    result = local_sentiment_analysis(text)
     
-    return jsonify({
+    # Sélection de l'implémentation en fonction de l'origine demandée
+    effective_origin = origin
+    result = None
+    warning = None
+    
+    if origin == "openai" or origin == "auto":
+        # Essayer OpenAI en premier si demandé ou en mode auto
+        result = openai_sentiment_analysis(text)
+        if result:
+            effective_origin = "openai"
+        elif origin == "auto":
+            # Fallback vers l'implémentation locale en mode auto
+            result = local_sentiment_analysis(text)
+            effective_origin = "local"
+            warning = "Mode secours: Utilisation de l'implémentation locale (OpenAI indisponible)."
+        else:
+            # Erreur si OpenAI explicitement demandé mais non disponible
+            return jsonify({
+                "success": False,
+                "message": "Service OpenAI non disponible. Réessayez plus tard ou utilisez l'origine 'local'."
+            }), 503
+    else:
+        # Utilisation de l'implémentation locale si explicitement demandée
+        result = local_sentiment_analysis(text)
+        effective_origin = "local"
+    
+    response = {
         "success": True,
         "data": {
             "rating": result["rating"],
             "confidence": result["confidence"],
-            "origin": "local"
-        },
-        "warning": "Mode secours: Utilisation de l'implémentation locale pour l'analyse de sentiment."
-    })
+            "origin": effective_origin
+        }
+    }
+    
+    if warning:
+        response["warning"] = warning
+    
+    return jsonify(response)
 
 @app.route('/api/ai/summary', methods=['POST'])
 def generate_summary():
@@ -193,18 +362,46 @@ def generate_summary():
             "message": f"Invalid origin: {origin}"
         }), 400
     
-    # Pour cette démonstration, nous utilisons toujours l'implémentation locale
     logger.info(f"Generating summary with origin: {origin}")
-    summary = local_summarize(text)
     
-    return jsonify({
+    # Sélection de l'implémentation en fonction de l'origine demandée
+    effective_origin = origin
+    summary = None
+    warning = None
+    
+    if origin == "openai" or origin == "auto":
+        # Essayer OpenAI en premier si demandé ou en mode auto
+        summary = openai_summarize(text)
+        if summary:
+            effective_origin = "openai"
+        elif origin == "auto":
+            # Fallback vers l'implémentation locale en mode auto
+            summary = local_summarize(text)
+            effective_origin = "local"
+            warning = "Mode secours: Utilisation de l'implémentation locale (OpenAI indisponible)."
+        else:
+            # Erreur si OpenAI explicitement demandé mais non disponible
+            return jsonify({
+                "success": False,
+                "message": "Service OpenAI non disponible. Réessayez plus tard ou utilisez l'origine 'local'."
+            }), 503
+    else:
+        # Utilisation de l'implémentation locale si explicitement demandée
+        summary = local_summarize(text)
+        effective_origin = "local"
+    
+    response = {
         "success": True,
         "data": {
             "summary": summary,
-            "origin": "local"
-        },
-        "warning": "Mode secours: Utilisation de l'implémentation locale pour la génération de résumé."
-    })
+            "origin": effective_origin
+        }
+    }
+    
+    if warning:
+        response["warning"] = warning
+    
+    return jsonify(response)
 
 @app.route('/api/ai/recommendations', methods=['POST'])
 def get_recommendations():
@@ -226,18 +423,46 @@ def get_recommendations():
             "message": f"Invalid origin: {origin}"
         }), 400
     
-    # Pour cette démonstration, nous utilisons toujours l'implémentation locale
     logger.info(f"Generating recommendations with origin: {origin}")
-    recommendations = local_recommendations(description)
     
-    return jsonify({
+    # Sélection de l'implémentation en fonction de l'origine demandée
+    effective_origin = origin
+    recommendations = None
+    warning = None
+    
+    if origin == "openai" or origin == "auto":
+        # Essayer OpenAI en premier si demandé ou en mode auto
+        recommendations = openai_recommendations(description)
+        if recommendations:
+            effective_origin = "openai"
+        elif origin == "auto":
+            # Fallback vers l'implémentation locale en mode auto
+            recommendations = local_recommendations(description)
+            effective_origin = "local"
+            warning = "Mode secours: Utilisation de l'implémentation locale (OpenAI indisponible)."
+        else:
+            # Erreur si OpenAI explicitement demandé mais non disponible
+            return jsonify({
+                "success": False,
+                "message": "Service OpenAI non disponible. Réessayez plus tard ou utilisez l'origine 'local'."
+            }), 503
+    else:
+        # Utilisation de l'implémentation locale si explicitement demandée
+        recommendations = local_recommendations(description)
+        effective_origin = "local"
+    
+    response = {
         "success": True,
         "data": {
             "recommendations": recommendations,
-            "origin": "local"
-        },
-        "warning": "Mode secours: Utilisation de l'implémentation locale pour les recommandations."
-    })
+            "origin": effective_origin
+        }
+    }
+    
+    if warning:
+        response["warning"] = warning
+    
+    return jsonify(response)
 
 @app.errorhandler(404)
 def page_non_trouvee(error):
@@ -252,4 +477,13 @@ def erreur_serveur(error):
                          error="Erreur serveur. Veuillez réessayer plus tard."), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Utilisation du port 5001 pour ne pas interférer avec le serveur Express sur le port 5000
+    port = int(os.environ.get('PORT', 5001))
+    
+    logger.info(f"==== API IA Multi-Origines (Flask) ====")
+    logger.info(f"Démarrage du serveur sur le port {port}")
+    logger.info(f"OpenAI API disponible: {'Oui' if OPENAI_API_KEY else 'Non'}")
+    logger.info(f"URL: http://0.0.0.0:{port}")
+    logger.info(f"======================================")
+    
+    app.run(host='0.0.0.0', port=port, debug=True)
