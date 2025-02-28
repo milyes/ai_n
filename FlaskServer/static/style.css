@@ -1,23 +1,134 @@
-/* Styles additionnels spécifiques */
+/* Styles pour l'API IA Multi-Origines */
+
+:root {
+    --accent-color: #3a86ff;
+    --accent-dark: #2563eb;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+}
+
 body {
-    background: var(--bs-dark);
-    color: var(--bs-light);
+    font-family: 'Roboto', sans-serif;
+    background-color: #0f172a;
+    color: #f8fafc;
+    line-height: 1.6;
 }
 
+.container {
+    max-width: 1200px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    color: #f1f5f9;
+}
+
+h2 {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 0.5rem;
+}
+
+/* Cartes */
 .card {
-    border-radius: 15px;
+    background-color: #1e293b;
+    border: none;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
 }
 
-.display-4 {
-    font-weight: 300;
-    color: var(--bs-info);
+.card-header {
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
 }
 
-.lead {
-    font-size: 1.25rem;
+.card-header.bg-primary {
+    background-color: var(--accent-color) !important;
 }
 
-.alert {
-    border-radius: 10px;
+.card-header.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+code {
+    background-color: #0f172a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 90%;
+}
+
+pre {
+    background-color: #0f172a;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Navigation */
+.list-group-item {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: #334155;
+    color: #f8fafc;
+}
+
+.list-group-item.active {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Formulaire */
+.form-control, .form-select {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #0f172a;
+    border-color: var(--accent-color);
+    color: #f8fafc;
+    box-shadow: 0 0 0 0.25rem rgba(58, 134, 255, 0.25);
+}
+
+textarea {
+    min-height: 120px;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--accent-dark);
+    border-color: var(--accent-dark);
+}
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    background-color: #0f172a !important;
+    border-top: 1px solid #334155;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .list-group {
+        position: static !important;
+    }
 }
