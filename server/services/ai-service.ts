@@ -235,7 +235,7 @@ function localRecommendations(description: string): string[] {
     // Sélectionner des produits des catégories d'intérêt identifiées
     if (potentialCategories.length > 0) {
       // Choisir jusqu'à 2 catégories uniques
-      const uniqueCategories = [...new Set(potentialCategories)].slice(0, 2);
+      const uniqueCategories = Array.from(new Set(potentialCategories)).slice(0, 2);
       
       uniqueCategories.forEach(category => {
         if (productCatalog[category]) {

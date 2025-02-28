@@ -19,7 +19,7 @@ async function testAiService() {
     const positiveText = "J'adore ce produit, c'est fantastique et incroyable!";
     console.log(`   Texte positif: "${positiveText}"`);
     
-    const positiveResponse = await fetch('http://localhost:5000/api/ai/analyze-sentiment', {
+    const positiveResponse = await fetch('http://localhost:5000/api/ai/sentiment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: positiveText })
@@ -31,7 +31,7 @@ async function testAiService() {
     const negativeText = "Ce produit est terrible, je suis très déçu.";
     console.log(`   Texte négatif: "${negativeText}"`);
     
-    const negativeResponse = await fetch('http://localhost:5000/api/ai/analyze-sentiment', {
+    const negativeResponse = await fetch('http://localhost:5000/api/ai/sentiment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: negativeText })
@@ -57,7 +57,7 @@ async function testAiService() {
     
     console.log(`   Texte à résumer: "${longText.substring(0, 100)}..."`);
     
-    const summaryResponse = await fetch('http://localhost:5000/api/ai/summarize', {
+    const summaryResponse = await fetch('http://localhost:5000/api/ai/summary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: longText })
