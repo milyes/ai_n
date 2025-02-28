@@ -64,8 +64,8 @@ async function testAiService() {
     });
     
     const summaryResult = await summaryResponse.json();
-    console.log(`   Résumé: "${summaryResult.summary}"`);
-    console.log(`   Mode secours utilisé: ${summaryResult.fromFallback ? 'Oui' : 'Non'}`);
+    console.log(`   Résumé: "${summaryResult.data.summary}"`);
+    console.log(`   Mode secours utilisé: ${summaryResult.warning ? 'Oui' : 'Non'}`);
     
     console.log('✅ Test de génération de résumé terminé\n');
   } catch (error) {
@@ -79,15 +79,15 @@ async function testAiService() {
     const description = "Je cherche des produits pour la cuisine, notamment pour préparer des pâtisseries.";
     console.log(`   Description: "${description}"`);
     
-    const recommendationResponse = await fetch('http://localhost:5000/api/ai/recommend-products', {
+    const recommendationResponse = await fetch('http://localhost:5000/api/ai/recommendations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ description })
     });
     
     const recommendationResult = await recommendationResponse.json();
-    console.log(`   Recommandations: ${JSON.stringify(recommendationResult.recommendations, null, 2)}`);
-    console.log(`   Mode secours utilisé: ${recommendationResult.fromFallback ? 'Oui' : 'Non'}`);
+    console.log(`   Recommandations: ${JSON.stringify(recommendationResult.data.recommendations, null, 2)}`);
+    console.log(`   Mode secours utilisé: ${recommendationResult.warning ? 'Oui' : 'Non'}`);
     
     console.log('✅ Test de recommandation de produits terminé\n');
   } catch (error) {
