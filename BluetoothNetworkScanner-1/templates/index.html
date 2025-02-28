@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statut des Réseaux</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .network-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .network-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ddd;
+            transition: all 0.5s ease;
+        }
+        .status-indicator.active {
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+        .status-indicator.connecting {
+            background: #FFC107;
+            animation: blink 1s infinite;
+        }
+        .status-indicator.error {
+            background: #F44336;
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes pulse {
+            0% { 
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+                transform: scale(1.1);
+            }
+            100% { 
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+                transform: scale(1);
+            }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+        .signal-bar {
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .signal-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        .signal-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,255,255,0.3) 50%, 
+                transparent 100%);
+            animation: wave 2s infinite linear;
+            transform-origin: 0 0;
+        }
+        @keyframes wave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .network-info {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .network-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .network-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+        .network-card:hover .network-icon {
+            transform: scale(1.1);
+        }
+        .network-emoji {
+            font-size: 2em;  /* Augmentation de la taille */
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            transition: transform 0.3s ease;
+            opacity: 1;  /* Toujours visible */
+            z-index: 10;  /* Au-dessus des autres éléments */
+        }
+        .emoji-reaction {
+            display: inline-block;
+            animation: bounce 1s ease infinite;  /* Animation plus lente et continue */
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.1); }  /* Animation plus prononcée */
+        }
+    </style>
+</head>
+<body>
+    <div class="network-grid">
+        <div class="network-card" id="wifi-card">
+            <div class="network-label">
+                <div class="network-emoji" id="wifi-emoji">📶</div>
+                <svg class="network-icon" viewBox="0 0 24 24">
+                    <path d="M12 21l-1.5-1.5L12 18l1.5 1.5L12 21zm3-3l-1.5-1.5L15 15l1.5 1.5L15 18zm-6 0l-1.5-1.5L9 15l1.5 1.5L9 18zm9-3l-1.5-1.5L18 12l1.5 1.5L18 15zm-12 0l-1.5-1.5L6 12l1.5 1.5L6 15zm15-3l-1.5-1.5L21 9l1.5 1.5L21 12zM3 12l-1.5-1.5L3 9l1.5 1.5L3 12z"/>
+                </svg>
+                <h3>WiFi</h3>
+            </div>
+            <div class="status-indicator" id="wifi-status"></div>
+            <div class="signal-bar">
+                <div class="signal-fill" id="wifi-signal"></div>
+            </div>
+            <div class="network-info" id="wifi-info">
+                Chargement...
+            </div>
+        </div>
+
+        <div class="network-card" id="bluetooth-card">
+            <div class="network-label">
+                <div class="network-emoji" id="bluetooth-emoji">🔄</div>
+                <svg class="network-icon" viewBox="0 0 24 24">
+                    <path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/>
+                </svg>
+                <h3>Bluetooth</h3>
+            </div>
+            <div class="status-indicator" id="bluetooth-status"></div>
+            <div class="signal-bar">
+                <div class="signal-fill" id="bluetooth-signal"></div>
+            </div>
+            <div class="network-info" id="bluetooth-info">
+                Chargement...
+            </div>
+        </div>
+
+        <div class="network-card" id="lte-card">
+            <div class="network-label">
+                <div class="network-emoji" id="lte-emoji">📱</div>
+                <svg class="network-icon" viewBox="0 0 24 24">
+                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+                <h3>LTE</h3>
+            </div>
+            <div class="status-indicator" id="lte-status"></div>
+            <div class="signal-bar">
+                <div class="signal-fill" id="lte-signal"></div>
+            </div>
+            <div class="network-info" id="lte-info">
+                Chargement...
+            </div>
+        </div>
+
+        <div class="network-card" id="esim-card">
+            <div class="network-label">
+                <div class="network-emoji" id="esim-emoji">💳</div>
+                <svg class="network-icon" viewBox="0 0 24 24">
+                    <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14h2v-2h-2v2z"/>
+                </svg>
+                <h3>eSIM</h3>
+            </div>
+            <div class="status-indicator" id="esim-status"></div>
+            <div class="signal-bar">
+                <div class="signal-fill" id="esim-signal"></div>
+            </div>
+            <div class="network-info" id="esim-info">
+                Chargement...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getNetworkEmoji(status, type) {
+            const emojis = {
+                wifi: {
+                    excellent: '📶 ✨',  /* Émojis plus expressifs */
+                    good: '📡 👍',
+                    poor: '📶 ⚠️',
+                    disconnected: '📵 ❌',
+                    secure: '🔒 ✅',
+                    unsecure: '🔓 ⚠️'
+                },
+                bluetooth: {
+                    connected: '🎧 ✅',
+                    searching: '🔄 🔍',
+                    disconnected: '🎧 ❌'
+                },
+                lte: {
+                    excellent: '📱 ✨',
+                    good: '📱 👍',
+                    poor: '📱 ⚠️',
+                    roaming: '🌍 📱'
+                },
+                esim: {
+                    active: '💳 ✨',
+                    inactive: '💳 ❌'
+                }
+            };
+
+            if (!status.actif) {
+                return type === 'wifi' ? emojis.wifi.disconnected :
+                       type === 'bluetooth' ? emojis.bluetooth.disconnected :
+                       type === 'lte' ? emojis.lte.poor :
+                       emojis.esim.inactive;
+            }
+
+            switch(type) {
+                case 'wifi':
+                    if (status.qualite_signal > 0.8) return emojis.wifi.excellent;
+                    if (status.qualite_signal > 0.4) return emojis.wifi.good;
+                    return emojis.wifi.poor;
+                case 'bluetooth':
+                    return status.appareils_connectes > 0 ? 
+                           emojis.bluetooth.connected : emojis.bluetooth.searching;
+                case 'lte':
+                    return status.qualite_signal > 0.7 ? 
+                           emojis.lte.excellent : emojis.lte.poor;
+                case 'esim':
+                    return status.actif ? emojis.esim.active : emojis.esim.inactive;
+                default:
+                    return '❓ ❌';
+            }
+        }
+
+        function updateNetworkStatus(status) {
+            // Mise à jour WiFi avec emoji amélioré
+            const wifiStatus = status.wifi;
+            const wifiEmoji = document.getElementById('wifi-emoji');
+            wifiEmoji.textContent = getNetworkEmoji(wifiStatus, 'wifi');
+            wifiEmoji.className = 'network-emoji emoji-reaction';
+
+            // Mise à jour des autres éléments WiFi
+            const wifiStatusIndicator = document.getElementById('wifi-status');
+            wifiStatusIndicator.className = 'status-indicator';
+            if (wifiStatus.actif) {
+                wifiStatusIndicator.classList.add('active');
+            } else {
+                wifiStatusIndicator.classList.add('error');
+            }
+
+            document.getElementById('wifi-signal').style.width = 
+                `${wifiStatus.qualite_signal * 100}%`;
+
+            if (wifiStatus.meilleur_reseau) {
+                document.getElementById('wifi-info').innerHTML = `
+                    Réseau: ${wifiStatus.meilleur_reseau.nom}<br>
+                    Signal: ${wifiStatus.meilleur_reseau.puissance} dBm<br>
+                    Réseaux détectés: ${wifiStatus.nombre_reseaux}
+                `;
+            }
+
+            // Mise à jour des autres interfaces avec emojis
+            ['bluetooth', 'lte', 'esim'].forEach((type) => {
+                const status = window.status[type];
+                if (status) {
+                    const emoji = document.getElementById(`${type}-emoji`);
+                    emoji.textContent = getNetworkEmoji(status, type);
+                    emoji.className = 'network-emoji emoji-reaction';
+
+                    const indicator = document.getElementById(`${type}-status`);
+                    indicator.className = 'status-indicator';
+                    indicator.classList.add(status.actif ? 'active' : 'error');
+
+                    const signal = document.getElementById(`${type}-signal`);
+                    signal.style.width = `${status.qualite_signal * 100 || 0}%`;
+                }
+            });
+        }
+
+        // Mettre à jour le statut toutes les 5 secondes
+        function fetchStatus() {
+            fetch('/api/network_status')
+                .then(response => response.json())
+                .then(status => {
+                    window.status = status;
+                    updateNetworkStatus(status);
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+
+        // Première mise à jour
+        fetchStatus();
+        // Mises à jour régulières
+        setInterval(fetchStatus, 5000);
+    </script>
+</body>
+</html>
