@@ -26,9 +26,18 @@ export const analyzeTextSentiment = async (req: Request, res: Response, next: Ne
     
     const result = await analyzeSentiment(text);
     
+    // Si nous avons utilisé la réponse de secours, indiquer un avertissement
+    const warning = result.fromFallback 
+      ? "L'API OpenAI n'est pas disponible actuellement. Les résultats sont générés par un système de secours et peuvent être moins précis."
+      : undefined;
+    
     res.json({
       success: true,
-      data: result
+      data: {
+        rating: result.rating,
+        confidence: result.confidence
+      },
+      warning
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -50,11 +59,17 @@ export const generateSummary = async (req: Request, res: Response, next: NextFun
   try {
     const { text } = summarySchema.parse(req.body);
     
-    const summary = await summarizeText(text);
+    const result = await summarizeText(text);
+    
+    // Si nous avons utilisé la réponse de secours, indiquer un avertissement
+    const warning = result.fromFallback 
+      ? "L'API OpenAI n'est pas disponible actuellement. Les résultats sont générés par un système de secours et peuvent être moins précis."
+      : undefined;
     
     res.json({
       success: true,
-      data: { summary }
+      data: { summary: result.summary },
+      warning
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -76,11 +91,17 @@ export const getProductRecommendations = async (req: Request, res: Response, nex
   try {
     const { description } = recommendationSchema.parse(req.body);
     
-    const recommendations = await generateProductRecommendations(description);
+    const result = await generateProductRecommendations(description);
+    
+    // Si nous avons utilisé la réponse de secours, indiquer un avertissement
+    const warning = result.fromFallback 
+      ? "L'API OpenAI n'est pas disponible actuellement. Les recommandations sont générées par un système de secours et peuvent être moins précises."
+      : undefined;
     
     res.json({
       success: true,
-      data: { recommendations }
+      data: { recommendations: result.recommendations },
+      warning
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
