@@ -471,7 +471,19 @@ export async function summarizeText(
   
   // Si origine auto, choisir en priorité OpenAI, puis xAI, puis local
   if (selectedOrigin === "auto") {
-    effectiveOrigin = USE_FALLBACK_SYSTEM ? "local" : "openai";
+    // Si le mode fallback est activé, utiliser local
+    if (USE_FALLBACK_SYSTEM) {
+      effectiveOrigin = "local";
+    } else {
+      // Sinon, vérifier les clés API disponibles
+      if (process.env.OPENAI_API_KEY) {
+        effectiveOrigin = "openai";
+      } else if (process.env.XAI_API_KEY) {
+        effectiveOrigin = "xai";
+      } else {
+        effectiveOrigin = "local";
+      }
+    }
   }
   
   // Si on est en mode local ou fallback, utiliser l'implémentation locale
@@ -548,7 +560,19 @@ export async function generateProductRecommendations(
   
   // Si origine auto, choisir en priorité OpenAI, puis xAI, puis local
   if (selectedOrigin === "auto") {
-    effectiveOrigin = USE_FALLBACK_SYSTEM ? "local" : "openai";
+    // Si le mode fallback est activé, utiliser local
+    if (USE_FALLBACK_SYSTEM) {
+      effectiveOrigin = "local";
+    } else {
+      // Sinon, vérifier les clés API disponibles
+      if (process.env.OPENAI_API_KEY) {
+        effectiveOrigin = "openai";
+      } else if (process.env.XAI_API_KEY) {
+        effectiveOrigin = "xai";
+      } else {
+        effectiveOrigin = "local";
+      }
+    }
   }
   
   // Si on est en mode local ou fallback, utiliser l'implémentation locale
