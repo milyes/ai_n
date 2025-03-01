@@ -7,6 +7,7 @@ import { ThemeProvider } from "./lib/context";
 import { HelpProvider } from "./lib/help-context";
 import Home from "@/pages/home";
 import AI from "@/pages/ai";
+import Help from "@/pages/help";
 
 function Router() {
   const [location] = useLocation();
@@ -15,6 +16,7 @@ function Router() {
     <Switch location={location}>
       <Route path="/" component={Home} />
       <Route path="/ai" component={AI} />
+      <Route path="/help" component={Help} />
       <Route component={NotFound} />
     </Switch>
   );
