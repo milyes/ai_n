@@ -39,7 +39,7 @@ export function IAActivexMobile({
   initialPlatforms = ['web', 'mobile', 'iot', 'cloud'],
   autoScan = true
 }: IActivexMobileProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [activePlatforms, setActivePlatforms] = useState<string[]>(initialPlatforms);
   const [platformsData, setPlatformsData] = useState<PlatformData[]>([]);
   const [assistantState, setAssistantState] = useState<AssistantState>("idle");

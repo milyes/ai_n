@@ -39,7 +39,8 @@ interface ApiEndpoint {
 }
 
 export default function IACentral() {
-  const [showActivex, setShowActivex] = useState(true);
+  // Toujours visible par défaut
+  const [showActivex] = useState(true);
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [models, setModels] = useState<Model[]>([]);
   const [endpoints, setEndpoints] = useState<ApiEndpoint[]>([]);
@@ -231,12 +232,11 @@ export default function IACentral() {
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Centre IA Activex
             </h1>
-            <Button 
-              variant="outline"
-              onClick={() => setShowActivex(prev => !prev)}
-            >
-              {showActivex ? 'Masquer IActivex' : 'Afficher IActivex'}
-            </Button>
+            <div className="flex items-center gap-2">
+              <div className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 rounded-full text-sm">
+                Module IA Activex actif
+              </div>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -791,8 +791,8 @@ export default function IACentral() {
         </div>
       </main>
       
-      {/* IActivex Mobile Component */}
-      {showActivex && <IAActivexMobile onClose={() => setShowActivex(false)} />}
+      {/* IActivex Mobile Component - Toujours visible */}
+      {showActivex && <IAActivexMobile />}
     </div>
   );
 }
