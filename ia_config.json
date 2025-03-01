@@ -1,0 +1,9 @@
+{
+    "port": 8085,
+    "timeout_connection": 30,
+    "max_tentatives": 3,
+    "delai_verrouillage": 300,
+    "mode_securite": "eleve",
+    "notifications": true,
+    "logging_niveau": "info"
+}
