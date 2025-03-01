@@ -74,20 +74,20 @@ export function ContextualHelp({
   ...tooltipProps
 }: ContextualHelpProps) {
   return (
-    <div className="inline-flex items-center">
+    <span className="inline-flex items-center">
       {position === "before" && (
         <>
           <HelpTooltip {...tooltipProps} />
-          <div style={{ width: gap }} />
+          <span style={{ display: "inline-block", width: gap }} />
         </>
       )}
       {children}
       {position === "after" && (
         <>
-          <div style={{ width: gap }} />
+          <span style={{ display: "inline-block", width: gap }} />
           <HelpTooltip {...tooltipProps} />
         </>
       )}
-    </div>
+    </span>
   );
 }
