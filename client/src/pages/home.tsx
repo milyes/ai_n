@@ -69,13 +69,17 @@ export default function Home() {
       if (anchorElement) {
         e.preventDefault();
         const targetId = anchorElement.getAttribute('href');
-        if (targetId) {
-          const targetElement = document.querySelector(targetId);
-          if (targetElement instanceof HTMLElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 20,
-              behavior: 'smooth'
-            });
+        if (targetId && targetId !== "#") {
+          try {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement instanceof HTMLElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 20,
+                behavior: 'smooth'
+              });
+            }
+          } catch (error) {
+            console.warn("Sélecteur invalide:", targetId);
           }
         }
       }
