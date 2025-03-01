@@ -136,8 +136,8 @@ export function IAActivexMobile({
   
   // Générer des données d'analyse IA simulées
   const generateMockAnalysisData = useCallback((text: string = "", filters: string[] = []) => {
-    const sources = ['web', 'mobile', 'iot', 'cloud', 'analytics', 'manuel'];
-    const types = ['pédagogique', 'technique', 'sentiment', 'intention'];
+    const sources = ['web', 'mobile', 'iot', 'cloud', 'analytics', 'manuel', 'santé', 'sécurité'];
+    const types = ['pédagogique', 'technique', 'sentiment', 'intention', 'médical', 'cybersécurité'];
     const selectedTypes = filters.length > 0 ? filters : types;
     
     // Format date: DD/MM/YYYY HH:MM
@@ -149,8 +149,51 @@ export function IAActivexMobile({
       minute: '2-digit'
     });
     
-    const source = sources[Math.floor(Math.random() * sources.length)];
-    const type = selectedTypes[Math.floor(Math.random() * selectedTypes.length)];
+    // Détection du domaine basée sur le texte d'entrée
+    let domaine = "standard";
+    if (text.toLowerCase().includes("patient") || 
+        text.toLowerCase().includes("médic") || 
+        text.toLowerCase().includes("santé") ||
+        text.toLowerCase().includes("diagnostic") ||
+        text.toLowerCase().includes("symptôme") ||
+        text.toLowerCase().includes("traitement")) {
+      domaine = "santé";
+    } else if (text.toLowerCase().includes("attaque") || 
+               text.toLowerCase().includes("vulnérabilité") || 
+               text.toLowerCase().includes("sécurité") ||
+               text.toLowerCase().includes("hacker") ||
+               text.toLowerCase().includes("pare-feu") ||
+               text.toLowerCase().includes("malware") ||
+               text.toLowerCase().includes("exploit")) {
+      domaine = "sécurité";
+    }
+    
+    // Ajuster les sources et types probables selon le domaine détecté
+    let sourcesProbables = sources;
+    let typesProbables = selectedTypes;
+    
+    if (domaine === "santé") {
+      sourcesProbables = ['santé', 'iot', 'mobile'];
+      if (selectedTypes.includes('médical')) {
+        typesProbables = ['médical'];
+      } else if (selectedTypes.length > 0) {
+        typesProbables = selectedTypes;
+      } else {
+        typesProbables = ['médical', 'technique'];
+      }
+    } else if (domaine === "sécurité") {
+      sourcesProbables = ['sécurité', 'cloud', 'web'];
+      if (selectedTypes.includes('cybersécurité')) {
+        typesProbables = ['cybersécurité'];
+      } else if (selectedTypes.length > 0) {
+        typesProbables = selectedTypes;
+      } else {
+        typesProbables = ['cybersécurité', 'technique'];
+      }
+    }
+    
+    const source = sourcesProbables[Math.floor(Math.random() * sourcesProbables.length)];
+    const type = typesProbables[Math.floor(Math.random() * typesProbables.length)];
     const confidence = Math.round((Math.random() * 30 + 70)) / 100; // Entre 0.7 et 1.0
     
     let summary = "";
@@ -193,6 +236,35 @@ export function IAActivexMobile({
           "Objectif d'amélioration de l'expérience utilisateur"
         ];
         break;
+      case 'médical':
+        summary = "Analyse des informations médicales avec identification des points critiques";
+        insights = [
+          "Détection de tendances physiologiques anormales",
+          "Correspondance avec des profils pathologiques connus",
+          "Recommandations pour suivi médical personnalisé",
+          "Corrélation de multiples facteurs de santé",
+          "Identification de signaux d'alerte précoces"
+        ];
+        break;
+      case 'cybersécurité':
+        summary = "Évaluation des risques de sécurité avec identification des vulnérabilités potentielles";
+        insights = [
+          "Détection de modèles d'attaque connus",
+          "Failles potentielles dans la structure défensive",
+          "Recommandations de renforcement du périmètre de sécurité",
+          "Vecteurs d'attaque à surveiller en priorité",
+          "Stratégies de mitigation des risques identifiés"
+        ];
+        break;
+    }
+    
+    // Si le texte est court, utiliser un résumé générique
+    if (text.length < 10) {
+      if (domaine === "santé") {
+        summary = "Analyse préliminaire d'informations médicales limitées";
+      } else if (domaine === "sécurité") {
+        summary = "Évaluation initiale de données de sécurité insuffisantes";
+      }
     }
     
     return {
@@ -201,7 +273,7 @@ export function IAActivexMobile({
       type,
       confidence,
       summary,
-      insights: insights.slice(0, Math.floor(Math.random() * 2) + 2)
+      insights: insights.slice(0, Math.floor(Math.random() * 2) + 3)
     };
   }, []);
 
@@ -413,8 +485,8 @@ export function IAActivexMobile({
           <TabsList className="w-full">
             <TabsTrigger value="dashboard" className="flex-1">Tableau de bord</TabsTrigger>
             <TabsTrigger value="platforms" className="flex-1">Plateformes</TabsTrigger>
-            <TabsTrigger value="training" className="flex-1">Entraînement</TabsTrigger>
-            <TabsTrigger value="chatbot" className="flex-1">Chatbot</TabsTrigger>
+            <TabsTrigger value="health" className="flex-1 text-blue-600 dark:text-blue-400">Santé</TabsTrigger>
+            <TabsTrigger value="security" className="flex-1 text-red-600 dark:text-red-400">Sécurité</TabsTrigger>
             <TabsTrigger value="settings" className="flex-1">Paramètres</TabsTrigger>
           </TabsList>
           
@@ -450,6 +522,14 @@ export function IAActivexMobile({
                   <Checkbox id="filter-intention" />
                   <label htmlFor="filter-intention" className="text-sm">Intention</label>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="filter-medical" />
+                  <label htmlFor="filter-medical" className="text-sm text-blue-600 dark:text-blue-400">Médical</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="filter-security" />
+                  <label htmlFor="filter-security" className="text-sm text-red-600 dark:text-red-400">Cybersécurité</label>
+                </div>
               </div>
               <Button 
                 className="w-full"
@@ -470,6 +550,12 @@ export function IAActivexMobile({
                   }
                   if ((document.getElementById('filter-intention') as HTMLInputElement)?.checked) {
                     filters.push('intention');
+                  }
+                  if ((document.getElementById('filter-medical') as HTMLInputElement)?.checked) {
+                    filters.push('médical');
+                  }
+                  if ((document.getElementById('filter-security') as HTMLInputElement)?.checked) {
+                    filters.push('cybersécurité');
                   }
                   
                   toast({
@@ -667,6 +753,215 @@ export function IAActivexMobile({
             >
               Rafraîchir les données
             </Button>
+          </TabsContent>
+          
+          <TabsContent value="health" className="space-y-4 py-2">
+            <div className="p-4 border rounded-md bg-blue-50 dark:bg-blue-900/10">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-medium">Analyse médicale IA</h3>
+                <Badge variant="outline" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                  Module spécialisé
+                </Badge>
+              </div>
+              
+              <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">
+                Notre système d'analyse médicale utilise des algorithmes avancés pour identifier des tendances, détecter des anomalies et générer des insights à partir de données médicales, tout en respectant strictement les normes de confidentialité.
+              </p>
+              
+              <div className="space-y-3">
+                <div className="p-3 border rounded-md bg-white dark:bg-gray-800">
+                  <h4 className="font-medium text-blue-600 dark:text-blue-400 mb-2">Capacités d'analyse</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="bg-blue-100 dark:bg-blue-900/30 p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-400">
+                          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Diagnostics</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="bg-blue-100 dark:bg-blue-900/30 p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-400">
+                          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Tendances</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="bg-blue-100 dark:bg-blue-900/30 p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-400">
+                          <path d="M2 9h20" />
+                          <path d="M2 15h20" />
+                          <path d="M12 3v18" />
+                          <path d="m15 7 3-3 3 3" />
+                          <path d="m15 21 3-3 3 3" />
+                          <path d="m9 3-3 3-3-3" />
+                          <path d="m9 17-3 3-3-3" />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Corrélations</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="bg-blue-100 dark:bg-blue-900/30 p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-400">
+                          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                          <path d="M4 22h16" />
+                          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Recommandations</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-3 border rounded-md">
+                  <h4 className="font-medium mb-2">Analyse de texte médical</h4>
+                  <div className="space-y-2">
+                    <Textarea 
+                      placeholder="Entrez une description de symptômes ou un texte médical à analyser..." 
+                      className="w-full h-24 mb-2"
+                    />
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                      Analyser les données médicales
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="p-3 border rounded-md">
+                  <h4 className="font-medium mb-2">Confidentialité des données</h4>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm">Niveau de chiffrement</span>
+                    <span className="text-sm font-medium">AES-256</span>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm">Conformité RGPD</span>
+                    <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                      Actif
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Rétention des données</span>
+                    <span className="text-sm font-medium">30 jours</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="security" className="space-y-4 py-2">
+            <div className="p-4 border rounded-md bg-red-50 dark:bg-red-900/10">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-medium">Cybersécurité IA</h3>
+                <Badge variant="outline" className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
+                  Surveillance active
+                </Badge>
+              </div>
+              
+              <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">
+                Notre système de cybersécurité utilise l'IA pour détecter et prévenir les menaces en temps réel, analyser les vulnérabilités et renforcer la posture de sécurité globale de votre infrastructure.
+              </p>
+              
+              <div className="space-y-3">
+                <div className="p-3 border rounded-md bg-white dark:bg-gray-800">
+                  <h4 className="font-medium text-red-600 dark:text-red-400 mb-2">Tableau de bord sécurité</h4>
+                  <div className="grid grid-cols-2 gap-3 mb-2">
+                    <div className="p-2 border rounded-md bg-gray-50 dark:bg-gray-800">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs font-medium">Menaces détectées</span>
+                        <span className="text-xs text-gray-500">24h</span>
+                      </div>
+                      <div className="flex items-baseline">
+                        <span className="text-xl font-bold">7</span>
+                        <span className="text-xs ml-1 text-red-500">(+2)</span>
+                      </div>
+                    </div>
+                    <div className="p-2 border rounded-md bg-gray-50 dark:bg-gray-800">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs font-medium">Vulnérabilités</span>
+                        <span className="text-xs text-gray-500">Total</span>
+                      </div>
+                      <div className="flex items-baseline">
+                        <span className="text-xl font-bold">12</span>
+                        <span className="text-xs ml-1 text-green-500">(-4)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full h-8 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="flex h-full">
+                      <div className="bg-green-500 h-full" style={{ width: '65%' }}>
+                        <span className="flex items-center justify-center h-full text-xs font-bold text-white">
+                          65% Sécurisé
+                        </span>
+                      </div>
+                      <div className="bg-yellow-500 h-full" style={{ width: '20%' }}>
+                        <span className="flex items-center justify-center h-full text-xs font-bold text-white">
+                          20%
+                        </span>
+                      </div>
+                      <div className="bg-red-500 h-full" style={{ width: '15%' }}>
+                        <span className="flex items-center justify-center h-full text-xs font-bold text-white">
+                          15%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-3 border rounded-md">
+                  <h4 className="font-medium mb-2">Analyse de vulnérabilités</h4>
+                  <div className="space-y-2">
+                    <Textarea 
+                      placeholder="Entrez une URL, un code ou une description de système pour analyser les vulnérabilités..." 
+                      className="w-full h-24 mb-2"
+                    />
+                    <Button className="w-full bg-red-600 hover:bg-red-700">
+                      Analyser les vulnérabilités
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="p-3 border rounded-md">
+                  <h4 className="font-medium mb-2">Dernières menaces détectées</h4>
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                    <div className="flex items-center gap-2 p-2 border rounded bg-gray-50 dark:bg-gray-800">
+                      <div className="bg-red-100 dark:bg-red-900/30 p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 dark:text-red-400">
+                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <span className="text-xs font-medium">Tentative d'injection SQL</span>
+                          <span className="text-xs text-gray-500">12:45</span>
+                        </div>
+                        <span className="text-xs text-gray-500">Source: 192.168.1.45</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 p-2 border rounded bg-gray-50 dark:bg-gray-800">
+                      <div className="bg-yellow-100 dark:bg-yellow-900/30 p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-600 dark:text-yellow-400">
+                          <path d="M12 9v4" />
+                          <path d="M12 17h.01" />
+                          <path d="M3.6 9h16.8a1 1 0 0 1 .87 1.5l-8.4 14.1a1 1 0 0 1-1.74 0L2.73 10.5a1 1 0 0 1 .87-1.5Z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <span className="text-xs font-medium">Authentification excessive</span>
+                          <span className="text-xs text-gray-500">11:32</span>
+                        </div>
+                        <span className="text-xs text-gray-500">10+ tentatives en 5 minutes</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </TabsContent>
           
           <TabsContent value="training" className="space-y-4 py-2">
