@@ -39,10 +39,10 @@ interface PorteConfig {
 }
 
 // Chemin des fichiers
-const SCRIPT_PATH = path.resolve(process.cwd(), 'IA_api_porte_automatique.sh');
-const EMPREINTE_FILE = path.resolve(process.cwd(), 'empreintes.db');
-const LOG_FILE = path.resolve(process.cwd(), 'ia_porte_logs.txt');
-const CONFIG_FILE = path.resolve(process.cwd(), 'ia_config.json');
+const SCRIPT_PATH = './IA_api_porte_automatique.sh';
+const EMPREINTE_FILE = './empreintes.db';
+const LOG_FILE = './ia_porte_logs.txt';
+const CONFIG_FILE = './ia_config.json';
 
 export class PorteAutomatiqueService {
   private config: PorteConfig | null = null;
@@ -98,7 +98,7 @@ export class PorteAutomatiqueService {
       await this.chargerLogs();
       
       return { success: true, message: stdout || 'Service démarré avec succès' };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors du démarrage du service:', error);
       return { success: false, message: `Erreur: ${error.message}` };
     }
@@ -124,7 +124,7 @@ export class PorteAutomatiqueService {
       this.serviceRunning = false;
       
       return { success: true, message: stdout || 'Service arrêté avec succès' };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de l\'arrêt du service:', error);
       return { success: false, message: `Erreur: ${error.message}` };
     }
@@ -147,7 +147,7 @@ export class PorteAutomatiqueService {
         running: isRunning,
         info: isRunning ? stdout : stderr
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de la vérification du statut:', error);
       this.serviceRunning = false;
       return { running: false, info: `Erreur: ${error.message}` };
@@ -167,7 +167,7 @@ export class PorteAutomatiqueService {
         success, 
         message: success ? 'Connexion à l\'API réussie' : 'Échec de la connexion à l\'API'
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors du test de connexion:', error);
       return { success: false, message: `Erreur: ${error.message}` };
     }
@@ -197,7 +197,7 @@ export class PorteAutomatiqueService {
       });
       
       return this.empreintes;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors du chargement des empreintes:', error);
       return [];
     }
@@ -236,7 +236,7 @@ export class PorteAutomatiqueService {
       await this.chargerEmpreintes();
       
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de l\'ajout d\'une empreinte:', error);
       return false;
     }
@@ -272,7 +272,7 @@ export class PorteAutomatiqueService {
       this.empreintes = filteredEmpreintes;
       
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de la suppression d\'une empreinte:', error);
       return false;
     }
@@ -339,7 +339,7 @@ export class PorteAutomatiqueService {
       });
       
       return this.evenements;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors du chargement des logs:', error);
       return [];
     }
@@ -384,7 +384,7 @@ export class PorteAutomatiqueService {
       fs.writeFileSync(CONFIG_FILE, JSON.stringify(this.config, null, 4));
       
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de la mise à jour de la configuration:', error);
       return false;
     }
