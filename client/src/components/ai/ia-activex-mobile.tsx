@@ -738,7 +738,7 @@ export function IAActivexMobile({
                   
                   <div className="flex items-start justify-end">
                     <div className="bg-blue-600 text-white p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
-                      <p>J'aimerais comprendre comment fonctionne l'analyse pédagogique.</p>
+                      <p>J'ai besoin d'aide pour naviguer sur ce site. Pouvez-vous m'expliquer comment fonctionne le mode navigation ?</p>
                     </div>
                     <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center ml-2 mt-1 flex-shrink-0">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -761,14 +761,50 @@ export function IAActivexMobile({
                       </svg>
                     </div>
                     <div className="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
-                      <p>L'analyse pédagogique utilise des algorithmes avancés pour:</p>
+                      <p>Le mode Navigation vous guide intelligemment à travers les menus et options des sites web. Voici ses fonctionnalités principales :</p>
                       <ul className="list-disc pl-5 mt-1 space-y-1">
-                        <li>Évaluer le niveau de complexité du contenu</li>
-                        <li>Identifier les concepts pédagogiques clés</li>
-                        <li>Suggérer des approches d'apprentissage adaptées</li>
-                        <li>Analyser la progression des apprenants</li>
+                        <li><span className="font-medium">Surbrillance des menus</span> : met en évidence les éléments de navigation pertinents</li>
+                        <li><span className="font-medium">Suggestions contextuelles</span> : propose des actions basées sur votre comportement</li>
+                        <li><span className="font-medium">Raccourcis intelligents</span> : offre des commandes rapides pour accéder aux fonctions fréquentes</li>
+                        <li><span className="font-medium">Analyse de la structure</span> : comprend la hiérarchie des menus pour une navigation plus fluide</li>
                       </ul>
-                      <p className="mt-2">Souhaitez-vous un exemple concret d'application ?</p>
+                      <p className="mt-2">Puis-je vous aider à naviguer vers une section spécifique du site ?</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start justify-end">
+                    <div className="bg-blue-600 text-white p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
+                      <p>J'aimerais comprendre comment fonctionne l'analyse pédagogique dans ce contexte.</p>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center ml-2 mt-1 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 7v4" />
+                        <path d="M5 7v4" />
+                        <circle cx="12" cy="11" r="1" />
+                        <path d="M8 21h8" />
+                        <path d="M12 21v-6.5" />
+                        <path d="M8 4h8" />
+                        <path d="M12 7V4" />
+                      </svg>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-300">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85 1 6.54 2.75" />
+                        <path d="M21 3v9h-9" />
+                      </svg>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
+                      <p>Dans le contexte de la navigation, l'analyse pédagogique combine deux aspects :</p>
+                      <ul className="list-disc pl-5 mt-1 space-y-1">
+                        <li>Elle adapte l'assistance de navigation selon votre niveau de compétence</li>
+                        <li>Elle identifie les zones du site qui correspondent à vos besoins pédagogiques</li>
+                        <li>Elle suggère des parcours de navigation optimisés pour l'apprentissage</li>
+                        <li>Elle présente les menus et options avec des explications adaptées à votre profil</li>
+                      </ul>
+                      <p className="mt-2">Je vois que vous êtes dans la section IA Centrale, souhaitez-vous explorer les fonctionnalités pédagogiques disponibles ici ?</p>
                     </div>
                   </div>
                   
@@ -815,7 +851,7 @@ export function IAActivexMobile({
                     </SelectContent>
                   </Select>
                   
-                  <Select defaultValue="standard">
+                  <Select defaultValue="navigation">
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Sélectionner le mode" />
                     </SelectTrigger>
@@ -823,9 +859,40 @@ export function IAActivexMobile({
                       <SelectItem value="standard">Standard</SelectItem>
                       <SelectItem value="expert">Expert</SelectItem>
                       <SelectItem value="pedagogical">Pédagogique</SelectItem>
+                      <SelectItem value="navigation">Navigation</SelectItem>
                       <SelectItem value="technical">Technique</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+                
+                <div className="bg-indigo-50 dark:bg-indigo-900/20 p-3 rounded-md mt-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="text-sm font-medium">Mode Navigation IA</h4>
+                    <Badge variant="outline" className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
+                      Actif
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                    Le mode Navigation guide les utilisateurs à travers les menus et les options des sites web.
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="nav-highlight" defaultChecked />
+                      <label htmlFor="nav-highlight" className="text-xs">Surbrillance des menus</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="nav-suggestions" defaultChecked />
+                      <label htmlFor="nav-suggestions" className="text-xs">Suggestions contextuelles</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="nav-shortcuts" defaultChecked />
+                      <label htmlFor="nav-shortcuts" className="text-xs">Raccourcis intelligents</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="nav-history" />
+                      <label htmlFor="nav-history" className="text-xs">Suivi d'historique</label>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between mt-2">
