@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
@@ -343,6 +344,7 @@ export function IAActivexMobile({
           <TabsList className="w-full">
             <TabsTrigger value="dashboard" className="flex-1">Tableau de bord</TabsTrigger>
             <TabsTrigger value="platforms" className="flex-1">Plateformes</TabsTrigger>
+            <TabsTrigger value="training" className="flex-1">Entraînement</TabsTrigger>
             <TabsTrigger value="settings" className="flex-1">Paramètres</TabsTrigger>
           </TabsList>
           
@@ -416,6 +418,130 @@ export function IAActivexMobile({
             >
               Rafraîchir les données
             </Button>
+          </TabsContent>
+          
+          <TabsContent value="training" className="space-y-4 py-2">
+            <div className="space-y-3">
+              <div className="p-3 border rounded-md">
+                <h4 className="font-medium mb-2">Entraînement d'image</h4>
+                <div className="flex justify-between items-center text-sm">
+                  <span>Images disponibles: <strong>52</strong></span>
+                  <Badge variant="outline">Prêt</Badge>
+                </div>
+                <Progress value={100} className="h-1.5 mt-2" />
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <Button size="sm" variant="outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    Importer
+                  </Button>
+                  <Button size="sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <path d="M5 7 12 3l7 4" />
+                      <path d="M12 21V7" />
+                      <path d="M9 13 5 17l-2-2" />
+                      <path d="M9 13c0 2.188 2 5 5 5s5-2.812 5-5" />
+                    </svg>
+                    Entraîner
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="p-3 border rounded-md">
+                <h4 className="font-medium mb-2">Entraînement vocal</h4>
+                <div className="flex justify-between items-center text-sm">
+                  <span>Échantillons: <strong>18 / 50</strong></span>
+                  <Badge variant="outline" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
+                    En cours
+                  </Badge>
+                </div>
+                <Progress value={36} className="h-1.5 mt-2" />
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <Button size="sm" variant="outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <circle cx="12" cy="12" r="1" />
+                      <path d="M6 12a6 6 0 0 1 6-6" />
+                      <path d="M12 18a6 6 0 0 0 0-12" />
+                    </svg>
+                    Enregistrer
+                  </Button>
+                  <Button size="sm" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <path d="M5 7 12 3l7 4" />
+                      <path d="M12 21V7" />
+                      <path d="M9 13 5 17l-2-2" />
+                      <path d="M9 13c0 2.188 2 5 5 5s5-2.812 5-5" />
+                    </svg>
+                    Entraîner
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="p-3 border rounded-md">
+                <h4 className="font-medium mb-2">Test de phrases télédétection</h4>
+                <div className="flex justify-between items-center text-sm">
+                  <span>Phrases: <strong>0 / 20</strong></span>
+                  <Badge variant="outline" className="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                    Non démarré
+                  </Badge>
+                </div>
+                <Progress value={0} className="h-1.5 mt-2" />
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <Button size="sm" variant="outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <rect width="18" height="18" x="3" y="3" rx="2" />
+                      <line x1="12" y1="8" x2="12" y2="16" />
+                      <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    Ajouter
+                  </Button>
+                  <Button size="sm" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <path d="M5 7 12 3l7 4" />
+                      <path d="M12 21V7" />
+                      <path d="M9 13 5 17l-2-2" />
+                      <path d="M9 13c0 2.188 2 5 5 5s5-2.812 5-5" />
+                    </svg>
+                    Entraîner
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-md">
+              <h4 className="font-medium mb-2">Filtres de services</h4>
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                <div className="flex items-center space-x-2">
+                  <Switch id="filter-image" />
+                  <Label htmlFor="filter-image" className="text-sm">
+                    Images
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="filter-voice" />
+                  <Label htmlFor="filter-voice" className="text-sm">
+                    Voix
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="filter-text" />
+                  <Label htmlFor="filter-text" className="text-sm">
+                    Texte
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="filter-remote" />
+                  <Label htmlFor="filter-remote" className="text-sm">
+                    Télédétection
+                  </Label>
+                </div>
+              </div>
+              <Button size="sm" className="w-full">
+                Appliquer les filtres
+              </Button>
+            </div>
           </TabsContent>
           
           <TabsContent value="settings" className="space-y-4 py-2">
