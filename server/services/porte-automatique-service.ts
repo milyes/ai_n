@@ -16,15 +16,45 @@ interface Empreinte {
   nom: string;
   hash: string;
   niveauAcces: string;
+  dateCreation?: string;
+  groupeId?: number;
+  horaireAcces?: {
+    debut: string;
+    fin: string;
+    jours: string[];
+  };
+  actif: boolean;
 }
 
 // Interface pour les événements de porte
 interface EvenementPorte {
+  id?: number;
   timestamp: string;
   type: 'acces' | 'refus' | 'erreur' | 'systeme';
   utilisateur?: string;
   message: string;
   empreinte?: string;
+  camera?: string; // URL ou chemin vers la capture photo si disponible
+}
+
+// Interface pour les notifications
+interface Notification {
+  id: number;
+  type: 'sms' | 'email' | 'app';
+  destinataire: string; // numéro ou email
+  message: string;
+  timestamp: string;
+  statut: 'envoyé' | 'échec' | 'en attente';
+}
+
+// Interface pour les groupes d'accès
+interface GroupeAcces {
+  id: number;
+  nom: string;
+  description: string;
+  niveauAcces: string;
+  zones: string[];
+  membres: number[]; // IDs des empreintes
 }
 
 // Interface pour la configuration
@@ -36,6 +66,14 @@ interface PorteConfig {
   modeSecurite: 'faible' | 'moyen' | 'eleve';
   notifications: boolean;
   loggingNiveau: 'debug' | 'info' | 'warning' | 'error';
+  activerVideo?: boolean;
+  alerteMultiEchecs?: boolean;
+  seuilAlerte?: number;
+  notificationSMS?: boolean;
+  notificationEmail?: boolean;
+  emailAdmin?: string;
+  numeroSMS?: string;
+  planificationActive?: boolean;
 }
 
 // Chemin des fichiers
@@ -48,7 +86,13 @@ export class PorteAutomatiqueService {
   private config: PorteConfig | null = null;
   private empreintes: Empreinte[] = [];
   private evenements: EvenementPorte[] = [];
+  private notifications: Notification[] = [];
+  private groupes: GroupeAcces[] = [];
   private serviceRunning: boolean = false;
+  private dernieresCapturesVideo: Map<string, string> = new Map(); // timestamp -> chemin
+  private alerteActive: boolean = false;
+  private nbTentativesEchouees: number = 0;
+  private videoStreamActive: boolean = false;
 
   constructor() {
     this.initService();
@@ -63,13 +107,84 @@ export class PorteAutomatiqueService {
       if (fs.existsSync(CONFIG_FILE)) {
         const configContent = fs.readFileSync(CONFIG_FILE, 'utf-8');
         this.config = JSON.parse(configContent);
+      } else {
+        // Configuration par défaut
+        this.config = {
+          port: 8085,
+          timeoutConnection: 30,
+          maxTentatives: 3,
+          delaiVerrouillage: 300,
+          modeSecurite: 'eleve',
+          notifications: true,
+          loggingNiveau: 'info',
+          activerVideo: true,
+          alerteMultiEchecs: true,
+          seuilAlerte: 3,
+          notificationSMS: true,
+          notificationEmail: true,
+          emailAdmin: 'admin@exemple.com',
+          numeroSMS: '+33601020304',
+          planificationActive: true
+        };
       }
 
       // Vérifier l'état du service
       await this.verifierStatut();
+      
+      // Charger les empreintes
+      await this.chargerEmpreintes();
+      
+      // Initialiser les groupes d'accès
+      this.initialiserGroupes();
     } catch (error: any) {
       console.error('Erreur lors de l\'initialisation du service de porte automatique:', error);
     }
+  }
+  
+  /**
+   * Initialiser les groupes d'accès
+   */
+  private initialiserGroupes() {
+    this.groupes = [
+      {
+        id: 1,
+        nom: 'Administrateurs',
+        description: 'Accès complet à toutes les zones',
+        niveauAcces: 'administrateur',
+        zones: ['toutes'],
+        membres: []
+      },
+      {
+        id: 2,
+        nom: 'Utilisateurs standards',
+        description: 'Accès aux zones communes',
+        niveauAcces: 'utilisateur',
+        zones: ['entrée', 'open-space', 'cafétéria'],
+        membres: []
+      },
+      {
+        id: 3,
+        nom: 'Invités',
+        description: 'Accès limité et temporaire',
+        niveauAcces: 'invité',
+        zones: ['entrée', 'salle de réunion'],
+        membres: []
+      }
+    ];
+    
+    // Associer les empreintes aux groupes
+    this.empreintes.forEach(emp => {
+      if (emp.niveauAcces === 'administrateur') {
+        this.groupes[0].membres.push(emp.id);
+        emp.groupeId = 1;
+      } else if (emp.niveauAcces === 'utilisateur') {
+        this.groupes[1].membres.push(emp.id);
+        emp.groupeId = 2;
+      } else if (emp.niveauAcces === 'invité') {
+        this.groupes[2].membres.push(emp.id);
+        emp.groupeId = 3;
+      }
+    });
   }
 
   /**
@@ -206,7 +321,9 @@ export class PorteAutomatiqueService {
           id: parseInt(id),
           nom,
           hash,
-          niveauAcces
+          niveauAcces,
+          dateCreation: new Date().toISOString(),
+          actif: true
         };
       });
       
@@ -387,7 +504,15 @@ export class PorteAutomatiqueService {
           delaiVerrouillage: 300,
           modeSecurite: 'eleve',
           notifications: true,
-          loggingNiveau: 'info'
+          loggingNiveau: 'info',
+          activerVideo: true,
+          alerteMultiEchecs: true,
+          seuilAlerte: 3,
+          notificationSMS: true,
+          notificationEmail: true,
+          emailAdmin: 'admin@exemple.com',
+          numeroSMS: '+33601020304',
+          planificationActive: true
         };
       }
       
