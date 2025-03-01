@@ -696,6 +696,14 @@ export default function IACentral() {
                               <input type="radio" id="intent-type-topic" name="intent-type" className="rounded-full border-gray-300" />
                               <label htmlFor="intent-type-topic" className="text-sm">Extraction de sujets</label>
                             </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="radio" id="intent-type-pedagogical" name="intent-type" className="rounded-full border-gray-300" />
+                              <label htmlFor="intent-type-pedagogical" className="text-sm">Analyse pédagogique</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="radio" id="intent-type-locator" name="intent-type" className="rounded-full border-gray-300" />
+                              <label htmlFor="intent-type-locator" className="text-sm">Besoins du locuteur</label>
+                            </div>
                           </div>
                         </div>
                         
