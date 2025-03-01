@@ -48,12 +48,12 @@ export default function IATerminal() {
   const baseCommands = [
     'help', 'clear', 'ls', 'cd', 'pwd', 'echo', 'date', 
     'whoami', 'history', 'exit', 'sudo', 'apt', 'cat', 
-    'touch', 'mkdir', 'rm', 'man', 'grep'
+    'touch', 'mkdir', 'rm', 'man', 'grep', 'openapi'
   ];
   
   const aiCommands = [
     'ai-status', 'ai-sentiment', 'ai-summarize', 'ai-scan',
-    'ai-origin', 'ai-predict', 'ai-diagnose', 'ai-train'
+    'ai-origin', 'ai-predict', 'ai-diagnose', 'ai-train', 'openapi'
   ];
   
   const securityCommands = [
@@ -391,6 +391,10 @@ Rapport généré automatiquement par le système.`,
         break;
       case 'ai-origin':
         aiOrigin(args[0]);
+        break;
+        
+      case 'openapi':
+        showOpenApiInfo(args[0]);
         break;
         
       // Commandes sécurité
@@ -817,6 +821,306 @@ Rapport généré automatiquement par le système.`,
   };
   
   // Commandes IA spécifiques
+  
+  const showOpenApiInfo = (option?: string) => {
+    if (option === 'help' || option === '--help' || option === '-h') {
+      // Afficher l'aide de la commande openapi
+      addOutput(
+        <div className="space-y-2">
+          <div className="font-bold">Utilisation de OpenAPI:</div>
+          <div className="ml-2">
+            <div><span className="text-yellow-400">openapi</span> - Affiche les informations générales sur OpenAI</div>
+            <div><span className="text-yellow-400">openapi models</span> - Liste les modèles disponibles</div>
+            <div><span className="text-yellow-400">openapi capabilities</span> - Affiche les capacités des modèles</div>
+            <div><span className="text-yellow-400">openapi status</span> - Vérifie le statut de la connexion API</div>
+            <div><span className="text-yellow-400">openapi documentation</span> - Liens vers la documentation officielle</div>
+          </div>
+        </div>,
+        'info'
+      );
+      return;
+    }
+
+    // Gérer les différentes sous-commandes
+    switch (option) {
+      case 'models':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Modèles OpenAI disponibles:</div>
+            
+            <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+              <div className="flex items-center">
+                <Badge className="bg-green-600 text-white mr-2">RECOMMANDÉ</Badge>
+                <span className="text-lg font-medium text-blue-300">gpt-4o</span>
+              </div>
+              <div className="mt-1 text-sm text-gray-300">
+                Le dernier modèle multimodal de pointe (texte + image), publié le 13 mai 2024.
+              </div>
+              <div className="grid grid-cols-2 gap-x-4 mt-2 text-sm">
+                <div><span className="text-gray-400">Contexte:</span> <span className="text-green-400">128K tokens</span></div>
+                <div><span className="text-gray-400">Entrée:</span> <span className="text-white">Texte, Images</span></div>
+                <div><span className="text-gray-400">Sortie:</span> <span className="text-white">Texte</span></div>
+                <div><span className="text-gray-400">Performance:</span> <span className="text-green-400">Excellente</span></div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">gpt-4-turbo</div>
+                <div className="text-xs text-gray-400">
+                  Modèle avancé avec grande fenêtre de contexte, bon équilibre coût/performance.
+                </div>
+                <div className="text-xs mt-1">
+                  <span className="text-gray-400">Contexte:</span> <span className="text-green-400">128K tokens</span>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">gpt-4</div>
+                <div className="text-xs text-gray-400">
+                  Version stable du modèle GPT-4 avec performance fiable.
+                </div>
+                <div className="text-xs mt-1">
+                  <span className="text-gray-400">Contexte:</span> <span className="text-yellow-400">8K tokens</span>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">gpt-3.5-turbo</div>
+                <div className="text-xs text-gray-400">
+                  Modèle économique avec bon rapport qualité/prix.
+                </div>
+                <div className="text-xs mt-1">
+                  <span className="text-gray-400">Contexte:</span> <span className="text-blue-400">16K tokens</span>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">dall-e-3</div>
+                <div className="text-xs text-gray-400">
+                  Modèle de génération d'images haute résolution.
+                </div>
+                <div className="text-xs mt-1">
+                  <span className="text-gray-400">Entrée:</span> <span className="text-white">Texte</span> • 
+                  <span className="text-gray-400">Sortie:</span> <span className="text-white">Image</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="text-xs text-gray-500 mt-2">
+              Pour plus d'informations sur un modèle spécifique, utilisez: <span className="text-white not-italic">openapi models [nom-du-modèle]</span>
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      case 'capabilities':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Capacités des modèles OpenAI:</div>
+            
+            <div className="space-y-2">
+              <div>
+                <h3 className="text-yellow-400 font-medium">Traitement du langage naturel</h3>
+                <div className="ml-2 grid grid-cols-2 gap-x-4 text-sm">
+                  <div>✓ Génération de texte</div>
+                  <div>✓ Résumé de documents</div>
+                  <div>✓ Classification de texte</div>
+                  <div>✓ Analyse de sentiment</div>
+                  <div>✓ Extraction d'informations</div>
+                  <div>✓ Traduction</div>
+                  <div>✓ Correction grammaticale</div>
+                  <div>✓ Réponse aux questions</div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-yellow-400 font-medium">Capacités multimodales</h3>
+                <div className="ml-2 grid grid-cols-2 gap-x-4 text-sm">
+                  <div>✓ Analyse d'images</div>
+                  <div>✓ Génération d'images</div>
+                  <div>✓ OCR (reconnaissance de texte)</div>
+                  <div>✓ Analyse de graphiques</div>
+                  <div>✓ Compréhension de diagrammes</div>
+                  <div>✓ Traitement de tableaux</div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-yellow-400 font-medium">Capacités cognitives</h3>
+                <div className="ml-2 grid grid-cols-2 gap-x-4 text-sm">
+                  <div>✓ Raisonnement logique</div>
+                  <div>✓ Résolution de problèmes</div>
+                  <div>✓ Codage et débogage</div>
+                  <div>✓ Analyse de données</div>
+                  <div>✓ Création de contenu</div>
+                  <div>✓ Personnalisation</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-2 p-2 border border-yellow-500/30 bg-yellow-500/10 rounded text-sm">
+              <span className="text-yellow-400 font-medium">Note:</span> Les performances peuvent varier selon le modèle utilisé. 
+              GPT-4 et GPT-4o offrent généralement les meilleures performances sur l'ensemble des tâches.
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      case 'status':
+        // Simuler une vérification de la connexion API
+        addOutput('Vérification de la connexion à l\'API OpenAI...', 'info');
+        
+        setTimeout(() => {
+          // Vérifier si OPENAI_API_KEY est défini dans l'environnement
+          const apiStatus = process.env.OPENAI_API_KEY ? 'Connecté' : 'Non configuré';
+          
+          addOutput(
+            <div className="space-y-2">
+              <div className="flex items-center">
+                {apiStatus === 'Connecté' ? (
+                  <>
+                    <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                    <span className="text-green-400 font-medium">API OpenAI: Connectée</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <span className="text-red-400 font-medium">API OpenAI: Non configurée</span>
+                  </>
+                )}
+              </div>
+              
+              <div className="text-sm">
+                <div className="text-gray-300">Statut des services OpenAI:</div>
+                <div className="ml-2 space-y-1 mt-1">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                    <span>Modèles de complétion: Opérationnels</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                    <span>Modèles de chat: Opérationnels</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                    <span>Génération d'images: Opérationnelle</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                    <span>Intégration de texte: Opérationnelle</span>
+                  </div>
+                </div>
+              </div>
+              
+              {apiStatus !== 'Connecté' && (
+                <div className="text-sm p-2 border border-yellow-500/30 bg-yellow-500/10 rounded mt-2">
+                  Pour configurer l'API OpenAI, assurez-vous que la variable d'environnement OPENAI_API_KEY est définie.
+                </div>
+              )}
+            </div>,
+            'output'
+          );
+        }, 1500);
+        break;
+
+      case 'documentation':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Documentation OpenAI:</div>
+            
+            <div className="space-y-2">
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">Documentation API</div>
+                <a href="https://platform.openai.com/docs/api-reference" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  https://platform.openai.com/docs/api-reference
+                </a>
+                <div className="text-xs text-gray-400 mt-1">
+                  Référence complète de l'API avec exemples et paramètres.
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">Guide d'utilisation</div>
+                <a href="https://platform.openai.com/docs/guides" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  https://platform.openai.com/docs/guides
+                </a>
+                <div className="text-xs text-gray-400 mt-1">
+                  Guides pratiques et tutoriels d'intégration.
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">Cookbook</div>
+                <a href="https://cookbook.openai.com/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  https://cookbook.openai.com/
+                </a>
+                <div className="text-xs text-gray-400 mt-1">
+                  Exemples de code et techniques avancées d'utilisation.
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/50 rounded p-2 bg-blue-900/10">
+                <div className="font-medium text-blue-300">Nouveautés</div>
+                <a href="https://platform.openai.com/docs/models/overview" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  https://platform.openai.com/docs/models/overview
+                </a>
+                <div className="text-xs text-gray-400 mt-1">
+                  Derniers modèles et mises à jour des capacités.
+                </div>
+              </div>
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      default:
+        // Affichage par défaut - Informations générales
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-green-400 text-xl">OpenAI API</div>
+            
+            <div className="text-sm">
+              OpenAI fournit une API pour intégrer des modèles de langage avancés et d'intelligence artificielle
+              dans vos applications. L'API donne accès à des modèles comme GPT-4o, GPT-4 et DALL-E pour diverses
+              tâches de traitement du langage naturel et de génération d'images.
+            </div>
+            
+            <div className="border border-green-800 rounded p-3 bg-green-900/20">
+              <div className="text-green-300 font-medium">Modèle recommandé: GPT-4o</div>
+              <div className="text-sm text-gray-300 mt-1">
+                Le plus récent et performant modèle multimodal d'OpenAI, capable de traiter à la fois 
+                le texte et les images, avec un contexte de 128K tokens.
+              </div>
+            </div>
+            
+            <div className="text-sm">
+              <div className="text-gray-300 font-medium">Principales fonctionnalités:</div>
+              <div className="ml-2 mt-1 space-y-1">
+                <div>• Génération et complétion de texte de haute qualité</div>
+                <div>• Analyse et génération d'images</div>
+                <div>• Résumé et analyse de documents</div>
+                <div>• Conversion de code et programmation assistée</div>
+                <div>• Réponses conversationnelles avancées</div>
+                <div>• Traduction et analyse multilingue</div>
+              </div>
+            </div>
+            
+            <div className="text-sm p-2 border border-blue-500/30 bg-blue-500/10 rounded">
+              <div className="font-medium">Commandes utiles:</div>
+              <div><span className="text-yellow-400">openapi models</span> - Voir les modèles disponibles</div>
+              <div><span className="text-yellow-400">openapi capabilities</span> - Voir les capacités détaillées</div>
+              <div><span className="text-yellow-400">openapi status</span> - Vérifier la connexion API</div>
+              <div><span className="text-yellow-400">openapi documentation</span> - Accéder à la documentation</div>
+            </div>
+          </div>,
+          'output'
+        );
+    }
+  };
   
   const aiStatus = () => {
     addOutput(
