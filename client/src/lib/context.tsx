@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -13,8 +13,24 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>('light');
+  const [mode, setMode] = useState<ThemeMode>(() => {
+    // Try to get the theme from localStorage
+    const savedTheme = localStorage.getItem('theme') as ThemeMode;
+    return savedTheme || 'light';
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Apply theme to document element
+  useEffect(() => {
+    const root = document.documentElement;
+    if (mode === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    // Save theme preference to localStorage
+    localStorage.setItem('theme', mode);
+  }, [mode]);
 
   const toggleTheme = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
