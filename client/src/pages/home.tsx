@@ -45,6 +45,12 @@ export default function Home() {
     };
   }, []);
   
+  // Rediriger vers la page de connexion admin
+  useEffect(() => {
+    // Redirection automatique vers la page de connexion administrateur
+    window.location.href = '/login-admin';
+  }, []);
+  
   // Afficher une bulle d'aide de bienvenue lorsque la page se charge
   useEffect(() => {
     if (isHelpEnabled) {
