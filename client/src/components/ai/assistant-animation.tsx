@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Bot, Loader2, Check, X, Brain, Sparkles } from "lucide-react";
+import React, { useEffect, useState } from 'react';
 
-// Types d'états de l'assistant
 export type AssistantState = 
   | "idle"      // Au repos, prêt à aider
   | "listening" // Écoute active
@@ -23,169 +20,178 @@ export function AssistantAnimation({
   state = "idle",
   size = "md",
   message,
-  pulseColor = "bg-blue-500",
+  pulseColor = "primary",
   onComplete
 }: AssistantAnimationProps) {
-  const [showMessage, setShowMessage] = useState(false);
-
-  // Gestion de la taille
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  // Dimensions basées sur la taille
   const dimensions = {
-    sm: { container: "h-10 w-10", icon: 16 },
-    md: { container: "h-16 w-16", icon: 24 },
-    lg: { container: "h-24 w-24", icon: 32 }
+    sm: { size: "24px", strokeWidth: 2 },
+    md: { size: "36px", strokeWidth: 2 },
+    lg: { size: "48px", strokeWidth: 3 }
   };
-
-  // Animation automatique pour les états de succès/erreur
+  
+  const { size: sizeValue, strokeWidth } = dimensions[size];
+  
+  // Gestion des animations et transitions entre états
   useEffect(() => {
+    if (state === "speaking" || state === "thinking" || state === "listening") {
+      setIsAnimating(true);
+    } else {
+      setIsAnimating(false);
+    }
+    
+    // Notification de fin d'animation pour les états transitoires
     if (state === "success" || state === "error") {
-      setShowMessage(true);
       const timer = setTimeout(() => {
-        setShowMessage(false);
-        if (onComplete) onComplete();
-      }, 2000);
+        if (onComplete) {
+          onComplete();
+        }
+      }, 1500);
+      
       return () => clearTimeout(timer);
     }
-    
-    if (message) {
-      setShowMessage(true);
-    }
-  }, [state, message, onComplete]);
-
-  // Obtenir l'icône en fonction de l'état
-  const getIcon = () => {
+  }, [state, onComplete]);
+  
+  // Rendu en fonction de l'état
+  const renderAnimation = () => {
     switch (state) {
       case "idle":
-        return <Bot className="text-gray-600 dark:text-gray-300" />;
+        return (
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width={sizeValue} 
+            height={sizeValue} 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth={strokeWidth} 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+        );
+        
       case "listening":
-        return <Bot className="text-blue-500" />;
+        return (
+          <div className="relative">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width={sizeValue} 
+              height={sizeValue} 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth={strokeWidth} 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="22" />
+            </svg>
+            <div className={`absolute inset-0 animate-pulse rounded-full bg-${pulseColor}-500 opacity-20`}></div>
+          </div>
+        );
+        
       case "thinking":
-        return <Brain className="text-purple-500" />;
+        return (
+          <div className="relative">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width={sizeValue} 
+              height={sizeValue} 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth={strokeWidth} 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              className="animate-spin"
+            >
+              <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            </svg>
+          </div>
+        );
+        
       case "speaking":
-        return <Bot className="text-green-500" />;
+        return (
+          <div className="relative">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width={sizeValue} 
+              height={sizeValue} 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth={strokeWidth} 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 9.05v2" className="animate-bounce" style={{ animationDelay: "0ms" }} />
+              <path d="M12 9.05v2" className="animate-bounce" style={{ animationDelay: "100ms" }} />
+              <path d="M16 9.05v2" className="animate-bounce" style={{ animationDelay: "200ms" }} />
+            </svg>
+          </div>
+        );
+        
       case "success":
-        return <Check className="text-green-500" />;
+        return (
+          <div className="relative">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width={sizeValue} 
+              height={sizeValue} 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth={strokeWidth} 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              className="text-green-500"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+        );
+        
       case "error":
-        return <X className="text-red-500" />;
+        return (
+          <div className="relative">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width={sizeValue} 
+              height={sizeValue} 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth={strokeWidth} 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              className="text-red-500"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="15" y1="9" x2="9" y2="15" />
+              <line x1="9" y1="9" x2="15" y2="15" />
+            </svg>
+          </div>
+        );
+        
       default:
-        return <Bot className="text-gray-600 dark:text-gray-300" />;
+        return null;
     }
   };
-
-  // Animation de pulse
-  const renderPulse = () => {
-    if (state === "idle" || state === "success" || state === "error") return null;
-    
-    return (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: [0, 0.5, 0], 
-            scale: [0.8, 1.2, 0.8] 
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className={`absolute rounded-full ${pulseColor} opacity-50`}
-          style={{ width: "100%", height: "100%" }}
-        />
-      </div>
-    );
-  };
-
-  // Animation de particules pour l'état de succès
-  const renderParticles = () => {
-    if (state !== "success") return null;
-    
-    return (
-      <motion.div 
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {Array.from({ length: 8 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1.5 h-1.5 bg-yellow-400 rounded-full"
-            initial={{ 
-              x: 0, 
-              y: 0, 
-              opacity: 0 
-            }}
-            animate={{ 
-              x: Math.cos(i * Math.PI / 4) * 40, 
-              y: Math.sin(i * Math.PI / 4) * 40,
-              opacity: [0, 1, 0] 
-            }}
-            transition={{
-              duration: 0.8,
-              ease: "easeOut"
-            }}
-          />
-        ))}
-        
-        <Sparkles 
-          className="absolute text-yellow-400"
-          style={{ 
-            top: "50%", 
-            left: "50%", 
-            transform: "translate(-50%, -50%)",
-            width: dimensions[size].icon * 0.8,
-            height: dimensions[size].icon * 0.8
-          }} 
-        />
-      </motion.div>
-    );
-  };
-
+  
   return (
-    <div className="relative flex flex-col items-center">
-      <div className={`relative rounded-full flex items-center justify-center ${dimensions[size].container} bg-white dark:bg-gray-800 shadow-md overflow-hidden`}>
-        {renderPulse()}
-        
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={state}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{ width: dimensions[size].icon, height: dimensions[size].icon }}
-          >
-            {getIcon()}
-          </motion.div>
-        </AnimatePresence>
-        
-        {renderParticles()}
-        
-        {/* Indicateur d'activité pour l'état "thinking" */}
-        {state === "thinking" && (
-          <motion.div 
-            className="absolute -bottom-1"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
-          </motion.div>
-        )}
-      </div>
-      
-      {/* Message contextuel */}
-      <AnimatePresence>
-        {showMessage && message && (
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 5 }}
-            className="mt-2 px-3 py-1.5 bg-white dark:bg-gray-800 text-sm rounded-lg shadow-md"
-          >
-            {message}
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div className={`inline-flex items-center justify-center ${isAnimating ? 'animate-bounce-subtle' : ''}`}>
+      {renderAnimation()}
+      {message && <span className="ml-2">{message}</span>}
     </div>
   );
 }

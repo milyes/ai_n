@@ -8,6 +8,7 @@ import { HelpProvider } from "./lib/help-context";
 import Home from "@/pages/home";
 import AI from "@/pages/ai";
 import Help from "@/pages/help";
+import IACentral from "@/pages/ia-central";
 import { AutoAssistant } from "@/components/ai/auto-assistant";
 import { useState, useEffect } from "react";
 
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/ai" component={AI} />
       <Route path="/help" component={Help} />
+      <Route path="/ia-central" component={IACentral} />
       <Route component={NotFound} />
     </Switch>
   );

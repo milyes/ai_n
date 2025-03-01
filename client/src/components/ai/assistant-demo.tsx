@@ -1,97 +1,116 @@
-import { useState } from "react";
-import { AssistantAnimation, AssistantState } from "./assistant-animation";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import React, { useState } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AssistantAnimation, AssistantState } from '@/components/ai/assistant-animation';
 
 export function AssistantDemo() {
   const [currentState, setCurrentState] = useState<AssistantState>("idle");
-  const [message, setMessage] = useState<string>("Je suis votre assistant IA.");
   
   const states: { state: AssistantState; label: string; message: string }[] = [
-    { state: "idle", label: "Au repos", message: "Je suis votre assistant IA." },
-    { state: "listening", label: "Écoute", message: "Je vous écoute..." },
-    { state: "thinking", label: "Réflexion", message: "Je réfléchis à votre demande..." },
-    { state: "speaking", label: "Réponse", message: "Voici ma réponse à votre question." },
-    { state: "success", label: "Succès", message: "Opération réussie !" },
-    { state: "error", label: "Erreur", message: "Une erreur est survenue." },
+    { state: "idle", label: "Repos", message: "Assistant prêt à aider" },
+    { state: "listening", label: "Écoute", message: "J'écoute..." },
+    { state: "thinking", label: "Réflexion", message: "Je réfléchis..." },
+    { state: "speaking", label: "Parole", message: "Voici ma réponse" },
+    { state: "success", label: "Succès", message: "Opération réussie!" },
+    { state: "error", label: "Erreur", message: "Une erreur est survenue" }
   ];
   
-  // Simuler une séquence d'animations
-  const runDemo = async () => {
-    const sequence: AssistantState[] = ["idle", "listening", "thinking", "speaking", "success"];
-    const messages = [
-      "Je suis votre assistant IA.",
-      "Je vous écoute...",
-      "J'analyse votre demande...",
-      "D'après mon analyse, voici la réponse à votre question.",
-      "Analyse complétée avec succès !"
-    ];
-    
-    for (let i = 0; i < sequence.length; i++) {
-      setCurrentState(sequence[i]);
-      setMessage(messages[i]);
-      // Attendre avant de passer à l'état suivant
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    }
-    
-    // Revenir à l'état initial
-    setTimeout(() => {
-      setCurrentState("idle");
-      setMessage("Je suis votre assistant IA.");
-    }, 1500);
-  };
-
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>Démo Assistant IA</CardTitle>
-        <CardDescription>
-          Visualisez les différentes animations de l'assistant IA.
-        </CardDescription>
-      </CardHeader>
+    <Card className="max-w-2xl mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-6">États de l'Assistant IA</h2>
       
-      <CardContent className="flex flex-col items-center space-y-6">
-        <div className="py-6">
-          <AssistantAnimation 
-            state={currentState} 
-            size="lg" 
-            message={message}
-          />
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex-1">
+          <Tabs defaultValue="interactive" className="mb-4">
+            <TabsList className="w-full">
+              <TabsTrigger value="interactive" className="flex-1">Interactif</TabsTrigger>
+              <TabsTrigger value="all" className="flex-1">Tous les états</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="interactive" className="pt-4">
+              <div className="flex flex-col items-center gap-6 p-4">
+                <div className="flex justify-center p-6 border rounded-lg w-full">
+                  <AssistantAnimation 
+                    state={currentState} 
+                    size="lg" 
+                    message={states.find(s => s.state === currentState)?.message}
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 w-full">
+                  {states.map((stateItem) => (
+                    <Button 
+                      key={stateItem.state}
+                      variant={currentState === stateItem.state ? "default" : "outline"}
+                      onClick={() => setCurrentState(stateItem.state)}
+                    >
+                      {stateItem.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="all" className="space-y-6 pt-4">
+              {states.map((stateItem) => (
+                <div 
+                  key={stateItem.state} 
+                  className="flex items-center justify-between p-4 border rounded-lg"
+                >
+                  <div className="flex items-center gap-4">
+                    <AssistantAnimation state={stateItem.state} />
+                    <div>
+                      <h3 className="font-medium">{stateItem.label}</h3>
+                      <p className="text-sm text-gray-500">{stateItem.message}</p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setCurrentState(stateItem.state)}
+                  >
+                    Essayer
+                  </Button>
+                </div>
+              ))}
+            </TabsContent>
+          </Tabs>
         </div>
         
-        <Separator />
-        
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
-          {states.map((item) => (
-            <Button
-              key={item.state}
-              variant={currentState === item.state ? "default" : "outline"}
-              size="sm"
-              className="text-xs"
-              onClick={() => {
-                setCurrentState(item.state);
-                setMessage(item.message);
-              }}
-            >
-              {item.label}
-            </Button>
-          ))}
+        <div className="flex-1">
+          <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg h-full overflow-auto">
+            <h3 className="font-medium mb-3">Utilisation du composant</h3>
+            <pre className="text-xs overflow-auto p-2 bg-gray-900 text-gray-100 rounded">
+{`import { AssistantAnimation } from '@/components/ai/assistant-animation';
+
+// État statique
+<AssistantAnimation 
+  state="idle" 
+  message="Message à afficher" 
+/>
+
+// État dynamique avec changement d'état
+const [state, setState] = useState<AssistantState>("idle");
+
+<AssistantAnimation 
+  state={state}
+  size="md" // 'sm', 'md', or 'lg'
+  message="Message dynamique"
+  onComplete={() => {
+    // Action après la fin de l'animation
+    setState("idle");
+  }}
+/>
+
+// Changement d'état après une action
+<Button onClick={() => setState("thinking")}>
+  Réfléchir
+</Button>`}
+            </pre>
+          </div>
         </div>
-      </CardContent>
-      
-      <CardFooter className="flex justify-center">
-        <Button onClick={runDemo} className="w-full">
-          Lancer la démo animée
-        </Button>
-      </CardFooter>
+      </div>
     </Card>
   );
 }
