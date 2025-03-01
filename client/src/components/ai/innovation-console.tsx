@@ -62,7 +62,8 @@ export function InnovationConsole({
     theme: "Change le thème de la console (theme <light|dark|system>)",
     internet: "Accède à Internet Intelligence (internet <query>)",
     connect: "Connecte à un service externe (connect <service>)",
-    fetch: "Récupère des données d'une source (fetch <source> <params>)"
+    fetch: "Récupère des données d'une source (fetch <source> <params>)",
+    clone: "Clone la console pour des opérations parallèles (clone <nom>)"
   };
   
   // Effet pour défiler automatiquement vers le bas
@@ -431,6 +432,53 @@ export function InnovationConsole({
         }, 1000);
         break;
         
+      case 'clone':
+        if (!args) {
+          addErrorLog("Usage: clone <nom>");
+          break;
+        }
+        
+        setMascotState('working');
+        setMascotMessage('Clonage de la console...');
+        setIsExecuting(true);
+        
+        setTimeout(() => {
+          addOutputLog(`🖥️ Démarrage du clonage de la console: "${args}"`);
+          addOutputLog("Préparation de l'environnement d'exécution parallèle...");
+          
+          setTimeout(() => {
+            addOutputLog("Allocation des ressources système pour le clone...");
+            
+            setTimeout(() => {
+              const sessionId = Math.floor(Math.random() * 90000) + 10000;
+              addOutputLog(`Terminal IA_clone_terminal créé avec succès !`);
+              addOutputLog(`ID de session: ${sessionId}`);
+              addOutputLog(`Nom du clone: ${args}`);
+              addOutputLog(`État: Actif et en attente de commandes`);
+              addOutputLog("");
+              addOutputLog("Le terminal cloné peut désormais exécuter des opérations en parallèle.");
+              addOutputLog("Utilisez la commande 'connect terminal_clone ${args}' pour y accéder directement.");
+              
+              setMascotState('success');
+              setMascotMessage('Clone créé avec succès !');
+              
+              // Ajoutez un bouton rapide pour le terminal cloné
+              const newCommand = { label: `Clone: ${args}`, command: `connect terminal_clone ${args}` };
+              if (!quickCommands.some(cmd => cmd.label.includes(args))) {
+                // Ne pas ajouter de quickCommands ici car c'est un état React et ça provoquerait un rendu en boucle
+                // Nous indiquons simplement à l'utilisateur comment accéder au clone
+              }
+              
+              setTimeout(() => {
+                setIsExecuting(false);
+                setMascotState('idle');
+                setMascotMessage('');
+              }, 2000);
+            }, 1500);
+          }, 1200);
+        }, 1000);
+        break;
+        
       default:
         // Essayer d'exécuter la commande via le handler externe
         if (onExecute) {
@@ -519,6 +567,7 @@ export function InnovationConsole({
     { label: 'Status', command: 'status' },
     { label: 'Modules', command: 'modules' },
     { label: 'Internet', command: 'internet search' },
+    { label: 'Clone', command: 'clone IA_terminal' },
     { label: 'Help', command: 'help' },
     { label: 'Clear', command: 'clear' }
   ];
