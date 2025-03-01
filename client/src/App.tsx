@@ -11,6 +11,9 @@ import Help from "@/pages/help";
 import IACentral from "@/pages/ia-central";
 import { AutoAssistant } from "@/components/ai/auto-assistant";
 import { useState, useEffect } from "react";
+import { AdminRoute } from "@/components/auth/admin-route";
+import { AdminBar } from "@/components/auth/admin-bar";
+import { isAdminAuthenticated } from "@/lib/auth-service";
 
 // Import pour la page de porte automatique
 import PorteAutomatique from "@/pages/porte-automatique";
@@ -20,22 +23,75 @@ import MascotPage from "@/pages/mascot";
 import IAConsole from "@/pages/ia-console";
 // Import pour l'assistant IA automatique
 import AssistantAutomatique from "@/pages/assistant-automatique";
+// Import pour la page d'authentification administrateur
+import LoginAdmin from "@/pages/login-admin";
 
 function Router() {
   const [location] = useLocation();
+  const [isAdmin, setIsAdmin] = useState(false);
+  
+  // Vérifier si l'utilisateur est un administrateur authentifié
+  useEffect(() => {
+    setIsAdmin(isAdminAuthenticated());
+  }, [location]);
   
   return (
-    <Switch location={location}>
-      <Route path="/" component={Home} />
-      <Route path="/ai" component={AI} />
-      <Route path="/help" component={Help} />
-      <Route path="/ia-central" component={IACentral} />
-      <Route path="/porte-automatique" component={PorteAutomatique} />
-      <Route path="/mascot" component={MascotPage} />
-      <Route path="/ia-console" component={IAConsole} />
-      <Route path="/assistant-automatique" component={AssistantAutomatique} />
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      {isAdmin && <AdminBar />}
+      <div className={isAdmin ? "pt-10" : ""}>
+        <Switch location={location}>
+          {/* Route d'authentification */}
+          <Route path="/login-admin" component={LoginAdmin} />
+          
+          {/* Routes protégées par authentification administrateur */}
+          <Route path="/">
+            <AdminRoute>
+              <Home />
+            </AdminRoute>
+          </Route>
+          <Route path="/ai">
+            <AdminRoute>
+              <AI />
+            </AdminRoute>
+          </Route>
+          <Route path="/help">
+            <AdminRoute>
+              <Help />
+            </AdminRoute>
+          </Route>
+          <Route path="/ia-central">
+            <AdminRoute>
+              <IACentral />
+            </AdminRoute>
+          </Route>
+          <Route path="/porte-automatique">
+            <AdminRoute>
+              <PorteAutomatique />
+            </AdminRoute>
+          </Route>
+          <Route path="/mascot">
+            <AdminRoute>
+              <MascotPage />
+            </AdminRoute>
+          </Route>
+          <Route path="/ia-console">
+            <AdminRoute>
+              <IAConsole />
+            </AdminRoute>
+          </Route>
+          <Route path="/assistant-automatique">
+            <AdminRoute>
+              <AssistantAutomatique />
+            </AdminRoute>
+          </Route>
+          <Route>
+            <AdminRoute>
+              <NotFound />
+            </AdminRoute>
+          </Route>
+        </Switch>
+      </div>
+    </>
   );
 }
 
