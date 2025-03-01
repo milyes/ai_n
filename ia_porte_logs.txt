@@ -1,1 +1,9 @@
 2025-03-01 16:32:21 - Initialisation du fichier de logs
+2025-03-01 18:08:07 - [INFO] Démarrage du service IA pour porte automatique sur le port 8085
+2025-03-01 18:08:07 - [INFO] Service démarré avec PID: 321
+2025-03-01 18:08:07 - [SUCCESS] Service démarré avec succès sur le port 8085
+2025-03-01 18:08:07 - [SUCCESS] Module IA pour porte automatique prêt à recevoir des connexions
+2025-03-01 18:08:37 - [INFO] Démarrage du service IA pour porte automatique sur le port 8085
+2025-03-01 18:08:37 - [SUCCESS] Service démarré avec succès sur le port 8085
+2025-03-01 18:08:37 - [INFO] Service démarré avec PID: 333
+2025-03-01 18:08:37 - [SUCCESS] Module IA pour porte automatique prêt à recevoir des connexions

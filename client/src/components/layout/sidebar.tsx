@@ -52,6 +52,12 @@ const navItems: NavItem[] = [
     href: '/mascot'
   },
   {
+    id: 'ia-console',
+    label: 'Console Innovation',
+    icon: 'terminal',
+    href: '/ia-console'
+  },
+  {
     id: 'endpoints',
     label: 'API & Services',
     icon: 'api',
