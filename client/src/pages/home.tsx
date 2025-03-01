@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
 import Intro from '@/pages/intro';
@@ -9,9 +9,11 @@ import Validation from '@/pages/validation';
 import ErrorHandling from '@/pages/error-handling';
 import { useHelp } from '@/lib/help-context';
 import { HelpTooltip, ContextualHelp } from '@/components/ui/help-tooltip';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const { showHelp, isHelpEnabled } = useHelp();
+  const [, navigate] = useLocation();
   
   // Add CSS for styling that was in the design HTML
   useEffect(() => {
@@ -48,7 +50,11 @@ export default function Home() {
   // Rediriger vers la page de connexion admin
   useEffect(() => {
     // Redirection automatique vers la page de connexion administrateur
-    window.location.href = '/login-admin';
+    const timer = setTimeout(() => {
+      window.location.href = '/login-admin';
+    }, 800);
+    
+    return () => clearTimeout(timer);
   }, []);
   
   // Afficher une bulle d'aide de bienvenue lorsque la page se charge
