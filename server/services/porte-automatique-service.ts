@@ -535,6 +535,433 @@ export class PorteAutomatiqueService {
   public isRunning(): boolean {
     return this.serviceRunning;
   }
+  
+  /**
+   * Tester une empreinte digitale
+   * @param empreinte Hash de l'empreinte à tester
+   */
+  public async testerEmpreinte(empreinte: string): Promise<{
+    autorise: boolean;
+    message: string;
+    utilisateur?: string;
+    niveauAcces?: string;
+    horaireAutorise?: boolean;
+  }> {
+    try {
+      // Vérifier si l'empreinte existe
+      const empreinteObj = this.empreintes.find(e => e.hash === empreinte);
+      
+      // Capture vidéo si configurée
+      let captureId: string | undefined = undefined;
+      if (this.config?.activerVideo) {
+        captureId = await this.capturerVideo();
+      }
+      
+      if (!empreinteObj) {
+        // Empreinte non reconnue
+        this.nbTentativesEchouees++;
+        
+        // Vérifier si le seuil d'alerte est atteint
+        if (this.config?.alerteMultiEchecs && 
+            this.nbTentativesEchouees >= (this.config?.seuilAlerte || 3)) {
+          this.declencherAlerte('Multiples tentatives d\'accès échouées', captureId);
+        }
+        
+        // Ajouter un événement
+        const evenement: EvenementPorte = {
+          id: this.genererIdEvenement(),
+          timestamp: new Date().toISOString(),
+          type: 'refus',
+          message: 'Empreinte non reconnue',
+          empreinte: empreinte,
+          camera: captureId
+        };
+        this.evenements.unshift(evenement);
+        
+        return {
+          autorise: false,
+          message: 'Empreinte non reconnue',
+          horaireAutorise: false
+        };
+      }
+      
+      // Vérifier si l'empreinte est active
+      if (!empreinteObj.actif) {
+        // Ajouter un événement
+        const evenement: EvenementPorte = {
+          id: this.genererIdEvenement(),
+          timestamp: new Date().toISOString(),
+          type: 'refus',
+          utilisateur: empreinteObj.nom,
+          message: 'Empreinte désactivée',
+          empreinte: empreinte,
+          camera: captureId
+        };
+        this.evenements.unshift(evenement);
+        
+        return {
+          autorise: false,
+          message: 'Empreinte désactivée',
+          utilisateur: empreinteObj.nom,
+          niveauAcces: empreinteObj.niveauAcces,
+          horaireAutorise: false
+        };
+      }
+      
+      // Vérifier les horaires d'accès si la planification est active
+      if (this.config?.planificationActive && empreinteObj.horaireAcces) {
+        const maintenant = new Date();
+        const heureActuelle = maintenant.getHours() * 60 + maintenant.getMinutes();
+        const jourActuel = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'][maintenant.getDay()];
+        
+        const [heureDebut, minuteDebut] = empreinteObj.horaireAcces.debut.split(':').map(Number);
+        const [heureFin, minuteFin] = empreinteObj.horaireAcces.fin.split(':').map(Number);
+        
+        const debutMinutes = heureDebut * 60 + minuteDebut;
+        const finMinutes = heureFin * 60 + minuteFin;
+        
+        const horaireAutorise = heureActuelle >= debutMinutes && 
+                               heureActuelle <= finMinutes && 
+                               empreinteObj.horaireAcces.jours.includes(jourActuel);
+        
+        if (!horaireAutorise) {
+          // Ajouter un événement
+          const evenement: EvenementPorte = {
+            id: this.genererIdEvenement(),
+            timestamp: new Date().toISOString(),
+            type: 'refus',
+            utilisateur: empreinteObj.nom,
+            message: 'Accès refusé - horaire non autorisé',
+            empreinte: empreinte,
+            camera: captureId
+          };
+          this.evenements.unshift(evenement);
+          
+          // Envoyer une notification
+          if (this.config?.notifications) {
+            this.envoyerNotification({
+              type: 'email',
+              destinataire: this.config.emailAdmin || 'admin@exemple.com',
+              message: `Tentative d'accès en dehors des heures autorisées par ${empreinteObj.nom}`
+            });
+          }
+          
+          return {
+            autorise: false,
+            message: 'Accès refusé - horaire non autorisé',
+            utilisateur: empreinteObj.nom,
+            niveauAcces: empreinteObj.niveauAcces,
+            horaireAutorise: false
+          };
+        }
+      }
+      
+      // Accès autorisé
+      this.nbTentativesEchouees = 0; // Réinitialiser le compteur d'échecs
+      
+      // Ajouter un événement
+      const evenement: EvenementPorte = {
+        id: this.genererIdEvenement(),
+        timestamp: new Date().toISOString(),
+        type: 'acces',
+        utilisateur: empreinteObj.nom,
+        message: 'Accès autorisé',
+        empreinte: empreinte,
+        camera: captureId
+      };
+      this.evenements.unshift(evenement);
+      
+      return {
+        autorise: true,
+        message: 'Accès autorisé',
+        utilisateur: empreinteObj.nom,
+        niveauAcces: empreinteObj.niveauAcces,
+        horaireAutorise: true
+      };
+    } catch (error: any) {
+      console.error('Erreur lors du test d\'empreinte:', error);
+      
+      // Ajouter un événement
+      const evenement: EvenementPorte = {
+        id: this.genererIdEvenement(),
+        timestamp: new Date().toISOString(),
+        type: 'erreur',
+        message: `Erreur lors du test d'empreinte: ${error.message}`,
+        empreinte: empreinte
+      };
+      this.evenements.unshift(evenement);
+      
+      return {
+        autorise: false,
+        message: `Erreur: ${error.message}`,
+        horaireAutorise: false
+      };
+    }
+  }
+
+  /**
+   * Exporter les logs au format CSV
+   */
+  public async exporterLogsCSV(): Promise<string> {
+    try {
+      const headers = ['ID', 'Date', 'Type', 'Utilisateur', 'Message', 'Empreinte', 'Capture'];
+      const rows = this.evenements.map(evt => [
+        evt.id || 0,
+        new Date(evt.timestamp).toLocaleString('fr-FR'),
+        evt.type,
+        evt.utilisateur || '',
+        evt.message,
+        evt.empreinte || '',
+        evt.camera || ''
+      ]);
+      
+      const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.map(field => `"${field}"`).join(','))
+      ].join('\n');
+      
+      const fileName = `logs_porte_${new Date().toISOString().replace(/:/g, '-')}.csv`;
+      const filePath = `./${fileName}`;
+      
+      fs.writeFileSync(filePath, csvContent, 'utf8');
+      
+      return filePath;
+    } catch (error: any) {
+      console.error('Erreur lors de l\'export CSV:', error);
+      throw new Error('Échec de l\'export CSV');
+    }
+  }
+
+  /**
+   * Créer un groupe d'accès
+   */
+  public async creerGroupe(
+    nom: string,
+    description: string,
+    niveauAcces: string,
+    zones: string[]
+  ): Promise<GroupeAcces> {
+    try {
+      const id = Math.max(0, ...this.groupes.map(g => g.id)) + 1;
+      const nouveauGroupe: GroupeAcces = {
+        id,
+        nom,
+        description,
+        niveauAcces,
+        zones,
+        membres: []
+      };
+      
+      this.groupes.push(nouveauGroupe);
+      
+      // Ajouter un événement
+      const evenement: EvenementPorte = {
+        id: this.genererIdEvenement(),
+        timestamp: new Date().toISOString(),
+        type: 'systeme',
+        message: `Nouveau groupe d'accès créé: ${nom}`
+      };
+      this.evenements.unshift(evenement);
+      
+      return nouveauGroupe;
+    } catch (error: any) {
+      console.error('Erreur lors de la création du groupe:', error);
+      throw new Error('Échec de création du groupe');
+    }
+  }
+
+  /**
+   * Obtenir tous les groupes d'accès
+   */
+  public getGroupes(): GroupeAcces[] {
+    return this.groupes;
+  }
+
+  /**
+   * Ajouter un utilisateur à un groupe
+   */
+  public async ajouterUtilisateurAuGroupe(
+    groupeId: number, 
+    utilisateurId: number
+  ): Promise<boolean> {
+    try {
+      const groupe = this.groupes.find(g => g.id === groupeId);
+      const utilisateur = this.empreintes.find(e => e.id === utilisateurId);
+      
+      if (!groupe || !utilisateur) {
+        return false;
+      }
+      
+      if (!groupe.membres.includes(utilisateurId)) {
+        groupe.membres.push(utilisateurId);
+        utilisateur.groupeId = groupeId;
+      }
+      
+      return true;
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout au groupe:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Retirer un utilisateur d'un groupe
+   */
+  public async retirerUtilisateurDuGroupe(
+    groupeId: number, 
+    utilisateurId: number
+  ): Promise<boolean> {
+    try {
+      const groupe = this.groupes.find(g => g.id === groupeId);
+      const utilisateur = this.empreintes.find(e => e.id === utilisateurId);
+      
+      if (!groupe || !utilisateur) {
+        return false;
+      }
+      
+      const index = groupe.membres.indexOf(utilisateurId);
+      if (index !== -1) {
+        groupe.membres.splice(index, 1);
+        if (utilisateur.groupeId === groupeId) {
+          utilisateur.groupeId = undefined;
+        }
+      }
+      
+      return true;
+    } catch (error: any) {
+      console.error('Erreur lors du retrait du groupe:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Générer un identifiant unique pour les événements
+   */
+  private genererIdEvenement(): number {
+    return Math.max(0, ...this.evenements.map(e => e.id || 0)) + 1;
+  }
+
+  /**
+   * Déclencher une alerte de sécurité
+   */
+  private declencherAlerte(raison: string, captureId?: string): void {
+    if (this.alerteActive) {
+      return; // Alerte déjà active
+    }
+    
+    this.alerteActive = true;
+    
+    // Ajouter un événement
+    const evenement: EvenementPorte = {
+      id: this.genererIdEvenement(),
+      timestamp: new Date().toISOString(),
+      type: 'systeme',
+      message: `ALERTE DE SÉCURITÉ: ${raison}`,
+      camera: captureId
+    };
+    this.evenements.unshift(evenement);
+    
+    // Envoyer des notifications d'alerte
+    if (this.config?.notifications) {
+      // Email
+      if (this.config.notificationEmail) {
+        this.envoyerNotification({
+          type: 'email',
+          destinataire: this.config.emailAdmin || 'admin@exemple.com',
+          message: `ALERTE DE SÉCURITÉ: ${raison}`
+        });
+      }
+      
+      // SMS
+      if (this.config.notificationSMS) {
+        this.envoyerNotification({
+          type: 'sms',
+          destinataire: this.config.numeroSMS || '+33601020304',
+          message: `ALERTE SECURITE: ${raison}`
+        });
+      }
+    }
+    
+    // Réinitialiser l'alerte après un délai
+    setTimeout(() => {
+      this.alerteActive = false;
+      this.nbTentativesEchouees = 0;
+    }, 300000); // 5 minutes
+  }
+
+  /**
+   * Envoyer une notification
+   */
+  private envoyerNotification(notifParams: {
+    type: 'sms' | 'email' | 'app';
+    destinataire: string;
+    message: string;
+  }): void {
+    try {
+      const id = Math.max(0, ...this.notifications.map(n => n.id), 0) + 1;
+      const notification: Notification = {
+        id,
+        ...notifParams,
+        timestamp: new Date().toISOString(),
+        statut: 'envoyé'
+      };
+      
+      this.notifications.push(notification);
+      
+      // Simuler l'envoi (dans un vrai système, on appellerait un service externe)
+      console.log(`Notification ${notifParams.type} envoyée à ${notifParams.destinataire}: ${notifParams.message}`);
+      
+    } catch (error: any) {
+      console.error('Erreur lors de l\'envoi de notification:', error);
+      
+      // Enregistrer l'échec
+      const id = Math.max(0, ...this.notifications.map(n => n.id), 0) + 1;
+      const notification: Notification = {
+        id,
+        ...notifParams,
+        timestamp: new Date().toISOString(),
+        statut: 'échec'
+      };
+      
+      this.notifications.push(notification);
+    }
+  }
+
+  /**
+   * Obtenir l'historique des notifications
+   */
+  public getNotifications(): Notification[] {
+    return this.notifications;
+  }
+
+  /**
+   * Capturer une image vidéo
+   * @returns ID de la capture (timestamp)
+   */
+  private async capturerVideo(): Promise<string> {
+    // Dans un système réel, on prendrait réellement une photo
+    // Ici on simule une capture
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const captureId = `captures/capture_${timestamp}.jpg`;
+    
+    // Enregistrer dans l'historique
+    this.dernieresCapturesVideo.set(timestamp, captureId);
+    
+    // Limiter à 20 captures en mémoire
+    if (this.dernieresCapturesVideo.size > 20) {
+      const oldest = Array.from(this.dernieresCapturesVideo.keys())[0];
+      this.dernieresCapturesVideo.delete(oldest);
+    }
+    
+    return captureId;
+  }
+
+  /**
+   * Obtenir les dernières captures vidéo
+   */
+  public getCaptures(): Map<string, string> {
+    return this.dernieresCapturesVideo;
+  }
 }
 
 // Singleton pour le service

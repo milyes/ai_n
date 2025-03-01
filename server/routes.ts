@@ -47,7 +47,14 @@ import {
   deleteEmpreinte,
   getLogs,
   getConfig,
-  updateConfig
+  updateConfig,
+  testEmpreinte,
+  exportLogs,
+  getGroupes,
+  createGroupe,
+  addUserToGroup,
+  removeUserFromGroup,
+  getNotifications
 } from "./controllers/porte-automatique-controller";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -89,12 +96,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   apiRouter.post('/porte-automatique/start', startService);
   apiRouter.post('/porte-automatique/stop', stopService);
   apiRouter.post('/porte-automatique/test', testService);
+  
+  // Empreintes
   apiRouter.get('/porte-automatique/empreintes', getEmpreintes);
   apiRouter.post('/porte-automatique/empreintes', addEmpreinte);
   apiRouter.delete('/porte-automatique/empreintes/:id', deleteEmpreinte);
+  apiRouter.post('/porte-automatique/empreintes/test', testEmpreinte);
+  
+  // Logs
   apiRouter.get('/porte-automatique/logs', getLogs);
+  apiRouter.get('/porte-automatique/logs/export', exportLogs);
+  
+  // Configuration
   apiRouter.get('/porte-automatique/config', getConfig);
   apiRouter.put('/porte-automatique/config', updateConfig);
+  
+  // Groupes d'accès
+  apiRouter.get('/porte-automatique/groupes', getGroupes);
+  apiRouter.post('/porte-automatique/groupes', createGroupe);
+  apiRouter.post('/porte-automatique/groupes/add-user', addUserToGroup);
+  apiRouter.post('/porte-automatique/groupes/remove-user', removeUserFromGroup);
+  
+  // Notifications
+  apiRouter.get('/porte-automatique/notifications', getNotifications);
   
   // Mount the API router to /api path
   app.use('/api', apiRouter);
