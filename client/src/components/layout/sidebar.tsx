@@ -16,39 +16,10 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    id: 'introduction',
-    label: 'Introduction',
+    id: 'home',
+    label: 'Accueil',
     icon: 'home',
-    href: '#introduction'
-  },
-  {
-    id: 'installation',
-    label: 'Installation',
-    icon: 'install_desktop',
-    href: '#installation'
-  },
-  {
-    id: 'endpoints',
-    label: 'Points de terminaison',
-    icon: 'api',
-    href: '#endpoints',
-    children: [
-      { id: 'endpoints-users', label: 'Utilisateurs', href: '#endpoints-users' },
-      { id: 'endpoints-products', label: 'Produits', href: '#endpoints-products' },
-      { id: 'endpoints-orders', label: 'Commandes', href: '#endpoints-orders' }
-    ]
-  },
-  {
-    id: 'validation',
-    label: 'Validation',
-    icon: 'check_circle',
-    href: '#validation'
-  },
-  {
-    id: 'error-handling',
-    label: 'Gestion des erreurs',
-    icon: 'error',
-    href: '#error-handling'
+    href: '/'
   },
   {
     id: 'ai',
@@ -69,28 +40,63 @@ const navItems: NavItem[] = [
     href: '/help'
   },
   {
+    id: 'endpoints',
+    label: 'API & Services',
+    icon: 'api',
+    href: '#endpoints',
+    children: [
+      { id: 'endpoints-users', label: 'Utilisateurs', href: '/#endpoints-users' },
+      { id: 'endpoints-products', label: 'Produits', href: '/#endpoints-products' },
+      { id: 'endpoints-orders', label: 'Commandes', href: '/#endpoints-orders' }
+    ]
+  },
+  {
+    id: 'health',
+    label: 'Santé',
+    icon: 'health_and_safety',
+    href: '/ia-central#health'
+  },
+  {
+    id: 'security',
+    label: 'Cybersécurité',
+    icon: 'security',
+    href: '/ia-central#security'
+  },
+  {
+    id: 'validation',
+    label: 'Validation',
+    icon: 'check_circle',
+    href: '/#validation'
+  },
+  {
+    id: 'error-handling',
+    label: 'Gestion des erreurs',
+    icon: 'error',
+    href: '/#error-handling'
+  },
+  {
     id: 'testing',
     label: 'Tests',
     icon: 'science',
-    href: '#testing'
+    href: '/#testing'
   },
   {
     id: 'configuration',
     label: 'Configuration',
     icon: 'settings',
-    href: '#configuration'
+    href: '/#configuration'
   },
   {
     id: 'deployment',
     label: 'Déploiement',
     icon: 'cloud_upload',
-    href: '#deployment'
+    href: '/#deployment'
   }
 ];
 
 export function Sidebar() {
   const { isSidebarOpen, closeSidebar } = useTheme();
-  const [activeSection, setActiveSection] = React.useState('introduction');
+  const [activeSection, setActiveSection] = React.useState('home');
   const [expandedItems, setExpandedItems] = React.useState<Record<string, boolean>>({
     endpoints: true
   });
