@@ -58,6 +58,12 @@ const navItems: NavItem[] = [
     href: '/ia-console'
   },
   {
+    id: 'ia-terminal',
+    label: 'Terminal Linux IA',
+    icon: 'code',
+    href: '/ia-terminal'
+  },
+  {
     id: 'endpoints',
     label: 'API & Services',
     icon: 'api',

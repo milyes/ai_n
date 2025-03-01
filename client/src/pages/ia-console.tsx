@@ -145,6 +145,17 @@ Performance globale: Excellente
                 </CardContent>
               </Card>
             </div>
+            
+            <div className="mt-4 py-3 px-4 border border-primary/20 rounded-md bg-primary/5 flex items-center">
+              <span className="material-icons text-primary mr-3">new_releases</span>
+              <div>
+                <h3 className="text-sm font-medium">Nouveau ! Terminal Linux IA</h3>
+                <p className="text-xs text-muted-foreground">Découvrez notre nouvelle interface terminal style Linux avec commandes IA avancées</p>
+              </div>
+              <Button variant="outline" size="sm" className="ml-auto" asChild>
+                <a href="/ia-terminal">Accéder au Terminal</a>
+              </Button>
+            </div>
           </div>
         </TabsContent>
         

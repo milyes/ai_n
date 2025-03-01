@@ -25,6 +25,8 @@ import IAConsole from "@/pages/ia-console";
 import AssistantAutomatique from "@/pages/assistant-automatique";
 // Import pour la page d'authentification administrateur
 import LoginAdmin from "@/pages/login-admin";
+// Import pour le terminal IA style Linux
+import IATerminal from "@/pages/ia-terminal";
 
 function Router() {
   const [location] = useLocation();
@@ -82,6 +84,11 @@ function Router() {
           <Route path="/assistant-automatique">
             <AdminRoute>
               <AssistantAutomatique />
+            </AdminRoute>
+          </Route>
+          <Route path="/ia-terminal">
+            <AdminRoute>
+              <IATerminal />
             </AdminRoute>
           </Route>
           <Route>
