@@ -39,8 +39,8 @@ interface ApiEndpoint {
 }
 
 export default function IACentral() {
-  // Toujours visible par défaut
-  const [showActivex] = useState(true);
+  // Module IAActivex toujours visible
+  const showActivex = true; // Valeur constante au lieu d'un état
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [models, setModels] = useState<Model[]>([]);
   const [endpoints, setEndpoints] = useState<ApiEndpoint[]>([]);

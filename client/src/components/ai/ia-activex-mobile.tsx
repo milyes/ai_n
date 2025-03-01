@@ -13,7 +13,6 @@ import { AssistantAnimation, AssistantState } from '@/components/ai/assistant-an
 import { apiRequest } from '@/lib/queryClient';
 
 interface IActivexMobileProps {
-  onClose?: () => void;
   initialPlatforms?: string[];
   autoScan?: boolean;
 }
@@ -35,7 +34,6 @@ interface PerformanceMetric {
 }
 
 export function IAActivexMobile({
-  onClose,
   initialPlatforms = ['web', 'mobile', 'iot', 'cloud'],
   autoScan = true
 }: IActivexMobileProps) {
@@ -324,19 +322,6 @@ export function IAActivexMobile({
                 <polyline points="18 15 12 9 6 15"></polyline>
               </svg>
             </Button>
-            {onClose && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-8 w-8 p-0"
-                onClick={onClose}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </Button>
-            )}
           </div>
         </div>
 
