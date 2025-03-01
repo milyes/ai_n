@@ -272,6 +272,21 @@ Rapport généré automatiquement par le système.`,
     const commandText = input.trim();
     setInput('');
     
+    // Traitement spécial si nous sommes en attente d'un mot de passe sudo
+    if (sudoPassword === 'asking') {
+      // Ne pas afficher le mot de passe dans l'historique ou l'output
+      if (commandText === '1776') {
+        setSudoPassword('1776');
+        setCurrentMode('sudo');
+        addOutput('Mode sudo activé. Utilisez "exit" pour revenir au mode normal.', 'success');
+      } else {
+        addOutput('sudo: mot de passe incorrect', 'error');
+        setSudoPassword(null);
+      }
+      return;
+    }
+    
+    // Traitement normal des commandes
     const newCommandItem: CommandHistoryItem = {
       id: Math.random().toString(36).substr(2, 9),
       text: commandText,
@@ -628,34 +643,8 @@ Rapport généré automatiquement par le système.`,
       addOutput('Mot de passe :', 'output');
       setSudoPassword('asking');
       
-      // Le mot de passe sera collecté dans la prochaine entrée
-      const passwordHandler = (pw: string) => {
-        if (pw === '1776') {
-          setSudoPassword('1776');
-          setCurrentMode('sudo');
-          addOutput('Mode sudo activé. Utilisez "exit" pour revenir au mode normal.', 'success');
-          // Exécuter la commande spécifiée après sudo
-          executeCommand(args.join(' '));
-        } else {
-          addOutput('sudo: mot de passe incorrect', 'error');
-          setSudoPassword(null);
-        }
-      };
-      
-      // Définir un gestionnaire temporaire pour le prochain input
-      const origSubmit = handleSubmit;
-      // @ts-ignore - On modifie temporairement la fonction
-      handleSubmit = (e) => {
-        e.preventDefault();
-        if (inputRef.current) {
-          const pw = inputRef.current.value;
-          setInput('');
-          passwordHandler(pw);
-          // Restaurer le gestionnaire original
-          // @ts-ignore
-          handleSubmit = origSubmit;
-        }
-      };
+      // Le mot de passe sera collecté dans la prochaine entrée et traité 
+      // par la fonction handleSubmit qui détectera le mode "asking"
     }
   };
   
