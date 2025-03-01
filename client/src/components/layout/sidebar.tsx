@@ -57,6 +57,12 @@ const navItems: NavItem[] = [
     href: '/ai'
   },
   {
+    id: 'ia-central',
+    label: 'IA Activex Central',
+    icon: 'smart_toy',
+    href: '/ia-central'
+  },
+  {
     id: 'help',
     label: 'Aide Contextuelle',
     icon: 'help_center',
