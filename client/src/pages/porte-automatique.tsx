@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
-import { AssistantAnimation, AssistantState } from '@/components/ai/assistant-animation';
+import { MascotAnimation, MascotState } from '@/components/mascot/mascot-animation';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 // Types pour la fonctionnalité
@@ -93,7 +93,7 @@ export default function PorteAutomatique() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
-  const [testEtat, setTestEtat] = useState<AssistantState>('idle');
+  const [testEtat, setTestEtat] = useState<MascotState>('idle');
   const [testMessage, setTestMessage] = useState('');
   
   // Nouvelle empreinte

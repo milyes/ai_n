@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 
 // Import pour la page de porte automatique
 import PorteAutomatique from "@/pages/porte-automatique";
+// Import pour la page de démo de mascotte
+import MascotPage from "@/pages/mascot";
 
 function Router() {
   const [location] = useLocation();
@@ -25,6 +27,7 @@ function Router() {
       <Route path="/help" component={Help} />
       <Route path="/ia-central" component={IACentral} />
       <Route path="/porte-automatique" component={PorteAutomatique} />
+      <Route path="/mascot" component={MascotPage} />
       <Route component={NotFound} />
     </Switch>
   );

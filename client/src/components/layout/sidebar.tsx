@@ -46,6 +46,12 @@ const navItems: NavItem[] = [
     href: '/porte-automatique'
   },
   {
+    id: 'mascot',
+    label: 'NetBot Mascotte',
+    icon: 'toys',
+    href: '/mascot'
+  },
+  {
     id: 'endpoints',
     label: 'API & Services',
     icon: 'api',
