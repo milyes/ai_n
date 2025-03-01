@@ -14,7 +14,9 @@ export default function IAConsolePage() {
   const initialCommands = [
     'echo Bienvenue à la console d\'innovation IA',
     'echo Initialisation des modules en cours...',
-    'status'
+    'status',
+    'echo Connexion au service Internet Intelligence établie',
+    'internet search'
   ];
   
   // Fonction de simulation d'exécution de commande externe
@@ -265,6 +267,13 @@ Performance globale: Excellente
                 status: 'active',
                 description: 'Module d\'analyse émotionnelle des textes',
                 route: '/ai'
+              },
+              {
+                name: 'Internet Intelligence',
+                icon: 'public',
+                status: 'active',
+                description: 'Accès aux données d\'exploitation externes',
+                route: '/ia-console'
               },
               {
                 name: 'Résumé automatique',
