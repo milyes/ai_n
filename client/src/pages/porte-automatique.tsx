@@ -19,14 +19,42 @@ interface Empreinte {
   nom: string;
   hash: string;
   niveauAcces: string;
+  dateCreation?: string;
+  groupeId?: number;
+  horaireAcces?: {
+    debut: string;
+    fin: string;
+    jours: string[];
+  };
+  actif: boolean;
 }
 
 interface EvenementPorte {
+  id?: number;
   timestamp: string;
   type: 'acces' | 'refus' | 'erreur' | 'systeme';
   utilisateur?: string;
   message: string;
   empreinte?: string;
+  camera?: string;
+}
+
+interface Notification {
+  id: number;
+  type: 'sms' | 'email' | 'app';
+  destinataire: string;
+  message: string;
+  timestamp: string;
+  statut: 'envoyé' | 'échec' | 'en attente';
+}
+
+interface GroupeAcces {
+  id: number;
+  nom: string;
+  description: string;
+  niveauAcces: string;
+  zones: string[];
+  membres: number[];
 }
 
 interface ServiceStatus {
@@ -42,6 +70,14 @@ interface Config {
   modeSecurite: 'faible' | 'moyen' | 'eleve';
   notifications: boolean;
   loggingNiveau: 'debug' | 'info' | 'warning' | 'error';
+  activerVideo?: boolean;
+  alerteMultiEchecs?: boolean;
+  seuilAlerte?: number;
+  notificationSMS?: boolean;
+  notificationEmail?: boolean;
+  emailAdmin?: string;
+  numeroSMS?: string;
+  planificationActive?: boolean;
 }
 
 export default function PorteAutomatique() {
@@ -53,6 +89,8 @@ export default function PorteAutomatique() {
   const [empreintes, setEmpreintes] = useState<Empreinte[]>([]);
   const [evenements, setEvenements] = useState<EvenementPorte[]>([]);
   const [config, setConfig] = useState<Config | null>(null);
+  const [groupes, setGroupes] = useState<GroupeAcces[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
   const [testEtat, setTestEtat] = useState<AssistantState>('idle');
@@ -62,6 +100,17 @@ export default function PorteAutomatique() {
   const [newUser, setNewUser] = useState('');
   const [newEmpreinte, setNewEmpreinte] = useState('');
   const [newAccess, setNewAccess] = useState('utilisateur');
+  const [newHoraireAcces, setNewHoraireAcces] = useState<boolean>(false);
+  const [newHeureDebut, setNewHeureDebut] = useState('08:00');
+  const [newHeureFin, setNewHeureFin] = useState('18:00');
+  const [newJours, setNewJours] = useState<string[]>(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']);
+  
+  // Pour les groupes
+  const [newGroupe, setNewGroupe] = useState<string>('');
+  const [newGroupeDescription, setNewGroupeDescription] = useState<string>('');
+  const [newGroupeNiveauAcces, setNewGroupeNiveauAcces] = useState<string>('utilisateur');
+  const [newGroupeZones, setNewGroupeZones] = useState<string[]>(['entrée']);
+  const [selectedGroupe, setSelectedGroupe] = useState<number | null>(null);
   
   // Pour la simulation interactive
   const [empreinteSaisie, setEmpreinteSaisie] = useState('');
@@ -88,6 +137,14 @@ export default function PorteAutomatique() {
           // Charger la configuration
           const configRes = await apiRequest('/api/porte-automatique/config');
           setConfig(configRes);
+          
+          // Charger les groupes d'accès
+          const groupesRes = await apiRequest('/api/porte-automatique/groupes');
+          setGroupes(groupesRes || []);
+          
+          // Charger les notifications
+          const notifRes = await apiRequest('/api/porte-automatique/notifications');
+          setNotifications(notifRes || []);
         }
       } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
