@@ -6,7 +6,9 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 interface Dataset {
@@ -269,6 +271,8 @@ export default function IACentral() {
               <TabsTrigger value="models" className="flex-1">Modèles</TabsTrigger>
               <TabsTrigger value="endpoints" className="flex-1">Endpoints API</TabsTrigger>
               <TabsTrigger value="predictions" className="flex-1">Prédictions</TabsTrigger>
+              <TabsTrigger value="training" className="flex-1">Entraînement</TabsTrigger>
+              <TabsTrigger value="intent" className="flex-1">Détection d'intention</TabsTrigger>
             </TabsList>
             
             <TabsContent value="datasets">
@@ -507,6 +511,276 @@ export default function IACentral() {
                             Les résultats de prédiction apparaîtront ici
                           </div>
                         )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </TabsContent>
+
+            {/* Onglet Entraînement */}
+            <TabsContent value="training">
+              <Card>
+                <div className="p-4">
+                  <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4">Entraînement de modèles</h2>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div>
+                        <Card className="border-2 border-dashed border-gray-300 hover:border-primary p-6">
+                          <div className="flex flex-col items-center text-center space-y-4">
+                            <div className="p-4 rounded-full bg-primary/10">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                                <rect width="18" height="18" x="3" y="3" rx="2" />
+                                <circle cx="9" cy="9" r="2" />
+                                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                              </svg>
+                            </div>
+                            <h3 className="text-lg font-medium">Entraînement d'images</h3>
+                            <p className="text-sm text-gray-500">
+                              Entraînez des modèles de vision par ordinateur pour la reconnaissance d'objets, la classification d'images et la détection d'anomalies.
+                            </p>
+                            <div className="flex flex-col w-full space-y-2">
+                              <Button variant="outline" className="w-full">
+                                Sélectionner des images
+                              </Button>
+                              <Button disabled className="w-full">
+                                Démarrer l'entraînement
+                              </Button>
+                            </div>
+                          </div>
+                        </Card>
+                      </div>
+                      
+                      <div>
+                        <Card className="border-2 border-dashed border-gray-300 hover:border-primary p-6">
+                          <div className="flex flex-col items-center text-center space-y-4">
+                            <div className="p-4 rounded-full bg-primary/10">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                <line x1="12" y1="19" x2="12" y2="22" />
+                              </svg>
+                            </div>
+                            <h3 className="text-lg font-medium">Entraînement vocal</h3>
+                            <p className="text-sm text-gray-500">
+                              Créez des modèles de reconnaissance vocale, de synthèse vocale et d'analyse de tonalité adaptés à votre cas d'usage.
+                            </p>
+                            <div className="flex flex-col w-full space-y-2">
+                              <Button variant="outline" className="w-full">
+                                Enregistrer des échantillons
+                              </Button>
+                              <Button disabled className="w-full">
+                                Démarrer l'entraînement
+                              </Button>
+                            </div>
+                          </div>
+                        </Card>
+                      </div>
+                      
+                      <div>
+                        <Card className="border-2 border-dashed border-gray-300 hover:border-primary p-6">
+                          <div className="flex flex-col items-center text-center space-y-4">
+                            <div className="p-4 rounded-full bg-primary/10">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                                <circle cx="12" cy="12" r="4" />
+                              </svg>
+                            </div>
+                            <h3 className="text-lg font-medium">Télédétection</h3>
+                            <p className="text-sm text-gray-500">
+                              Entraînez des modèles pour l'analyse de données satellitaires, la surveillance environnementale et la détection d'objets à distance.
+                            </p>
+                            <div className="flex flex-col w-full space-y-2">
+                              <Button variant="outline" className="w-full">
+                                Importer des données
+                              </Button>
+                              <Button disabled className="w-full">
+                                Démarrer l'entraînement
+                              </Button>
+                            </div>
+                          </div>
+                        </Card>
+                      </div>
+                      
+                      <div>
+                        <Card className="border-2 border-dashed border-gray-300 hover:border-primary p-6">
+                          <div className="flex flex-col items-center text-center space-y-4">
+                            <div className="p-4 rounded-full bg-primary/10">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <circle cx="10" cy="13" r="2" />
+                                <path d="m20 17-2-2-2 2-2-2-2 2-2-2" />
+                              </svg>
+                            </div>
+                            <h3 className="text-lg font-medium">Traitement du langage</h3>
+                            <p className="text-sm text-gray-500">
+                              Développez des modèles de compréhension du langage naturel, d'analyse de sentiment et de classification de texte.
+                            </p>
+                            <div className="flex flex-col w-full space-y-2">
+                              <Button variant="outline" className="w-full">
+                                Préparer un corpus
+                              </Button>
+                              <Button disabled className="w-full">
+                                Démarrer l'entraînement
+                              </Button>
+                            </div>
+                          </div>
+                        </Card>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                      <h3 className="text-lg font-medium mb-2 text-blue-700 dark:text-blue-300">Filtrer des services spécifiques</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <div className="flex items-center space-x-2">
+                          <input type="checkbox" id="service-classification" className="rounded border-gray-300" />
+                          <label htmlFor="service-classification" className="text-sm">Classification</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <input type="checkbox" id="service-recognition" className="rounded border-gray-300" />
+                          <label htmlFor="service-recognition" className="text-sm">Reconnaissance</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <input type="checkbox" id="service-generation" className="rounded border-gray-300" />
+                          <label htmlFor="service-generation" className="text-sm">Génération</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <input type="checkbox" id="service-analysis" className="rounded border-gray-300" />
+                          <label htmlFor="service-analysis" className="text-sm">Analyse</label>
+                        </div>
+                      </div>
+                      <Button size="sm" className="mt-2">Appliquer les filtres</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </TabsContent>
+            
+            {/* Onglet Détection d'intention */}
+            <TabsContent value="intent">
+              <Card>
+                <div className="p-4">
+                  <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4">Détection d'intention du client</h2>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="intent-input">Message du client</Label>
+                          <Textarea
+                            id="intent-input"
+                            placeholder="Entrez un message client pour analyser son intention..."
+                            rows={5}
+                            className="w-full mt-1"
+                          />
+                        </div>
+                        
+                        <div>
+                          <Label className="block mb-2">Type d'analyse</Label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="flex items-center space-x-2">
+                              <input type="radio" id="intent-type-general" name="intent-type" className="rounded-full border-gray-300" checked />
+                              <label htmlFor="intent-type-general" className="text-sm">Intention générale</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="radio" id="intent-type-specific" name="intent-type" className="rounded-full border-gray-300" />
+                              <label htmlFor="intent-type-specific" className="text-sm">Intention spécifique</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="radio" id="intent-type-sentiment" name="intent-type" className="rounded-full border-gray-300" />
+                              <label htmlFor="intent-type-sentiment" className="text-sm">Analyse de sentiment</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="radio" id="intent-type-topic" name="intent-type" className="rounded-full border-gray-300" />
+                              <label htmlFor="intent-type-topic" className="text-sm">Extraction de sujets</label>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label className="block mb-2">Options avancées</Label>
+                          <div className="grid grid-cols-1 gap-2">
+                            <div className="flex items-center space-x-2">
+                              <input type="checkbox" id="intent-multilingual" className="rounded border-gray-300" />
+                              <label htmlFor="intent-multilingual" className="text-sm">Analyse multilingue</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="checkbox" id="intent-context" className="rounded border-gray-300" />
+                              <label htmlFor="intent-context" className="text-sm">Utiliser le contexte conversationnel</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input type="checkbox" id="intent-entities" className="rounded border-gray-300" />
+                              <label htmlFor="intent-entities" className="text-sm">Extraire les entités nommées</label>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <Button className="w-full">
+                          Analyser l'intention
+                        </Button>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md h-[350px] overflow-auto">
+                          <h3 className="text-lg font-medium mb-4">Résultat de l'analyse</h3>
+                          <div className="space-y-4">
+                            <div className="p-3 border rounded-md">
+                              <div className="flex justify-between">
+                                <span className="text-sm font-medium">Intention principale</span>
+                                <span className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-0.5 rounded-full">96%</span>
+                              </div>
+                              <p className="text-md mt-1">Demande d'information</p>
+                            </div>
+                            
+                            <div className="p-3 border rounded-md">
+                              <div className="flex justify-between">
+                                <span className="text-sm font-medium">Intentions secondaires</span>
+                              </div>
+                              <div className="mt-2 space-y-2">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm">Comparaison de produits</span>
+                                  <span className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-0.5 rounded-full">45%</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm">Demande de prix</span>
+                                  <span className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-0.5 rounded-full">32%</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="p-3 border rounded-md">
+                              <div className="flex justify-between">
+                                <span className="text-sm font-medium">Entités détectées</span>
+                              </div>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <span className="text-xs bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded">Produit: Module IA</span>
+                                <span className="text-xs bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded">Fonctionnalité: Détection</span>
+                                <span className="text-xs bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded">Date: Vendredi prochain</span>
+                              </div>
+                            </div>
+                            
+                            <div className="p-3 border rounded-md">
+                              <div className="flex justify-between">
+                                <span className="text-sm font-medium">Sentiment global</span>
+                                <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-0.5 rounded-full">Positif</span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                <div className="bg-green-500 h-1.5 rounded-full" style={{ width: "72%" }}></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex space-x-2">
+                          <Button variant="outline" className="flex-1">
+                            Exporter le rapport
+                          </Button>
+                          <Button variant="outline" className="flex-1">
+                            Sauvegarder le modèle
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
