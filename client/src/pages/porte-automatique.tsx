@@ -408,7 +408,7 @@ export default function PorteAutomatique() {
       return;
     }
     
-    setTestEtat('listening');
+    setTestEtat('working');
     setTestMessage('Analyse de l\'empreinte en cours...');
     setSimulationActive(true);
     
@@ -609,10 +609,11 @@ export default function PorteAutomatique() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center mb-4">
-              <AssistantAnimation
+              <MascotAnimation
                 state={testEtat}
                 size="lg"
                 message={testMessage}
+                name="NetBot"
               />
             </div>
             
