@@ -15,6 +15,7 @@ export function isAdminAuthenticated(): boolean {
   const timestamp = localStorage.getItem('admin_timestamp');
   
   if (!isAuth || !timestamp) {
+    console.log('Authentification: Aucune donnée de session trouvée');
     return false;
   }
   
@@ -24,11 +25,13 @@ export function isAdminAuthenticated(): boolean {
   
   if (currentTime - authTime > SESSION_DURATION) {
     // Session expirée, nettoyer le stockage
+    console.log('Authentification: Session expirée');
     localStorage.removeItem('admin_authenticated');
     localStorage.removeItem('admin_timestamp');
     return false;
   }
   
+  console.log('Authentification: Session valide, isAuth=', isAuth);
   return isAuth === 'true';
 }
 
