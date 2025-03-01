@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { AssistantAnimation, AssistantState } from '@/components/ai/assistant-animation';
@@ -332,6 +333,7 @@ export function IAActivexMobile({
             <TabsTrigger value="dashboard" className="flex-1">Tableau de bord</TabsTrigger>
             <TabsTrigger value="platforms" className="flex-1">Plateformes</TabsTrigger>
             <TabsTrigger value="training" className="flex-1">Entraînement</TabsTrigger>
+            <TabsTrigger value="chatbot" className="flex-1">Chatbot</TabsTrigger>
             <TabsTrigger value="settings" className="flex-1">Paramètres</TabsTrigger>
           </TabsList>
           
@@ -715,6 +717,131 @@ export function IAActivexMobile({
               <Button size="sm" className="w-full">
                 Appliquer les filtres
               </Button>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="chatbot" className="space-y-4 py-2">
+            <div className="flex flex-col h-[350px]">
+              <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800 rounded-md p-3 mb-3">
+                <div className="space-y-3">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-300">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85 1 6.54 2.75" />
+                        <path d="M21 3v9h-9" />
+                      </svg>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
+                      <p>Bonjour, je suis votre assistant IA. Comment puis-je vous aider aujourd'hui ?</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start justify-end">
+                    <div className="bg-blue-600 text-white p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
+                      <p>J'aimerais comprendre comment fonctionne l'analyse pédagogique.</p>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center ml-2 mt-1 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 7v4" />
+                        <path d="M5 7v4" />
+                        <circle cx="12" cy="11" r="1" />
+                        <path d="M8 21h8" />
+                        <path d="M12 21v-6.5" />
+                        <path d="M8 4h8" />
+                        <path d="M12 7V4" />
+                      </svg>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-300">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85 1 6.54 2.75" />
+                        <path d="M21 3v9h-9" />
+                      </svg>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm text-sm max-w-[85%]">
+                      <p>L'analyse pédagogique utilise des algorithmes avancés pour:</p>
+                      <ul className="list-disc pl-5 mt-1 space-y-1">
+                        <li>Évaluer le niveau de complexité du contenu</li>
+                        <li>Identifier les concepts pédagogiques clés</li>
+                        <li>Suggérer des approches d'apprentissage adaptées</li>
+                        <li>Analyser la progression des apprenants</li>
+                      </ul>
+                      <p className="mt-2">Souhaitez-vous un exemple concret d'application ?</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-center">
+                    <span className="text-xs text-gray-500">Aujourd'hui, 15:32</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Input
+                    placeholder="Saisissez votre message..."
+                    className="pr-10"
+                  />
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="16" />
+                      <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                  </button>
+                </div>
+                <Button type="submit" size="icon" className="h-10 w-10">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m22 2-7 20-4-9-9-4Z" />
+                    <path d="M22 2 11 13" />
+                  </svg>
+                </Button>
+              </div>
+              
+              <div className="mt-3">
+                <h4 className="text-sm font-medium mb-2">Options du chatbot</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <Select defaultValue="french">
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Sélectionner la langue" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="french">Français</SelectItem>
+                      <SelectItem value="english">Anglais</SelectItem>
+                      <SelectItem value="spanish">Espagnol</SelectItem>
+                      <SelectItem value="german">Allemand</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  <Select defaultValue="standard">
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Sélectionner le mode" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="standard">Standard</SelectItem>
+                      <SelectItem value="expert">Expert</SelectItem>
+                      <SelectItem value="pedagogical">Pédagogique</SelectItem>
+                      <SelectItem value="technical">Technique</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex items-center justify-between mt-2">
+                  <div className="flex items-center space-x-2">
+                    <Switch id="chatbot-memory" defaultChecked />
+                    <Label htmlFor="chatbot-memory" className="text-sm">Mémoire conversationnelle</Label>
+                  </div>
+                  <Button variant="ghost" size="sm" className="h-8 p-0 px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <path d="M12 5v14" />
+                      <path d="M18 13a5 5 0 0 0-6 0 5 5 0 0 0-6 0" />
+                    </svg>
+                    Exporter
+                  </Button>
+                </div>
+              </div>
             </div>
           </TabsContent>
           
