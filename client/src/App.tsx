@@ -18,6 +18,8 @@ import PorteAutomatique from "@/pages/porte-automatique";
 import MascotPage from "@/pages/mascot";
 // Import pour la console d'innovation IA
 import IAConsole from "@/pages/ia-console";
+// Import pour l'assistant IA automatique
+import AssistantAutomatique from "@/pages/assistant-automatique";
 
 function Router() {
   const [location] = useLocation();
@@ -31,6 +33,7 @@ function Router() {
       <Route path="/porte-automatique" component={PorteAutomatique} />
       <Route path="/mascot" component={MascotPage} />
       <Route path="/ia-console" component={IAConsole} />
+      <Route path="/assistant-automatique" component={AssistantAutomatique} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -586,6 +586,34 @@ export default function IACentral() {
                       <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
                         <div className="p-4">
                           <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-teal-100 dark:bg-teal-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-teal-600 dark:text-teal-300">
+                                <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z" />
+                                <path d="M15 3v6h6" />
+                                <path d="m10 16-2-2 6-6" />
+                                <path d="m8 14 6 6" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 hover:bg-green-100">Nouveau</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Assistant IA Automatique</h3>
+                          <p className="text-sm text-gray-500 mb-4">Service d'assistance proactive par IA</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">Automatisation</Badge>
+                            <Badge variant="outline" className="text-xs">Proactif</Badge>
+                            <Badge variant="outline" className="text-xs">Assistance</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" className="w-full" asChild>
+                              <a href="/assistant-automatique">Accéder</a>
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
                             <div className="p-2 rounded-full bg-green-100 dark:bg-green-900">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 dark:text-green-300">
                                 <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
