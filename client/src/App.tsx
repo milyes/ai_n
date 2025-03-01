@@ -38,7 +38,7 @@ function Router() {
   return (
     <>
       {isAdmin && <AdminBar />}
-      <div className={isAdmin ? "pt-10" : ""}>
+      <div className={isAdmin ? "pt-12" : ""}>
         <Switch location={location}>
           {/* Route d'authentification */}
           <Route path="/login-admin" component={LoginAdmin} />

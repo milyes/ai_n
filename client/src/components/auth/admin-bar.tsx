@@ -27,24 +27,24 @@ export function AdminBar() {
   };
   
   return (
-    <div className="fixed top-0 left-0 right-0 bg-gray-900 border-b border-gray-800 z-50">
+    <div className="fixed top-0 left-0 right-0 bg-red-950 border-b border-red-900 z-50 shadow-lg">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Badge className="bg-green-700">Admin</Badge>
-          <span className="text-xs text-gray-400">
+          <Badge className="bg-red-700 text-white font-bold">Admin</Badge>
+          <span className="text-xs text-white">
             Session active: {timeRemaining} minutes restantes
           </span>
         </div>
         
         <div className="flex items-center space-x-3">
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-gray-200">
             NetSecure Pro • Admin
           </span>
           <Button 
-            variant="ghost" 
+            variant="destructive" 
             size="sm" 
             onClick={handleLogout}
-            className="text-xs"
+            className="text-xs font-semibold"
           >
             Déconnexion
           </Button>

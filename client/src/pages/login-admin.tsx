@@ -42,9 +42,11 @@ export default function LoginAdmin() {
           variant: "default",
         });
         
-        // Stockage de l'état d'authentification
+        // Stockage de l'état d'authentification dans le localStorage
         localStorage.setItem('admin_authenticated', 'true');
         localStorage.setItem('admin_timestamp', Date.now().toString());
+        
+        console.log('Authentification réussie, données stockées dans localStorage');
         
         // Redirection vers la page principale
         setTimeout(() => {
