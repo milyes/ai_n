@@ -271,6 +271,7 @@ export default function IACentral() {
               <TabsTrigger value="models" className="flex-1">Modèles</TabsTrigger>
               <TabsTrigger value="endpoints" className="flex-1">Endpoints API</TabsTrigger>
               <TabsTrigger value="predictions" className="flex-1">Prédictions</TabsTrigger>
+              <TabsTrigger value="modules" className="flex-1">Modules IA</TabsTrigger>
               <TabsTrigger value="training" className="flex-1">Entraînement</TabsTrigger>
               <TabsTrigger value="intent" className="flex-1">Détection d'intention</TabsTrigger>
             </TabsList>
@@ -512,6 +513,185 @@ export default function IACentral() {
                           </div>
                         )}
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </TabsContent>
+            
+            {/* Onglet Modules IA */}
+            <TabsContent value="modules">
+              <Card>
+                <div className="p-4">
+                  <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4">Modules IA disponibles</h2>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 dark:text-blue-300">
+                                <path d="M13 3H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3" />
+                                <path d="M8 21h8" />
+                                <path d="M12 17v4" />
+                                <path d="m22 3-5 5" />
+                                <path d="m17 3 5 5" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 hover:bg-green-100">Actif</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Console Innovation IA</h3>
+                          <p className="text-sm text-gray-500 mb-4">Terminal avancé avec capacités IA et clonage</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">Terminal</Badge>
+                            <Badge variant="outline" className="text-xs">Clonage</Badge>
+                            <Badge variant="outline" className="text-xs">Multi-origine</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" className="w-full" asChild>
+                              <a href="/ia-console">Accéder</a>
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-purple-100 dark:bg-purple-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600 dark:text-purple-300">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                                <path d="M2 12h20" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 hover:bg-green-100">Actif</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Internet Intelligence</h3>
+                          <p className="text-sm text-gray-500 mb-4">Accès aux données d'exploitation externes</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">Web Data</Badge>
+                            <Badge variant="outline" className="text-xs">Agrégation</Badge>
+                            <Badge variant="outline" className="text-xs">Multi-langue</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" className="w-full" asChild>
+                              <a href="/ia-console">Accéder</a>
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-green-100 dark:bg-green-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 dark:text-green-300">
+                                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                                <circle cx="12" cy="13" r="3" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-100">Mise à jour</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Vision IA</h3>
+                          <p className="text-sm text-gray-500 mb-4">Analyse et détection d'objets dans les images</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">Reconnaissance</Badge>
+                            <Badge variant="outline" className="text-xs">Détection</Badge>
+                            <Badge variant="outline" className="text-xs">Objets</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" variant="outline" className="w-full">
+                              Bientôt disponible
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-600 dark:text-orange-300">
+                                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                <line x1="12" x2="12" y1="19" y2="22" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 hover:bg-green-100">Actif</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Analyse de sentiment</h3>
+                          <p className="text-sm text-gray-500 mb-4">Module d'analyse émotionnelle des textes</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">NLP</Badge>
+                            <Badge variant="outline" className="text-xs">Émotions</Badge>
+                            <Badge variant="outline" className="text-xs">Classification</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" className="w-full" asChild>
+                              <a href="/ai">Accéder</a>
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-600 dark:text-yellow-300">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 hover:bg-green-100">Actif</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Résumé automatique</h3>
+                          <p className="text-sm text-gray-500 mb-4">Condensation intelligente de documents</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">Texte</Badge>
+                            <Badge variant="outline" className="text-xs">Documents</Badge>
+                            <Badge variant="outline" className="text-xs">Synthèse</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" className="w-full" asChild>
+                              <a href="/ai">Accéder</a>
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+
+                      <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300">
+                        <div className="p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="p-2 rounded-full bg-rose-100 dark:bg-rose-900">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-rose-600 dark:text-rose-300">
+                                <path d="M21 8V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5" />
+                                <path d="M10 17v-5" />
+                                <path d="M14 17v-5" />
+                                <path d="M10 12h4" />
+                                <path d="M18 17v.01" />
+                                <path d="M18 13v.01" />
+                                <path d="M18 9v.01" />
+                              </svg>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 hover:bg-green-100">Actif</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold mb-1">Porte Automatique</h3>
+                          <p className="text-sm text-gray-500 mb-4">Système de contrôle d'accès par empreinte digitale</p>
+                          <div className="flex space-x-2 mb-4">
+                            <Badge variant="outline" className="text-xs">Sécurité</Badge>
+                            <Badge variant="outline" className="text-xs">Biométrie</Badge>
+                            <Badge variant="outline" className="text-xs">Contrôle</Badge>
+                          </div>
+                          <div className="mt-auto">
+                            <Button size="sm" className="w-full" asChild>
+                              <a href="/porte-automatique">Accéder</a>
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
                     </div>
                   </div>
                 </div>
