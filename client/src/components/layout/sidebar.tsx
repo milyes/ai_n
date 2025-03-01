@@ -40,6 +40,12 @@ const navItems: NavItem[] = [
     href: '/help'
   },
   {
+    id: 'porte-automatique', 
+    label: 'Porte Automatique',
+    icon: 'meeting_room',
+    href: '/porte-automatique'
+  },
+  {
     id: 'endpoints',
     label: 'API & Services',
     icon: 'api',

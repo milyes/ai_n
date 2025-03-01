@@ -12,6 +12,9 @@ import IACentral from "@/pages/ia-central";
 import { AutoAssistant } from "@/components/ai/auto-assistant";
 import { useState, useEffect } from "react";
 
+// Import pour la page de porte automatique
+import PorteAutomatique from "@/pages/porte-automatique";
+
 function Router() {
   const [location] = useLocation();
   
@@ -21,6 +24,7 @@ function Router() {
       <Route path="/ai" component={AI} />
       <Route path="/help" component={Help} />
       <Route path="/ia-central" component={IACentral} />
+      <Route path="/porte-automatique" component={PorteAutomatique} />
       <Route component={NotFound} />
     </Switch>
   );

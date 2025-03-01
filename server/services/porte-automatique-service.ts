@@ -138,16 +138,22 @@ export class PorteAutomatiqueService {
       const { stdout, stderr } = await execAsync(`${SCRIPT_PATH} status`);
       
       // Vérifier si le service est en cours d'exécution
-      const isRunning = !stderr.includes('n\'est pas en cours d\'exécution') && 
-                        stdout.includes('en cours d\'exécution');
+      const isRunning = stdout.includes('en cours d\'exécution');
       
       this.serviceRunning = isRunning;
       
       return { 
         running: isRunning,
-        info: isRunning ? stdout : stderr
+        info: isRunning ? stdout : stdout || stderr
       };
     } catch (error: any) {
+      // Si le script existe mais retourne un code d'erreur 1, c'est normal
+      // cela signifie juste que le service n'est pas en cours d'exécution
+      if (error.code === 1 && error.stdout && error.stdout.includes('n\'est pas en cours d\'exécution')) {
+        this.serviceRunning = false;
+        return { running: false, info: error.stdout };
+      }
+      
       console.error('Erreur lors de la vérification du statut:', error);
       this.serviceRunning = false;
       return { running: false, info: `Erreur: ${error.message}` };
@@ -168,6 +174,14 @@ export class PorteAutomatiqueService {
         message: success ? 'Connexion à l\'API réussie' : 'Échec de la connexion à l\'API'
       };
     } catch (error: any) {
+      // Si le service n'est pas démarré, le script retournera un code d'erreur
+      if (error.code === 1 && error.stdout && error.stdout.includes('Le service n\'est pas en cours d\'exécution')) {
+        return { 
+          success: false, 
+          message: 'Le service n\'est pas démarré. Veuillez démarrer le service avant de tester la connexion.'
+        };
+      }
+      
       console.error('Erreur lors du test de connexion:', error);
       return { success: false, message: `Erreur: ${error.message}` };
     }
