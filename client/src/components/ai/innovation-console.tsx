@@ -59,7 +59,10 @@ export function InnovationConsole({
     modules: "Liste les modules IA disponibles",
     analyze: "Analyse un texte (analyze <texte>)",
     mascot: "Change l'état de la mascotte (mascot <état>)",
-    theme: "Change le thème de la console (theme <light|dark|system>)"
+    theme: "Change le thème de la console (theme <light|dark|system>)",
+    internet: "Accède à Internet Intelligence (internet <query>)",
+    connect: "Connecte à un service externe (connect <service>)",
+    fetch: "Récupère des données d'une source (fetch <source> <params>)"
   };
   
   // Effet pour défiler automatiquement vers le bas
@@ -249,6 +252,185 @@ export function InnovationConsole({
         }
         break;
         
+      case 'internet':
+        if (!args) {
+          addErrorLog("Usage: internet <query>");
+          break;
+        }
+        
+        setMascotState('thinking');
+        setMascotMessage('Recherche Internet Intelligence...');
+        setIsExecuting(true);
+        
+        setTimeout(() => {
+          addOutputLog("🌐 Accès Internet Intelligence");
+          addOutputLog(`Requête: "${args}"`);
+          addOutputLog("Connexion aux bases de données externes...");
+          
+          setTimeout(() => {
+            addOutputLog("Résultats trouvés: 3 sources");
+            
+            // Simuler des résultats de recherche
+            const results = [
+              {
+                source: "Base de données principale",
+                confidence: 0.89,
+                data: "Accès autorisé aux données d'exploitation de niveau 1"
+              },
+              {
+                source: "Serveur externe",
+                confidence: 0.76,
+                data: "Synchronisation terminée avec le serveur central"
+              },
+              {
+                source: "API tierce",
+                confidence: 0.92,
+                data: "Nouvelle mise à jour disponible pour le module réseau"
+              }
+            ];
+            
+            results.forEach((result, index) => {
+              setTimeout(() => {
+                addOutputLog(`Source ${index + 1}: ${result.source}`);
+                addOutputLog(`  • Confiance: ${result.confidence}`);
+                addOutputLog(`  • Données: ${result.data}`);
+                addOutputLog("");
+                
+                if (index === results.length - 1) {
+                  addOutputLog("Fin de la recherche Internet Intelligence.");
+                  setMascotState('success');
+                  setMascotMessage('Recherche terminée !');
+                  setIsExecuting(false);
+                  
+                  setTimeout(() => {
+                    setMascotState('idle');
+                    setMascotMessage('');
+                  }, 2000);
+                }
+              }, index * 1000);
+            });
+          }, 1500);
+        }, 2000);
+        break;
+        
+      case 'connect':
+        if (!args) {
+          addErrorLog("Usage: connect <service>");
+          break;
+        }
+        
+        setMascotState('working');
+        setMascotMessage('Tentative de connexion...');
+        setIsExecuting(true);
+        
+        setTimeout(() => {
+          const services = ["database", "api", "cloud", "proxy", "vpn"];
+          const serviceRequested = args.toLowerCase();
+          
+          if (services.includes(serviceRequested)) {
+            addOutputLog(`🔌 Connexion au service: ${serviceRequested}`);
+            addOutputLog("Authentification en cours...");
+            
+            setTimeout(() => {
+              addOutputLog("Authentification réussie !");
+              addOutputLog(`Connecté au service: ${serviceRequested}`);
+              addOutputLog("Session active: ID-" + Math.floor(Math.random() * 10000));
+              
+              setMascotState('success');
+              setMascotMessage('Connexion établie !');
+            }, 1500);
+          } else {
+            addErrorLog(`Service inconnu: ${serviceRequested}`);
+            addErrorLog(`Services disponibles: ${services.join(", ")}`);
+            
+            setMascotState('error');
+            setMascotMessage('Service non trouvé');
+          }
+          
+          setTimeout(() => {
+            setIsExecuting(false);
+            setMascotState('idle');
+            setMascotMessage('');
+          }, 3000);
+        }, 2000);
+        break;
+        
+      case 'fetch':
+        if (!args) {
+          addErrorLog("Usage: fetch <source> <params>");
+          break;
+        }
+        
+        const fetchParts = args.split(' ');
+        const source = fetchParts[0];
+        const params = fetchParts.slice(1).join(' ');
+        
+        if (!source) {
+          addErrorLog("Source requise. Usage: fetch <source> <params>");
+          break;
+        }
+        
+        setMascotState('working');
+        setMascotMessage('Récupération des données...');
+        setIsExecuting(true);
+        
+        setTimeout(() => {
+          addOutputLog(`📥 Récupération depuis: ${source}`);
+          if (params) {
+            addOutputLog(`Paramètres: ${params}`);
+          }
+          
+          setTimeout(() => {
+            // Générer des données fictives basées sur la source
+            let data;
+            switch (source.toLowerCase()) {
+              case 'users':
+                data = {
+                  total: 128,
+                  active: 98,
+                  admins: 5,
+                  lastActive: "il y a 2 minutes"
+                };
+                break;
+              case 'sensors':
+                data = {
+                  online: 24,
+                  offline: 3,
+                  alerts: 2,
+                  battery: "78% en moyenne"
+                };
+                break;
+              case 'logs':
+                data = {
+                  today: 1432,
+                  errors: 7,
+                  warnings: 23,
+                  critical: 1
+                };
+                break;
+              default:
+                data = {
+                  status: "ok",
+                  timestamp: new Date().toISOString(),
+                  source: source
+                };
+            }
+            
+            addOutputLog("Données récupérées:");
+            addOutputLog(JSON.stringify(data, null, 2));
+            
+            setMascotState('success');
+            setMascotMessage('Données récupérées !');
+            
+            setTimeout(() => {
+              setIsExecuting(false);
+              setMascotState('idle');
+              setMascotMessage('');
+            }, 2000);
+          }, 1500);
+        }, 1000);
+        break;
+        
       default:
         // Essayer d'exécuter la commande via le handler externe
         if (onExecute) {
@@ -336,6 +518,7 @@ export function InnovationConsole({
   const quickCommands = [
     { label: 'Status', command: 'status' },
     { label: 'Modules', command: 'modules' },
+    { label: 'Internet', command: 'internet search' },
     { label: 'Help', command: 'help' },
     { label: 'Clear', command: 'clear' }
   ];
