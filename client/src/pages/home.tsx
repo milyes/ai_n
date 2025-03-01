@@ -7,8 +7,12 @@ import Installation from '@/pages/installation';
 import Endpoints from '@/pages/endpoints';
 import Validation from '@/pages/validation';
 import ErrorHandling from '@/pages/error-handling';
+import { useHelp } from '@/lib/help-context';
+import { HelpTooltip, ContextualHelp } from '@/components/ui/help-tooltip';
 
 export default function Home() {
+  const { showHelp, isHelpEnabled } = useHelp();
+  
   // Add CSS for styling that was in the design HTML
   useEffect(() => {
     const style = document.createElement('style');
@@ -40,6 +44,21 @@ export default function Home() {
       document.head.removeChild(style);
     };
   }, []);
+  
+  // Afficher une bulle d'aide de bienvenue lorsque la page se charge
+  useEffect(() => {
+    if (isHelpEnabled) {
+      showHelp({
+        id: "welcome-help",
+        title: "Bienvenue dans la documentation API",
+        description: "Cette documentation vous guidera à travers l'utilisation de notre API multi-origine avec des fonctionnalités d'IA avancées.",
+        position: "bottom-right",
+        showAcknowledge: true,
+        autoHide: true,
+        autoHideDelay: 10000
+      });
+    }
+  }, [showHelp, isHelpEnabled]);
 
   // Handle smooth scrolling for anchor links
   useEffect(() => {
@@ -85,19 +104,93 @@ export default function Home() {
           
           {/* AI Module Section */}
           <section id="ai-module" className="mb-12">
-            <h2 className="text-2xl font-medium text-gray-900 mb-4">Module IA</h2>
+            <h2 className="text-2xl font-medium text-gray-900 mb-4">
+              Module IA
+              <HelpTooltip 
+                content="Notre module IA permet d'intégrer des fonctionnalités d'intelligence artificielle à votre application."
+                type="info"
+                className="ml-2"
+              />
+            </h2>
             <div className="bg-white rounded-lg shadow p-6">
-              <p className="mb-4">L'API est équipée de fonctionnalités d'intelligence artificielle pour améliorer l'expérience utilisateur et automatiser certaines tâches.</p>
+              <p className="mb-4">
+                L'API est équipée de fonctionnalités d'intelligence artificielle pour améliorer l'expérience utilisateur et automatiser certaines tâches. Le système supporte plusieurs 
+                <ContextualHelp
+                  content={
+                    <div className="space-y-2">
+                      <p>Les origines IA supportées sont :</p>
+                      <ul className="list-disc pl-4">
+                        <li>OpenAI</li>
+                        <li>xAI (Grok)</li>
+                        <li>Mode local (dégradé sans clé API)</li>
+                      </ul>
+                    </div>
+                  }
+                  type="help"
+                  interactive={true}
+                >
+                  <span className="font-medium text-primary">origines d'IA</span>
+                </ContextualHelp> qui peuvent être configurées selon vos besoins.
+              </p>
               
               <h3 className="text-xl font-medium text-gray-800 mt-6 mb-3">Fonctionnalités d'IA disponibles</h3>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Analyse de sentiment de texte</li>
-                <li>Génération de résumés automatiques</li>
-                <li>Recommandations de produits personnalisées</li>
+                <li>
+                  Analyse de sentiment de texte
+                  <HelpTooltip 
+                    content="Déterminez le ton émotionnel d'un texte avec une note de 1 à 5 et un niveau de confiance."
+                    type="help"
+                    className="ml-2"
+                  />
+                </li>
+                <li>
+                  Génération de résumés automatiques
+                  <HelpTooltip 
+                    content="Créez des versions condensées de textes longs tout en préservant les informations essentielles."
+                    type="help"
+                    className="ml-2"
+                  />
+                </li>
+                <li>
+                  Recommandations de produits personnalisées
+                  <HelpTooltip 
+                    content="Obtenez des suggestions de produits basées sur les préférences et l'historique des utilisateurs."
+                    type="help"
+                    className="ml-2"
+                  />
+                </li>
               </ul>
+              
+              <h3 className="text-xl font-medium text-gray-800 mt-6 mb-3">
+                Configuration de la clé API
+                <HelpTooltip 
+                  content={
+                    <div>
+                      <p>Une clé API valide est nécessaire pour utiliser les fonctionnalités d'IA avancées.</p>
+                      <p className="mt-2">Sans clé API, le système utilisera automatiquement le mode local avec des fonctionnalités réduites.</p>
+                    </div>
+                  }
+                  type="warning"
+                  className="ml-2"
+                  interactive={true}
+                />
+              </h3>
+              <pre className="code-block bg-gray-100 text-sm"># Variables d'environnement
+OPENAI_API_KEY=votre_clé_api_openai
+XAI_API_KEY=votre_clé_api_xai
+AI_ORIGIN=auto|openai|xai|local</pre>
               
               <h3 className="text-xl font-medium text-gray-800 mt-6 mb-3">Exemples d'utilisation</h3>
               <p>Pour accéder à toutes les fonctionnalités d'IA et voir des exemples interactifs, visitez la <Link href="/ai" className="text-primary hover:underline">page du module IA</Link>.</p>
+              
+              <div className="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <p className="flex items-center text-blue-700">
+                  <span className="material-icons mr-2 text-blue-500">info</span>
+                  Vous pouvez également consulter notre nouvelle 
+                  <Link href="/help" className="mx-1 text-primary hover:underline font-medium">page d'aide contextuelle</Link>
+                  pour découvrir comment utiliser toutes les fonctionnalités d'assistance intégrées.
+                </p>
+              </div>
             </div>
           </section>
           

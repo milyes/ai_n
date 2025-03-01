@@ -57,6 +57,12 @@ const navItems: NavItem[] = [
     href: '/ai'
   },
   {
+    id: 'help',
+    label: 'Aide Contextuelle',
+    icon: 'help_center',
+    href: '/help'
+  },
+  {
     id: 'testing',
     label: 'Tests',
     icon: 'science',
