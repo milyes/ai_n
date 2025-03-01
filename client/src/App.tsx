@@ -16,6 +16,8 @@ import { useState, useEffect } from "react";
 import PorteAutomatique from "@/pages/porte-automatique";
 // Import pour la page de démo de mascotte
 import MascotPage from "@/pages/mascot";
+// Import pour la console d'innovation IA
+import IAConsole from "@/pages/ia-console";
 
 function Router() {
   const [location] = useLocation();
@@ -28,6 +30,7 @@ function Router() {
       <Route path="/ia-central" component={IACentral} />
       <Route path="/porte-automatique" component={PorteAutomatique} />
       <Route path="/mascot" component={MascotPage} />
+      <Route path="/ia-console" component={IAConsole} />
       <Route component={NotFound} />
     </Switch>
   );
