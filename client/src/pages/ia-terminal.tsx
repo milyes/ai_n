@@ -48,12 +48,12 @@ export default function IATerminal() {
   const baseCommands = [
     'help', 'clear', 'ls', 'cd', 'pwd', 'echo', 'date', 
     'whoami', 'history', 'exit', 'sudo', 'apt', 'cat', 
-    'touch', 'mkdir', 'rm', 'man', 'grep', 'openapi'
+    'touch', 'mkdir', 'rm', 'man', 'grep', 'openapi', 'integrations'
   ];
   
   const aiCommands = [
     'ai-status', 'ai-sentiment', 'ai-summarize', 'ai-scan',
-    'ai-origin', 'ai-predict', 'ai-diagnose', 'ai-train', 'openapi'
+    'ai-origin', 'ai-predict', 'ai-diagnose', 'ai-train', 'openapi', 'integrations'
   ];
   
   const securityCommands = [
@@ -395,6 +395,10 @@ Rapport généré automatiquement par le système.`,
         
       case 'openapi':
         showOpenApiInfo(args[0]);
+        break;
+
+      case 'integrations':
+        showIntegrations(args[0]);
         break;
         
       // Commandes sécurité
@@ -821,6 +825,482 @@ Rapport généré automatiquement par le système.`,
   };
   
   // Commandes IA spécifiques
+  
+  const showIntegrations = (option?: string) => {
+    if (option === 'help' || option === '--help' || option === '-h') {
+      // Afficher l'aide de la commande integrations
+      addOutput(
+        <div className="space-y-2">
+          <div className="font-bold">Utilisation de integrations:</div>
+          <div className="ml-2">
+            <div><span className="text-yellow-400">integrations</span> - Présente les méthodes d'intégration IA</div>
+            <div><span className="text-yellow-400">integrations frameworks</span> - Liste les frameworks d'intégration</div>
+            <div><span className="text-yellow-400">integrations languages</span> - Langages de programmation compatibles</div>
+            <div><span className="text-yellow-400">integrations examples</span> - Exemples de code d'intégration</div>
+            <div><span className="text-yellow-400">integrations mobile</span> - Solutions pour mobiles et embarqués</div>
+          </div>
+        </div>,
+        'info'
+      );
+      return;
+    }
+
+    // Gérer les différentes sous-commandes
+    switch (option) {
+      case 'frameworks':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Frameworks d'intégration IA:</div>
+            
+            <div className="grid grid-cols-1 gap-3">
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="flex items-center">
+                  <div className="text-lg font-medium text-blue-300">LangChain</div>
+                  <Badge className="ml-2 bg-green-600 text-white">Recommandé</Badge>
+                </div>
+                <div className="mt-1 text-sm text-gray-300">
+                  Framework pour la création d'applications avec LLMs. Fournit des abstractions pour chaîner des appels, 
+                  gérer l'état des conversations, et interfacer avec différentes sources de données.
+                </div>
+                <div className="mt-2 text-sm">
+                  <span className="text-gray-400">Langages:</span> <span className="text-white">Python, TypeScript/JavaScript</span>
+                </div>
+                <div className="mt-1 text-sm">
+                  <span className="text-gray-400">Lien:</span> <a href="https://www.langchain.com/" className="text-blue-400 hover:underline">www.langchain.com</a>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-lg font-medium text-blue-300">LlamaIndex</div>
+                <div className="mt-1 text-sm text-gray-300">
+                  Framework spécialisé dans les applications de type RAG (Retrieval-Augmented Generation). 
+                  Excellent pour la création de solutions qui nécessitent de travailler avec des documents et données personnalisées.
+                </div>
+                <div className="mt-2 text-sm">
+                  <span className="text-gray-400">Langages:</span> <span className="text-white">Python, TypeScript</span>
+                </div>
+                <div className="mt-1 text-sm">
+                  <span className="text-gray-400">Lien:</span> <a href="https://www.llamaindex.ai/" className="text-blue-400 hover:underline">www.llamaindex.ai</a>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/60 rounded p-3 bg-blue-900/10">
+                <div className="text-lg font-medium text-blue-300">Semantic Kernel</div>
+                <div className="mt-1 text-sm text-gray-300">
+                  Framework de Microsoft pour intégrer des modèles d'IA dans vos applications. 
+                  Bonne intégration avec l'écosystème Microsoft et Azure.
+                </div>
+                <div className="mt-2 text-sm">
+                  <span className="text-gray-400">Langages:</span> <span className="text-white">C#, Python, Java</span>
+                </div>
+                <div className="mt-1 text-sm">
+                  <span className="text-gray-400">Lien:</span> <a href="https://github.com/microsoft/semantic-kernel" className="text-blue-400 hover:underline">github.com/microsoft/semantic-kernel</a>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/60 rounded p-3 bg-blue-900/10">
+                <div className="text-lg font-medium text-blue-300">LangGraph</div>
+                <div className="mt-1 text-sm text-gray-300">
+                  Bibliothèque pour créer des agents et des applications de type "workflow" avec des LLMs.
+                  Permet de construire des graphes d'états complexes pour la gestion des applications IA.
+                </div>
+                <div className="mt-2 text-sm">
+                  <span className="text-gray-400">Langages:</span> <span className="text-white">Python</span>
+                </div>
+              </div>
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      case 'languages':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Langages pour l'intégration IA:</div>
+            
+            <div className="space-y-3">
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-lg font-medium text-blue-300">Python</div>
+                <div className="mt-1 text-sm text-gray-300">
+                  Le langage le plus populaire pour l'IA avec un écosystème riche. Bénéficie généralement des 
+                  bibliothèques et SDK les plus à jour pour les modèles d'IA.
+                </div>
+                <div className="mt-2 text-sm grid grid-cols-2 gap-x-4">
+                  <div><span className="text-gray-400">Bibliothèques clés:</span></div>
+                  <div></div>
+                  <div className="text-white">• openai</div>
+                  <div className="text-gray-300">SDK officiel pour OpenAI</div>
+                  <div className="text-white">• langchain</div>
+                  <div className="text-gray-300">Framework pour apps LLM</div>
+                  <div className="text-white">• transformers</div>
+                  <div className="text-gray-300">Modèles Hugging Face</div>
+                  <div className="text-white">• sentence_transformers</div>
+                  <div className="text-gray-300">Embeddings & similarité</div>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-lg font-medium text-blue-300">JavaScript/TypeScript</div>
+                <div className="mt-1 text-sm text-gray-300">
+                  Excellent choix pour les applications web et les applications full-stack. La plupart des 
+                  fournisseurs d'IA proposent des SDK pour Node.js et le navigateur.
+                </div>
+                <div className="mt-2 text-sm grid grid-cols-2 gap-x-4">
+                  <div><span className="text-gray-400">Bibliothèques clés:</span></div>
+                  <div></div>
+                  <div className="text-white">• openai (npm)</div>
+                  <div className="text-gray-300">SDK officiel pour OpenAI</div>
+                  <div className="text-white">• langchainjs</div>
+                  <div className="text-gray-300">Framework pour apps LLM</div>
+                  <div className="text-white">• ai (Vercel)</div>
+                  <div className="text-gray-300">Bibliothèque pour Next.js</div>
+                  <div className="text-white">• onnxruntime-web</div>
+                  <div className="text-gray-300">Modèles dans le navigateur</div>
+                </div>
+              </div>
+              
+              <div className="mt-3 flex flex-wrap gap-3">
+                <div className="border border-blue-800/60 rounded p-2 bg-blue-900/10 flex-1">
+                  <div className="font-medium text-blue-300">Java / Kotlin</div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Pour applications d'entreprise et Android
+                  </div>
+                </div>
+                
+                <div className="border border-blue-800/60 rounded p-2 bg-blue-900/10 flex-1">
+                  <div className="font-medium text-blue-300">Swift</div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Applications iOS et macOS
+                  </div>
+                </div>
+                
+                <div className="border border-blue-800/60 rounded p-2 bg-blue-900/10 flex-1">
+                  <div className="font-medium text-blue-300">C# / .NET</div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Écosystème Microsoft et Unity
+                  </div>
+                </div>
+                
+                <div className="border border-blue-800/60 rounded p-2 bg-blue-900/10 flex-1">
+                  <div className="font-medium text-blue-300">Go</div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Services haute performance
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      case 'examples':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Exemples d'intégration IA:</div>
+            
+            <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+              <div className="font-medium text-blue-300">Python avec OpenAI:</div>
+              <pre className="text-xs bg-gray-900 p-2 rounded mt-1 overflow-x-auto">
+{`# Installer: pip install openai
+from openai import OpenAI
+
+# Initialiser le client
+client = OpenAI(api_key="VOTRE_CLÉ_API")  # ou via variable d'environnement
+
+# Appel simple au modèle
+response = client.chat.completions.create(
+    model="gpt-4o",  # le plus récent modèle OpenAI
+    messages=[
+        {"role": "system", "content": "Vous êtes un assistant expert en sécurité réseau."},
+        {"role": "user", "content": "Expliquez les avantages du protocole HTTPS."}
+    ]
+)
+
+print(response.choices[0].message.content)`}
+              </pre>
+            </div>
+            
+            <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+              <div className="font-medium text-blue-300">Node.js/TypeScript avec OpenAI:</div>
+              <pre className="text-xs bg-gray-900 p-2 rounded mt-1 overflow-x-auto">
+{`// Installer: npm install openai
+import OpenAI from 'openai';
+
+// Initialiser le client
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function analyzeImage(base64Image: string) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "Décrivez cette image en détail." },
+          { 
+            type: "image_url",
+            image_url: { url: \`data:image/jpeg;base64,\${base64Image}\` }
+          }
+        ],
+      },
+    ],
+  });
+
+  return response.choices[0].message.content;
+}`}
+              </pre>
+            </div>
+            
+            <div className="border border-blue-800/60 rounded p-3 bg-blue-900/10">
+              <div className="font-medium text-blue-300">React avec LangChain.js:</div>
+              <pre className="text-xs bg-gray-900 p-2 rounded mt-1 overflow-x-auto">
+{`// Installer: npm install langchain @langchain/openai
+
+import { useState } from 'react';
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+
+export default function AIChatComponent() {
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [userInput, setUserInput] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      // Initialiser le modèle
+      const model = new ChatOpenAI({
+        openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        model: "gpt-4o"
+      });
+      
+      // Créer un template de prompt
+      const prompt = ChatPromptTemplate.fromMessages([
+        ["system", "Vous êtes un assistant technique expert."],
+        ["human", "{question}"]
+      ]);
+      
+      // Chaîner le template et le modèle
+      const chain = prompt.pipe(model);
+      
+      // Exécuter la chaîne
+      const response = await chain.invoke({
+        question: userInput
+      });
+      
+      setResult(response.content);
+    } catch (error) {
+      console.error("Erreur:", error);
+      setResult("Une erreur s'est produite.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Posez votre question..."
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Chargement..." : "Envoyer"}
+        </button>
+      </form>
+      
+      {result && (
+        <div>
+          <h3>Réponse:</h3>
+          <p>{result}</p>
+        </div>
+      )}
+    </div>
+  );
+}`}
+              </pre>
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      case 'mobile':
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400">Intégrations IA pour mobiles et embarqués:</div>
+            
+            <div className="space-y-3">
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="font-medium text-blue-300">Approches d'intégration mobile:</div>
+                <div className="mt-2 ml-2 space-y-2">
+                  <div>
+                    <div className="text-yellow-300 font-medium">1. API Cloud</div>
+                    <div className="text-sm text-gray-300 ml-2">
+                      L'appareil mobile envoie des requêtes à une API d'IA dans le cloud (OpenAI, etc.).
+                      <div className="mt-1">
+                        <span className="text-green-400">Avantages:</span> Accès aux derniers modèles, pas de limite de puissance
+                        <br />
+                        <span className="text-red-400">Inconvénients:</span> Requiert connexion internet, latence, coûts API
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-yellow-300 font-medium">2. Modèles embarqués (on-device)</div>
+                    <div className="text-sm text-gray-300 ml-2">
+                      Exécution de modèles d'IA légers directement sur l'appareil mobile.
+                      <div className="mt-1">
+                        <span className="text-green-400">Avantages:</span> Fonctionne hors-ligne, confidentialité des données, faible latence
+                        <br />
+                        <span className="text-red-400">Inconvénients:</span> Capacités limitées, taille d'app augmentée
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-yellow-300 font-medium">3. Approche hybride</div>
+                    <div className="text-sm text-gray-300 ml-2">
+                      Combine modèles embarqués pour certaines tâches et API cloud pour les plus complexes.
+                      <div className="mt-1">
+                        <span className="text-green-400">Avantages:</span> Flexibilité, meilleur équilibre performance/capacités
+                        <br />
+                        <span className="text-red-400">Inconvénients:</span> Complexité d'implémentation accrue
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="font-medium text-blue-300">Technologies pour l'IA embarquée:</div>
+                <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="border border-blue-700/40 rounded p-2 bg-blue-900/10">
+                    <div className="text-yellow-300">TensorFlow Lite</div>
+                    <div className="text-xs text-gray-300">
+                      Version légère de TensorFlow pour appareils mobiles et embarqués.
+                      <div className="mt-1">Plateformes: Android, iOS</div>
+                    </div>
+                  </div>
+                  
+                  <div className="border border-blue-700/40 rounded p-2 bg-blue-900/10">
+                    <div className="text-yellow-300">Core ML</div>
+                    <div className="text-xs text-gray-300">
+                      Framework d'Apple pour l'intégration de modèles ML sur iOS, macOS.
+                      <div className="mt-1">Plateformes: iOS, macOS</div>
+                    </div>
+                  </div>
+                  
+                  <div className="border border-blue-700/40 rounded p-2 bg-blue-900/10">
+                    <div className="text-yellow-300">ONNX Runtime</div>
+                    <div className="text-xs text-gray-300">
+                      Runtime pour exécuter des modèles ONNX sur diverses plateformes.
+                      <div className="mt-1">Plateformes: Cross-platform</div>
+                    </div>
+                  </div>
+                  
+                  <div className="border border-blue-700/40 rounded p-2 bg-blue-900/10">
+                    <div className="text-yellow-300">MLKit</div>
+                    <div className="text-xs text-gray-300">
+                      SDK de Google pour intégrer ML sur mobiles avec solutions prêtes à l'emploi.
+                      <div className="mt-1">Plateformes: Android, iOS</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="border border-blue-800/60 rounded p-3 bg-blue-900/10">
+                <div className="font-medium text-blue-300">Modèles recommandés pour embarqué:</div>
+                <div className="mt-2 text-sm text-gray-300">
+                  <div className="space-y-1">
+                    <div>• <span className="text-yellow-300">Whisper.cpp</span> - Reconnaissance vocale optimisée</div>
+                    <div>• <span className="text-yellow-300">BERT-tiny</span> - Analyse de texte légère</div>
+                    <div>• <span className="text-yellow-300">MobileNet</span> - Vision par ordinateur mobile</div>
+                    <div>• <span className="text-yellow-300">LLaMA 2 7B (quantized)</span> - LLM compact pour génération de texte</div>
+                    <div>• <span className="text-yellow-300">Stable Diffusion XL Turbo (optimisé)</span> - Génération d'images</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>,
+          'output'
+        );
+        break;
+
+      default:
+        // Aperçu général des intégrations
+        addOutput(
+          <div className="space-y-3">
+            <div className="font-bold text-blue-400 text-xl">Intégrations IA</div>
+            
+            <div className="text-sm">
+              Ce guide présente les différentes méthodes et technologies pour intégrer les modèles d'intelligence 
+              artificielle dans vos applications et systèmes.
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-blue-300 font-medium">Intégration directe via API</div>
+                <div className="text-sm text-gray-300 mt-1">
+                  Connexion directe aux API d'IA comme OpenAI, Anthropic Claude, ou autres fournisseurs.
+                  Appels REST standard avec authentification par clé API.
+                </div>
+                <div className="text-xs mt-2 text-gray-400">
+                  Recommandé pour: projets simples, prototypage rapide
+                </div>
+              </div>
+              
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-blue-300 font-medium">Frameworks d'orchestration</div>
+                <div className="text-sm text-gray-300 mt-1">
+                  Utilisation de frameworks comme LangChain ou LlamaIndex pour créer des 
+                  workflows complexes impliquant plusieurs modèles et sources de données.
+                </div>
+                <div className="text-xs mt-2 text-gray-400">
+                  Recommandé pour: applications d'entreprise, agents IA avancés
+                </div>
+              </div>
+              
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-blue-300 font-medium">Embarqué (on-device)</div>
+                <div className="text-sm text-gray-300 mt-1">
+                  Exécution de modèles optimisés directement sur l'appareil de l'utilisateur.
+                  Idéal pour applications mobiles et IoT nécessitant confidentialité ou fonctionnement hors-ligne.
+                </div>
+                <div className="text-xs mt-2 text-gray-400">
+                  Recommandé pour: applications mobiles, confidentialité stricte
+                </div>
+              </div>
+              
+              <div className="border border-blue-800 rounded p-3 bg-blue-900/20">
+                <div className="text-blue-300 font-medium">Plateformes No-Code/Low-Code</div>
+                <div className="text-sm text-gray-300 mt-1">
+                  Intégration via des plateformes visuelles comme Retool, Bubble, ou 
+                  Microsoft Power Platform avec connecteurs IA préfabriqués.
+                </div>
+                <div className="text-xs mt-2 text-gray-400">
+                  Recommandé pour: utilisateurs non-techniques, prototypage rapide
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-3 text-sm p-2 border border-blue-500/30 bg-blue-500/10 rounded">
+              <div className="font-medium">Commandes détaillées:</div>
+              <div><span className="text-yellow-400">integrations frameworks</span> - Frameworks d'intégration IA</div>
+              <div><span className="text-yellow-400">integrations languages</span> - Langages de programmation pour IA</div>
+              <div><span className="text-yellow-400">integrations examples</span> - Exemples de code d'intégration</div>
+              <div><span className="text-yellow-400">integrations mobile</span> - Solutions pour mobiles</div>
+            </div>
+          </div>,
+          'output'
+        );
+    }
+  };
   
   const showOpenApiInfo = (option?: string) => {
     if (option === 'help' || option === '--help' || option === '-h') {
