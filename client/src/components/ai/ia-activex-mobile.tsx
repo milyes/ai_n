@@ -36,6 +36,15 @@ interface PerformanceMetric {
   recommendations: string[];
 }
 
+interface AnalysisData {
+  timestamp: string;
+  source: string;
+  type: string;
+  confidence: number;
+  summary: string;
+  insights: string[];
+}
+
 export function IAActivexMobile({
   initialPlatforms = ['web', 'mobile', 'iot', 'cloud'],
   autoScan = true
@@ -48,6 +57,7 @@ export function IAActivexMobile({
   const [isSyncing, setIsSyncing] = useState(false);
   const [isAutoOptimize, setIsAutoOptimize] = useState(true);
   const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>([]);
+  const [analysisData, setAnalysisData] = useState<AnalysisData[]>([]);
   const [currentCommand, setCurrentCommand] = useState("");
   const isMobile = useIsMobile();
   const { toast } = useToast();
@@ -122,6 +132,77 @@ export function IAActivexMobile({
         'Implémenter une stratégie de pagination'
       ].slice(0, Math.floor(Math.random() * 3) + 1)
     }));
+  }, []);
+  
+  // Générer des données d'analyse IA simulées
+  const generateMockAnalysisData = useCallback((text: string = "", filters: string[] = []) => {
+    const sources = ['web', 'mobile', 'iot', 'cloud', 'analytics', 'manuel'];
+    const types = ['pédagogique', 'technique', 'sentiment', 'intention'];
+    const selectedTypes = filters.length > 0 ? filters : types;
+    
+    // Format date: DD/MM/YYYY HH:MM
+    const timestamp = new Date().toLocaleString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    
+    const source = sources[Math.floor(Math.random() * sources.length)];
+    const type = selectedTypes[Math.floor(Math.random() * selectedTypes.length)];
+    const confidence = Math.round((Math.random() * 30 + 70)) / 100; // Entre 0.7 et 1.0
+    
+    let summary = "";
+    let insights: string[] = [];
+    
+    switch (type) {
+      case 'pédagogique':
+        summary = "Le contenu présente des caractéristiques éducatives adaptées à un niveau intermédiaire";
+        insights = [
+          "Structure progressive bien adaptée à l'apprentissage",
+          "Concepts techniques avec exemples pratiques",
+          "Manque potentiel d'exercices d'application",
+          "Bon équilibre entre théorie et pratique"
+        ];
+        break;
+      case 'technique':
+        summary = "Analyse technique révélant des aspects d'implémentation de niveau avancé";
+        insights = [
+          "Architecture modulaire et extensible",
+          "Utilisation efficace des patrons de conception",
+          "Quelques optimisations potentielles identifiées",
+          "Compatibilité multi-environnements"
+        ];
+        break;
+      case 'sentiment':
+        summary = "Sentiment globalement positif avec quelques réserves mineures";
+        insights = [
+          "Ton enthousiaste et optimiste",
+          "Inquiétudes sous-jacentes concernant l'implémentation",
+          "Engagement fort envers la qualité",
+          "Curiosité et ouverture aux améliorations"
+        ];
+        break;
+      case 'intention':
+        summary = "L'intention principale est l'amélioration des processus existants";
+        insights = [
+          "Recherche active de solutions d'optimisation",
+          "Désir d'automatisation des tâches répétitives",
+          "Intérêt pour l'intégration de nouvelles technologies",
+          "Objectif d'amélioration de l'expérience utilisateur"
+        ];
+        break;
+    }
+    
+    return {
+      timestamp,
+      source,
+      type,
+      confidence,
+      summary,
+      insights: insights.slice(0, Math.floor(Math.random() * 2) + 2)
+    };
   }, []);
 
   // Effet initial: Charger les données simulées
@@ -373,16 +454,39 @@ export function IAActivexMobile({
               <Button 
                 className="w-full"
                 onClick={() => {
+                  const textElement = document.getElementById('manual-text-input') as HTMLTextAreaElement;
+                  const text = textElement?.value || "Exemple de texte à analyser pour démontrer les capacités d'analyse du système.";
+                  
+                  // Récupérer les filtres sélectionnés
+                  const filters: string[] = [];
+                  if ((document.getElementById('filter-pedagogical') as HTMLInputElement)?.checked) {
+                    filters.push('pédagogique');
+                  }
+                  if ((document.getElementById('filter-technical') as HTMLInputElement)?.checked) {
+                    filters.push('technique');
+                  }
+                  if ((document.getElementById('filter-sentiment') as HTMLInputElement)?.checked) {
+                    filters.push('sentiment');
+                  }
+                  if ((document.getElementById('filter-intention') as HTMLInputElement)?.checked) {
+                    filters.push('intention');
+                  }
+                  
                   toast({
                     title: "Analyse lancée",
                     description: "Traitement du texte en cours...",
                     variant: "default"
                   });
+                  
                   setTimeout(() => {
                     setAssistantState("thinking");
                     
                     // Simuler une analyse et afficher le formulaire de suivi
                     setTimeout(() => {
+                      // Générer et ajouter une nouvelle analyse
+                      const newAnalysis = generateMockAnalysisData(text, filters);
+                      setAnalysisData(prev => [newAnalysis, ...prev].slice(0, 10)); // Garder les 10 dernières analyses
+                      
                       setAssistantState("success");
                       
                       // Afficher une boîte de dialogue pour recueillir plus d'informations
@@ -457,7 +561,51 @@ export function IAActivexMobile({
               </Button>
             </div>
             
-            <div className="space-y-3">
+            {analysisData.length > 0 && (
+              <div className="mt-4 pt-4 border-t">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-sm font-medium">Analyses récentes</h3>
+                  <Badge variant="outline" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                    {analysisData.length}
+                  </Badge>
+                </div>
+                
+                <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1">
+                  {analysisData.map((analysis, index) => (
+                    <div key={index} className="p-3 border rounded-md">
+                      <div className="flex justify-between items-center mb-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-sm capitalize">{analysis.type}</span>
+                          <Badge variant="outline" className="text-xs bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                            {analysis.source}
+                          </Badge>
+                        </div>
+                        <span className="text-xs text-gray-500">{analysis.timestamp}</span>
+                      </div>
+                      <p className="text-sm mb-1">{analysis.summary}</p>
+                      <div className="mt-1">
+                        {analysis.insights.map((insight, i) => (
+                          <div key={i} className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 flex-shrink-0">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            {insight}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex justify-end mt-2">
+                        <div className="bg-gray-100 dark:bg-gray-700 text-xs px-2 py-0.5 rounded-full">
+                          Confiance: {Math.round(analysis.confidence * 100)}%
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div className="space-y-3 mt-4">
+              <h3 className="text-sm font-medium">Métriques de performance</h3>
               {performanceMetrics.map((metric, index) => (
                 <div key={index} className="space-y-1">
                   <div className="flex justify-between items-center">
