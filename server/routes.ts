@@ -37,6 +37,18 @@ import {
   setDefaultAIOrigin,
   getDefaultAIOrigin
 } from "./controllers/ai-controller";
+import {
+  getServiceStatus,
+  startService,
+  stopService,
+  testService,
+  getEmpreintes,
+  addEmpreinte,
+  deleteEmpreinte,
+  getLogs,
+  getConfig,
+  updateConfig
+} from "./controllers/porte-automatique-controller";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create a router for API routes
@@ -71,6 +83,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI configuration routes
   apiRouter.get('/ai/config/origin', getDefaultAIOrigin);
   apiRouter.post('/ai/config/origin', setDefaultAIOrigin);
+  
+  // Porte Automatique IA routes
+  apiRouter.get('/porte-automatique/status', getServiceStatus);
+  apiRouter.post('/porte-automatique/start', startService);
+  apiRouter.post('/porte-automatique/stop', stopService);
+  apiRouter.post('/porte-automatique/test', testService);
+  apiRouter.get('/porte-automatique/empreintes', getEmpreintes);
+  apiRouter.post('/porte-automatique/empreintes', addEmpreinte);
+  apiRouter.delete('/porte-automatique/empreintes/:id', deleteEmpreinte);
+  apiRouter.get('/porte-automatique/logs', getLogs);
+  apiRouter.get('/porte-automatique/config', getConfig);
+  apiRouter.put('/porte-automatique/config', updateConfig);
   
   // Mount the API router to /api path
   app.use('/api', apiRouter);
