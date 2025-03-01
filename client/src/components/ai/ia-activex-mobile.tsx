@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { AssistantAnimation, AssistantState } from '@/components/ai/assistant-animation';
@@ -339,6 +341,118 @@ export function IAActivexMobile({
               <div className={`text-xl font-bold ${getScoreColorClass(calculateAveragePerformance())}`}>
                 {calculateAveragePerformance()}%
               </div>
+            </div>
+            
+            <div className="mb-4 p-3 border rounded-md bg-blue-50 dark:bg-blue-900/10">
+              <Label htmlFor="manual-text-input" className="block mb-2 font-medium">Analyse de texte manuelle</Label>
+              <Textarea 
+                id="manual-text-input"
+                placeholder="Entrez un texte à analyser..."
+                className="min-h-[80px] mb-2 w-full"
+              />
+              <div className="flex flex-wrap gap-2 mt-2 mb-3">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="filter-pedagogical" defaultChecked />
+                  <label htmlFor="filter-pedagogical" className="text-sm">Pédagogique</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="filter-technical" defaultChecked />
+                  <label htmlFor="filter-technical" className="text-sm">Technique</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="filter-sentiment" />
+                  <label htmlFor="filter-sentiment" className="text-sm">Sentiment</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="filter-intention" />
+                  <label htmlFor="filter-intention" className="text-sm">Intention</label>
+                </div>
+              </div>
+              <Button 
+                className="w-full"
+                onClick={() => {
+                  toast({
+                    title: "Analyse lancée",
+                    description: "Traitement du texte en cours...",
+                    variant: "default"
+                  });
+                  setTimeout(() => {
+                    setAssistantState("thinking");
+                    
+                    // Simuler une analyse et afficher le formulaire de suivi
+                    setTimeout(() => {
+                      setAssistantState("success");
+                      
+                      // Afficher une boîte de dialogue pour recueillir plus d'informations
+                      const dialogId = "followup-dialog";
+                      const dialog = document.createElement("dialog");
+                      dialog.id = dialogId;
+                      dialog.className = "fixed inset-0 p-4 bg-black/50 flex items-center justify-center z-50";
+                      dialog.innerHTML = `
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md w-full">
+                          <h3 class="text-lg font-bold mb-2">Informations complémentaires</h3>
+                          <p class="mb-4 text-sm">Pour affiner notre réponse, veuillez fournir des détails supplémentaires:</p>
+                          
+                          <form id="followup-form" class="space-y-3">
+                            <div>
+                              <label class="block text-sm font-medium mb-1">Niveau de compétence</label>
+                              <select class="w-full p-2 border rounded">
+                                <option>Débutant</option>
+                                <option>Intermédiaire</option>
+                                <option selected>Avancé</option>
+                                <option>Expert</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label class="block text-sm font-medium mb-1">Objectif principal</label>
+                              <select class="w-full p-2 border rounded">
+                                <option>Apprentissage</option>
+                                <option selected>Application pratique</option>
+                                <option>Recherche</option>
+                                <option>Enseignement</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label class="block text-sm font-medium mb-1">Contexte d'utilisation</label>
+                              <textarea class="w-full p-2 border rounded min-h-[80px]" placeholder="Décrivez le contexte dans lequel vous utiliserez cette information..."></textarea>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-2 pt-2">
+                              <button type="button" id="cancel-btn" class="px-4 py-2 border rounded">Annuler</button>
+                              <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Envoyer</button>
+                            </div>
+                          </form>
+                        </div>
+                      `;
+                      
+                      document.body.appendChild(dialog);
+                      dialog.showModal();
+                      
+                      // Gérer les événements du formulaire
+                      document.getElementById("cancel-btn")?.addEventListener("click", () => {
+                        dialog.close();
+                        dialog.remove();
+                      });
+                      
+                      document.getElementById("followup-form")?.addEventListener("submit", (e) => {
+                        e.preventDefault();
+                        dialog.close();
+                        dialog.remove();
+                        
+                        toast({
+                          title: "Analyse complétée",
+                          description: "Votre texte a été analysé avec succès avec les informations supplémentaires.",
+                          variant: "default"
+                        });
+                      });
+                    }, 1800);
+                  }, 500);
+                }}
+              >
+                Analyser le texte
+              </Button>
             </div>
             
             <div className="space-y-3">
