@@ -11,11 +11,7 @@
 2025-03-01 18:57:17 - [INFO] Service démarré avec PID: 1543
 2025-03-01 18:57:17 - [SUCCESS] Service démarré avec succès sur le port 8085
 2025-03-01 18:57:17 - [SUCCESS] Module IA pour porte automatique prêt à recevoir des connexions
-2025-03-02 17:40:13 - [INFO] Démarrage du service IA pour porte automatique sur le port 8085
-2025-03-02 17:40:13 - [INFO] Service démarré avec PID: 324
-2025-03-02 17:40:13 - [SUCCESS] Service démarré avec succès sur le port 8085
-2025-03-02 17:40:13 - [SUCCESS] Module IA pour porte automatique prêt à recevoir des connexions
-2025-03-03 02:48:12 - [INFO] Démarrage du service IA pour porte automatique sur le port 8085
-2025-03-03 02:48:12 - [SUCCESS] Service démarré avec succès sur le port 8085
-2025-03-03 02:48:12 - [INFO] Service démarré avec PID: 676
-2025-03-03 02:48:12 - [SUCCESS] Module IA pour porte automatique prêt à recevoir des connexions
+2025-03-03 17:42:30 - [INFO] Démarrage du service IA pour porte automatique sur le port 8085
+2025-03-03 17:42:30 - [SUCCESS] Service démarré avec succès sur le port 8085
+2025-03-03 17:42:30 - [INFO] Service démarré avec PID: 468
+2025-03-03 17:42:30 - [SUCCESS] Module IA pour porte automatique prêt à recevoir des connexions
