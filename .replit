@@ -11,6 +11,9 @@ build = ["npm", "run", "build"]
 publicDir = "dist/public"
 
 [[ports]]
+localPort = 3000
+
+[[ports]]
 localPort = 5000
 externalPort = 80
 
@@ -38,9 +41,5 @@ mode = "sequential"
 agentRequireRestartOnSave = false
 
 [[workflows.workflow.tasks]]
-task = "packager.installForAll"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-waitForPort = 5000
+task = "workflow.run"
+args = "Project"
